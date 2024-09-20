@@ -82,3 +82,29 @@
     @apply !static !top-auto !bottom-0 flex h-10 w-10 items-center justify-center rounded-full border border-body text-body after:hidden hover:border-primary hover:bg-primary hover:text-white;
   }
 }
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}

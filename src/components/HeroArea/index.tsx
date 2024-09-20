@@ -1,12 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import FsLightbox from "fslightbox-react";
 
 const HeroArea = () => {
   const [toggler, setToggler] = useState(false);
+  const [currentWord, setCurrentWord] = useState(0);
+  const words = [" Streaming", " TV", " Radio"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWord((prev) => (prev + 1) % words.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [words.length]);
 
   return (
     <>
@@ -19,18 +28,27 @@ const HeroArea = () => {
                 data-wow-delay=".3s"
               >
                 <span className="mb-5 block text-lg font-medium leading-tight text-black dark:text-white sm:text-[22px] xl:text-[22px]">
-                Crafted for App, Software and SaaS Sites
+                  El mejor servicio IPTV de Argentina
                 </span>
                 <h1 className="mb-6 text-3xl font-bold leading-tight text-black dark:text-white sm:text-[40px] md:text-[50px] lg:text-[42px] xl:text-[50px]">
-                Next.js Template and SaaS
-                  <span className="inline bg-gradient-1 bg-clip-text text-transparent">
-                    {" "}
-                    Starter Kit{" "}
-                  </span>
-                  Site.
+                  Disfruta de los mejores canales de
+                  <div className="inline-block h-[60px] overflow-hidden align-bottom">
+                    {words.map((word, index) => (
+                      <div
+                        key={word}
+                        className={`transition-all duration-500 ${
+                          index === currentWord ? "block" : "hidden"
+                        }`}
+                      >
+                        <span className="inline-block bg-gradient-1 bg-clip-text text-transparent">
+                           {word}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </h1>
                 <p className="mb-10 max-w-[475px] text-base leading-relaxed text-body">
-                Website template and starter kit crafted to build fully functional mobile app landing pages and software websites.
+                Mira TV, escucha radio y disfruta de streaming. Todo en un solo lugar y con recompensas.
                 </p>
 
                 <div className="flex flex-wrap items-center">
@@ -39,7 +57,7 @@ const HeroArea = () => {
                     className="mb-6 mr-6 inline-flex h-[60px] items-center rounded-lg bg-black px-[30px] py-[14px] text-white hover:bg-opacity-90 dark:bg-white dark:text-black dark:hover:bg-opacity-90"
                   >
                     <span className="mr-[18px] border-r border-stroke border-opacity-40 pr-[18px] leading-relaxed dark:border-[#BDBDBD]">
-                      Download Now
+                      Descargar la app
                     </span>
                     <span>
                       <svg

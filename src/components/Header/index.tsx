@@ -70,8 +70,6 @@ const Header = () => {
     }
   };
 
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
-
   const closeMenu = () => {
     setNavbarOpen(false);
   };
@@ -88,7 +86,7 @@ const Header = () => {
         <div className="container relative max-w-[1400px]">
           <div className="flex items-center justify-between">
             <div className="block py-4 lg:py-0">
-              <Link href="/" className="block max-w-[145px] sm:max-w-[180px]">
+              <Link href="/" className="block ">
                 <Image
                   width={173}
                   height={34}
@@ -96,7 +94,7 @@ const Header = () => {
                   alt="Logo"
                   priority
                   className="block dark:hidden"
-                  style={{ width: "200", height: "200" }}
+                  style={{ width: "100", height: "100" }}
                 />
                 <Image
                   width={173}
@@ -105,7 +103,7 @@ const Header = () => {
                   alt="Logo"
                   priority
                   className="hidden dark:block"
-                  style={{ width: "200", height: "200" }}
+                  style={{ width: "100", height: "100" }}
                 />
               </Link>
             </div>
@@ -193,8 +191,7 @@ const Header = () => {
             </div>
 
             <div className="mr-[60px] flex items-center justify-end lg:mr-0">
-              <DarkModeSwitcher />
-
+              
               {session ? (
                 <div className="hidden items-center sm:flex">
                   <p className="mx-3 text-black dark:text-white">
