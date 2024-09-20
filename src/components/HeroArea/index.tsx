@@ -40,8 +40,8 @@ const HeroArea = () => {
                           index === currentWord ? "block" : "hidden"
                         }`}
                       >
-                        <span className="inline-block bg-gradient-1 bg-clip-text text-transparent">
-                           {word}
+                        <span className="inline-block bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent">
+                          {word}
                         </span>
                       </div>
                     ))}

@@ -22,6 +22,10 @@ const menuData: Menu[] = [
     route: "/#work-process",
   },
   {
+    label: "Para empresas",
+    route: "/#enterprise",
+  },
+  {
     label: "Contacto",
     route: "/#contact",
   },
