@@ -191,7 +191,8 @@ const Header = () => {
             </div>
 
             <div className="mr-[60px] flex items-center justify-end lg:mr-0">
-              
+              <DarkModeSwitcher />
+
               {session ? (
                 <div className="hidden items-center sm:flex">
                   <p className="mx-3 text-black dark:text-white">

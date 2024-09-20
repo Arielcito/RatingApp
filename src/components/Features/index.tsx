@@ -25,9 +25,9 @@ const featuresData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "For Functional App Sites",
+    title: "Todo Tu Entretenimiento en Una App",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Accede a tus canales de TV, emisoras de radio y plataformas de streaming favoritas, todo desde una única aplicación fácil de usar.",
   },
   {
     icon: (
@@ -55,9 +55,9 @@ const featuresData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "High-quality Design",
+    title: "100% Gratis, Sin Trucos",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Disfruta de todo el contenido sin costo alguno. No hay letras pequeñas ni sorpresas desagradables.",
   },
   {
     icon: (
@@ -85,9 +85,9 @@ const featuresData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "Essential Integrations",
+    title: "Tu Opinión Importa",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Participa en encuestas interactivas y ayuda a dar forma a tus programas favoritos. ¡Tu voz será escuchada!",
   },
   {
     icon: (
@@ -115,9 +115,9 @@ const featuresData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "Essential Components",
+    title: "Gana Mientras te Diviertes",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Acumula puntos por ver y opinar. Canjéalos por premios exclusivos, desde productos electrónicos hasta experiencias únicas.",
   },
   {
     icon: (
@@ -141,9 +141,9 @@ const featuresData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "Fully Customizable",
+    title: "Descubre Nuevo Contenido",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Recibe recomendaciones personalizadas basadas en tus gustos y descubre nuevos programas que te encantarán.",
   },
   {
     icon: (
@@ -171,9 +171,9 @@ const featuresData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "Regular Free Updates",
+    title: "Conéctate con Otros Fans",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Únete a nuestra comunidad y comparte tus opiniones sobre tus programas favoritos con otros apasionados como tú.",
   },
 ];
 
