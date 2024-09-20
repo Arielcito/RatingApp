@@ -16,12 +16,10 @@ const Cta = () => {
                   data-wow-delay=".2s"
                 >
                   <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[38px] md:leading-tight">
-                    Download Appline Now & Get started for free.
+                    Descarga Rating App y empeza a disfrutar totalmente gratis
                   </h2>
                   <p className="mb-10 text-base text-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam lacus risus, molestie id condimentum ut, semper
-                    vitae.
+  
                   </p>
 
                   <div className="-mx-[10px] flex flex-wrap items-center justify-center lg:justify-start">
@@ -46,7 +44,7 @@ const Cta = () => {
                         </span>
                         <span className="text-left">
                           <span className="block text-xs opacity-70">
-                            Get it on
+                            Descagala en
                           </span>
                           <span className="block text-sm font-medium">
                             Google Play
@@ -76,7 +74,7 @@ const Cta = () => {
                         </span>
                         <span className="text-left">
                           <span className="block text-xs opacity-70">
-                            Download from
+                            Descargala de
                           </span>
                           <span className="block text-sm font-medium">
                             App Store

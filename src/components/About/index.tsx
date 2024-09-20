@@ -97,7 +97,7 @@ const About = () => {
                     Track Audience Activities
                   </span>
                   <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
-                    Track Your Audience Activities
+                    Captura de la app tv
                   </h2>
                   <p className="mb-[30px] text-base leading-relaxed text-body">
                     Schedule your posts for times when your audience is most
@@ -148,7 +148,7 @@ const About = () => {
                     Create Audience Reports
                   </span>
                   <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
-                    Know More About Your Audience.
+                    Captura de la app Radio
                   </h2>
                   <p className="mb-[30px] text-base leading-relaxed text-body">
                     Schedule your posts for times when your audience is most
