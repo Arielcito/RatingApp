@@ -25,7 +25,7 @@ const workProcessData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "Install the App",
+    title: "Instala la App",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
   },
@@ -51,7 +51,7 @@ const workProcessData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "Setup your profile",
+    title: "Configura tu perfil",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
   },
@@ -77,7 +77,8 @@ const workProcessData: Feature[] = [
         </defs>
       </svg>
     ),
-    title: "Enjoy the features!",
+    
+    title: "Disfruta de tu TV",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
   },
