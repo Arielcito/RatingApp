@@ -94,7 +94,7 @@ const WorkProcess = () => {
             data-wow-delay=".2s"
           >
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
-              How it Works?
+              Como funciona Rating App?
             </h2>
           </div>
         </div>

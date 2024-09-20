@@ -10,12 +10,10 @@ const Contact = () => {
             data-wow-delay=".2s"
           >
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
-              Let&apos;s Stay Connected
+              Queres que ser parte de Rating App?
             </h2>
             <p className="text-base text-body">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-              convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
-              ante in maximus.
+              
             </p>
           </div>
         </div>
@@ -33,7 +31,7 @@ const Contact = () => {
                       type="text"
                       name="name"
                       id="name"
-                      placeholder="Enter your name"
+                      placeholder="Ingresa tu nombre"
                       className="w-full rounded border border-stroke bg-white px-[30px] py-4 text-base text-body outline-none focus:border-primary dark:border-[#34374A] dark:bg-[#2A2E44] dark:focus:border-primary"
                     />
                   </div>
@@ -45,7 +43,7 @@ const Contact = () => {
                       type="text"
                       name="company"
                       id="company"
-                      placeholder="Comapy (optioanl)"
+                      placeholder="Empresa (opcional)"
                       className="w-full rounded border border-stroke bg-white px-[30px] py-4 text-base text-body outline-none focus:border-primary dark:border-[#34374A] dark:bg-[#2A2E44] dark:focus:border-primary"
                     />
                   </div>
@@ -57,7 +55,7 @@ const Contact = () => {
                       type="email"
                       name="email"
                       id="email"
-                      placeholder="Enter Your email"
+                      placeholder="Ingresa tu correo electrónico"
                       className="w-full rounded border border-stroke bg-white px-[30px] py-4 text-base text-body outline-none focus:border-primary dark:border-[#34374A] dark:bg-[#2A2E44] dark:focus:border-primary"
                     />
                   </div>
@@ -69,7 +67,7 @@ const Contact = () => {
                       type="text"
                       name="phone"
                       id="phone"
-                      placeholder="Enter your Phone Number"
+                      placeholder="Ingresa tu número de teléfono"
                       className="w-full rounded border border-stroke bg-white px-[30px] py-4 text-base text-body outline-none focus:border-primary dark:border-[#34374A] dark:bg-[#2A2E44] dark:focus:border-primary"
                     />
                   </div>
@@ -81,7 +79,7 @@ const Contact = () => {
                       rows={6}
                       name="message"
                       id="message"
-                      placeholder="Tell us about yourself"
+                      placeholder="Cuéntanos sobre ti"
                       className="w-full rounded border border-stroke bg-white px-[30px] py-4 text-base text-body outline-none focus:border-primary dark:border-[#34374A] dark:bg-[#2A2E44] dark:focus:border-primary"
                     ></textarea>
                   </div>
@@ -90,14 +88,13 @@ const Contact = () => {
                 <div className="w-full px-[22px]">
                   <div className="text-center">
                     <p className="mb-5 text-center text-base text-body">
-                      By clicking contact us button, you agree our terms and
-                      policy,
+                      Al hacer clic en el botón de contacto, aceptas nuestros términos y política.
                     </p>
                     <button
                       type="submit"
                       className="inline-block rounded-md bg-primary px-11 py-[14px] text-base font-medium text-white hover:bg-opacity-90"
                     >
-                      Contact Us
+                      Contáctanos
                     </button>
                   </div>
                 </div>
