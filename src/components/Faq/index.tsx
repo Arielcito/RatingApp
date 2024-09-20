@@ -24,12 +24,10 @@ const Faq = () => {
             data-wow-delay=".2s"
           >
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
-              Frequently Asked Questions
+              Preguntas Frecuentes
             </h2>
             <p className="text-base text-body">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-              convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
-              ante in maximus.
+
             </p>
           </div>
 

@@ -88,22 +88,22 @@ const Header = () => {
             <div className="block py-4 lg:py-0">
               <Link href="/" className="block ">
                 <Image
-                  width={173}
-                  height={34}
+                  width={120} // Reducido de 173
+                  height={24} // Reducido de 34
                   src={"/images/logo/logo.svg"}
                   alt="Logo"
                   priority
                   className="block dark:hidden"
-                  style={{ width: "100", height: "100" }}
+                  style={{ width: "auto", height: "auto" }} // Ajustado para mantener la proporción
                 />
                 <Image
-                  width={173}
-                  height={34}
+                  width={120} // Reducido de 173
+                  height={24} // Reducido de 34
                   src={"/images/logo/logo-white.svg"}
                   alt="Logo"
                   priority
                   className="hidden dark:block"
-                  style={{ width: "100", height: "100" }}
+                  style={{ width: "auto", height: "auto" }} // Ajustado para mantener la proporción
                 />
               </Link>
             </div>
