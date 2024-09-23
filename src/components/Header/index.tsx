@@ -22,10 +22,6 @@ const menuData: Menu[] = [
     route: "/#work-process",
   },
   {
-    label: "Para empresas",
-    route: "/#enterprise",
-  },
-  {
     label: "Contacto",
     route: "/#contact",
   },
@@ -98,7 +94,7 @@ const Header = () => {
                   alt="Logo"
                   priority
                   className="block dark:hidden"
-                  style={{ width: "auto", height: "auto" }} // Ajustado para mantener la proporción
+                  style={{ width: "200px", height: "200px" }} // Ajustado para mantener la proporción
                 />
                 <Image
                   width={120} // Reducido de 173
@@ -107,7 +103,7 @@ const Header = () => {
                   alt="Logo"
                   priority
                   className="hidden dark:block"
-                  style={{ width: "auto", height: "auto" }} // Ajustado para mantener la proporción
+                  style={{ width: "200px", height: "200px" }} // Ajustado para mantener la proporción
                 />
               </Link>
             </div>
@@ -196,7 +192,13 @@ const Header = () => {
 
             <div className="mr-[60px] flex items-center justify-end lg:mr-0">
               <DarkModeSwitcher />
-
+              <Link
+                          href={"/enterprise"}
+                          onClick={closeMenu}
+                          className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                        >
+                          Para empresas
+                        </Link>
               {session ? (
                 <div className="hidden items-center sm:flex">
                   <p className="mx-3 text-black dark:text-white">
