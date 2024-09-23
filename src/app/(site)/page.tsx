@@ -9,6 +9,7 @@ import Faq from "@/components/Faq";
 import Clients from "@/components/Clients";
 import Contact from "@/components/Contact";
 import BusinessPartnership from "@/components/BusinessPartnership";
+import Blog from "@/components/Blog";
 
 export const metadata: Metadata = {
   title: "RatingApp - Somos Todos",
@@ -26,6 +27,7 @@ export default function Home() {
       <BusinessPartnership />
       <Cta />
       <Faq />
+      <Blog />
       <Contact />
     </>
   );

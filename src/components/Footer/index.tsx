@@ -26,69 +26,6 @@ const footerNavData: FooterMenu[] = [
       },
     ],
   },
-  {
-    title: "About Us",
-    navItems: [
-      {
-        label: "Company",
-        route: "#",
-      },
-      {
-        label: "Leadership",
-        route: "#",
-      },
-      {
-        label: "Careers",
-        route: "#",
-      },
-      {
-        label: "Diversity",
-        route: "#",
-      },
-    ],
-  },
-  {
-    title: "Resources",
-    navItems: [
-      {
-        label: "Andy Guide",
-        route: "#",
-      },
-      {
-        label: "Forum",
-        route: "#",
-      },
-      {
-        label: "Support",
-        route: "#",
-      },
-      {
-        label: "App Directory",
-        route: "#",
-      },
-    ],
-  },
-  {
-    title: "Tutorial",
-    navItems: [
-      {
-        label: "10 Leadership Styles",
-        route: "#",
-      },
-      {
-        label: "Executive Summary Tips",
-        route: "#",
-      },
-      {
-        label: "Prevent Team Burnout",
-        route: "#",
-      },
-      {
-        label: "What are OKRs?",
-        route: "#",
-      },
-    ],
-  },
 ];
 
 const Footer = () => {
@@ -121,8 +58,7 @@ const Footer = () => {
                     />
                   </Link>
                   <p className="text-base text-body">
-                    This membership will help you plan and execute a variety of
-                    projects.
+                    RatingApp es una aplicacion para ganar premios mientras ves TV, radio y Streaming
                   </p>
                 </div>
               </div>
