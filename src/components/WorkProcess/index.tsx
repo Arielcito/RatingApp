@@ -27,7 +27,7 @@ const workProcessData: Feature[] = [
     ),
     title: "Instala la App",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Descarga la App desde la Play Store o App Store",
   },
   {
     icon: (
@@ -53,7 +53,7 @@ const workProcessData: Feature[] = [
     ),
     title: "Configura tu perfil",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Completa tus datos y configura tu perfil",
   },
   {
     icon: (
@@ -78,9 +78,9 @@ const workProcessData: Feature[] = [
       </svg>
     ),
     
-    title: "Disfruta de tu TV",
+    title: "Gana!",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Gana beneficios mientras disfrutas de TV, radio y streaming mientr",
   },
 ];
 

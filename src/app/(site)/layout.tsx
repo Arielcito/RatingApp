@@ -36,7 +36,7 @@ export default function RootLayout({
         <ThemeProvider
           enableSystem={false}
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
         >
           <AuthProvider>
             {loading ? (
