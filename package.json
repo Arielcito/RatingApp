@@ -37,7 +37,7 @@
     "sanity": "^3.39.1",
     "stripe": "^14.13.0",
     "styled-components": "^6.1.8",
-    "swiper": "^11.1.1"
+    "swiper": "^11.1.14"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

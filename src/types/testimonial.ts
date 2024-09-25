@@ -1,7 +1,7 @@
 export type Testimonial = {
-  quote: string;
-  authorImage: string;
+  id: number;
+  authorImage: any;
   authorName: string;
   authorRole: string;
-  review?: number;
+  review?: string;
 };
