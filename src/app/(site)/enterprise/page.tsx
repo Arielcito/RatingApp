@@ -23,7 +23,7 @@ export default function EnterprisePage() {
       <HeroEnterprise />
       <Clients />
       <FeaturesEnterprise />
-      <AboutEnteprise />
+      
       <FeaturesTab />
       <FunFact />
       <Integration />

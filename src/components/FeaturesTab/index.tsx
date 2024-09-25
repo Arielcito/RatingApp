@@ -7,7 +7,7 @@ import featuresTabData from "./featuresTabData";
 import { motion } from "framer-motion";
 
 const FeaturesTab = () => {
-  const [currentTab, setCurrentTab] = useState("tabOne");
+  const [currentTab, setCurrentTab] = useState("Televisión");
 
   return (
     <>
@@ -49,9 +49,9 @@ const FeaturesTab = () => {
             className="animate_top mb-15 flex flex-wrap justify-center rounded-[10px] border border-stroke bg-white shadow-solid-5 dark:border-strokedark dark:bg-blacksection dark:shadow-solid-6 md:flex-nowrap md:items-center lg:gap-7.5 xl:mb-21.5 xl:gap-12.5"
           >
             <div
-              onClick={() => setCurrentTab("tabOne")}
+              onClick={() => setCurrentTab("Televisión")}
               className={`relative flex w-full cursor-pointer items-center gap-4 border-b border-stroke px-6 py-2 last:border-0 dark:border-strokedark md:w-auto md:border-0 xl:px-13.5 xl:py-5 ${
-                currentTab === "tabOne"
+                currentTab === "Televisión"
                   ? "active before:absolute before:bottom-0 before:left-0 before:h-1 before:w-full before:rounded-tl-[4px] before:rounded-tr-[4px] before:bg-primary"
                   : ""
               }`}
@@ -63,14 +63,14 @@ const FeaturesTab = () => {
               </div>
               <div className="md:w-3/5 lg:w-auto">
                 <button className="text-sm font-medium text-black dark:text-white xl:text-regular">
-                  Clean User Interface
+                  Medicion de TV
                 </button>
               </div>
             </div>
             <div
-              onClick={() => setCurrentTab("tabTwo")}
+              onClick={() => setCurrentTab("Radio")}
               className={`relative flex w-full cursor-pointer items-center gap-4 border-b border-stroke px-6 py-2 last:border-0 dark:border-strokedark md:w-auto md:border-0 xl:px-13.5 xl:py-5 ${
-                currentTab === "tabTwo"
+                currentTab === "Radio"
                   ? "active before:absolute before:bottom-0 before:left-0 before:h-1 before:w-full before:rounded-tl-[4px] before:rounded-tr-[4px] before:bg-primary"
                   : ""
               }`}
@@ -82,14 +82,14 @@ const FeaturesTab = () => {
               </div>
               <div className="md:w-3/5 lg:w-auto">
                 <button className="text-sm font-medium text-black dark:text-white xl:text-regular">
-                  Essential Business Pages
+                  Medicion de Radio
                 </button>
               </div>
             </div>
             <div
-              onClick={() => setCurrentTab("tabThree")}
+              onClick={() => setCurrentTab("Streaming")}
               className={`relative flex w-full cursor-pointer items-center gap-4 border-b border-stroke px-6 py-2 last:border-0 dark:border-strokedark md:w-auto md:border-0 xl:px-13.5 xl:py-5 ${
-                currentTab === "tabThree"
+                currentTab === "Streaming"
                   ? "active before:absolute before:bottom-0 before:left-0 before:h-1 before:w-full before:rounded-tl-[4px] before:rounded-tr-[4px] before:bg-primary"
                   : ""
               }`}
@@ -101,7 +101,7 @@ const FeaturesTab = () => {
               </div>
               <div className="md:w-3/5 lg:w-auto">
                 <button className="text-sm font-medium text-black dark:text-white xl:text-regular">
-                  Fully Functional Integrations
+                  Medicion de Streaming
                 </button>
               </div>
             </div>
