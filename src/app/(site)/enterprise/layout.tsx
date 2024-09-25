@@ -1,5 +1,6 @@
-import Header from '@/components/Header/EnterpriseHeader';
+'use client'
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
 export default function EnterpriseLayout({
   children,

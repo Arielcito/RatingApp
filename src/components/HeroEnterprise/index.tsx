@@ -28,26 +28,13 @@ const HeroEnterprise = () => {
                   El mejor servicio IPTV de Argentina
                 </span>
                 <h1 className="mb-6 text-3xl font-bold leading-tight text-black dark:text-white sm:text-[40px] md:text-[50px] lg:text-[42px] xl:text-[50px]">
-                Revoluciona la medición de audiencias  
-                  <div className="inline-block h-[60px] overflow-hidden align-bottom">
-                    {words.map((word, index) => (
-                      <div
-                        key={word}
-                        className={`transition-all duration-500 ${
-                          index === currentWord ? "block" : "hidden"
-                        }`}
-                      >
-                        <span className="inline-block bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent">
-                          {word}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  con Rating App
+                Optimiza tus decisiones con datos reales y en tiempo real
                 </h1>
                 <p className="mb-10 max-w-[475px] text-base leading-relaxed text-body">
-                Mira TV, escucha radio y disfruta de streaming. Todo en un solo lugar y con recompensas.
-                </p>
+                Descubre el Futuro de la Medición de Audiencias
+Optimiza tus decisiones con datos reales y en tiempo real.
+Conoce nuestro Panel de Control Avanzado y revoluciona cómo gestionas tus métricas.
+Solicita una demo ahora y lleva tu medio al siguiente nivel.</p>
 
                 <div className="flex flex-wrap items-center">
                   <a

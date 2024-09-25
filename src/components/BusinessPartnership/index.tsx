@@ -110,7 +110,7 @@ const BusinessPartnership = () => {
                 data-wow-delay=".2s"
               >
                 <Link
-                  href="/contacto-empresas"
+                  href="/enterprise"
                   className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
                 >
                   Contáctanos para más información

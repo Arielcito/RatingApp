@@ -191,35 +191,71 @@ const Header = () => {
             </div>
 
             <div className="mr-[60px] flex items-center justify-end lg:mr-0">
-              <DarkModeSwitcher />
-              <Link
-                          href={"/enterprise"}
-                          onClick={closeMenu}
-                          className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
-                        >
-                          Para empresas
-                        </Link>
-              {session ? (
-                <div className="hidden items-center sm:flex">
-                  <p className="mx-3 text-black dark:text-white">
-                    {session?.user?.name}
-                  </p>
-                  <button
-                    aria-label="SignOut"
-                    onClick={() => signOut()}
-                    className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
-                  >
-                    Sign Out
-                  </button>
-                </div>
+              {pathUrl.startsWith("/enterprise") ? (
+                <>
+                <Link
+                  href={"/"}
+                  onClick={closeMenu}
+                  className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                >
+                  Comunidad
+                </Link>
+                {session ? (
+                  <div className="hidden items-center sm:flex">
+                    <p className="mx-3 text-black dark:text-white">
+                      {session?.user?.name}
+                    </p>
+                    <button
+                      aria-label="SignOut"
+                      onClick={() => signOut()}
+                      className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <Link
+                      href="/enterprise/#contact"
+                      className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
+                    >
+                      Contacto
+                    </Link>
+                  </>
+                  )}
+                </>
               ) : (
                 <>
                   <Link
-                    href="/auth/signup"
-                    className="hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block mx-6"
+                    href={"/enterprise"}
+                    onClick={closeMenu}
+                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
                   >
-                    Descarga la App
+                    Para empresas
                   </Link>
+                  {session ? (
+                    <div className="hidden items-center sm:flex">
+                      <p className="mx-3 text-black dark:text-white">
+                        {session?.user?.name}
+                      </p>
+                      <button
+                        aria-label="SignOut"
+                        onClick={() => signOut()}
+                        className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <Link
+                        href="/auth/signup"
+                        className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
+                      >
+                        Descarga la App
+                      </Link>
+                    </>
+                  )}
                 </>
               )}
             </div>
