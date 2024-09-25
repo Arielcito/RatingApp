@@ -16,7 +16,7 @@ const HeroEnterprise = () => {
 
   return (
     <>
-      <section id="home" className="pt-[165px]">
+      <section id="home" className="pt-[250px]">
         <div className="container lg:max-w-[1305px] lg:px-10">
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-7/12">
@@ -50,7 +50,29 @@ const HeroEnterprise = () => {
                 </p>
 
                 <div className="flex flex-wrap items-center">
-                  
+                  <a
+                    href="#contacto"
+                    className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-red-500 via-red-400 to-orange-500 py-4 px-9 text-base font-semibold text-white transition duration-300 ease-in-out hover:shadow-lg hover:opacity-80"
+                  >
+                    Revoluciona tu medición de audiencia
+                    <svg
+                      className="ml-2 h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      ></path>
+                    </svg>
+                  </a>
+                  <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                    Descubre cómo Rating App puede transformar tus datos en decisiones estratégicas
+                  </p>
                 </div>
               </div>
             </div>

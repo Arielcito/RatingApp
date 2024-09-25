@@ -11,17 +11,15 @@ import HeroEnterprise from '@/components/HeroEnterprise'
 import Integration from '@/components/Integration';
 import Testimonial from '@/components/TestimonialEnterprise';
 import { Metadata } from 'next';
-import React from 'react'
 
 export const metadata: Metadata = {
   title: "RatingApp - Enterprise",
   description: "Rating App es una aplicacion para ganar premios mientras ves TV, radio y Streaming",
 };
 
-export default function page() {
-  
+export default function EnterprisePage() {
   return (
-    <main>
+    <>
       <HeroEnterprise />
       <Clients />
       <FeaturesEnterprise />
@@ -34,6 +32,6 @@ export default function page() {
       <Testimonial />
       <Contact />
       <Blog />
-    </main>
+    </>
   )
 }
