@@ -1,13 +1,14 @@
-type FaqData = {
+
+export type FaqData = {
   activeFaq: number;
   id: number;
   handleFaqToggle: (id: number) => void;
-  quest: string;
-  ans: string;
+  title: string;
+  details: string;
 };
 
 const FAQItem = ({ faqData }: { faqData: FaqData }) => {
-  const { activeFaq, id, handleFaqToggle, quest, ans } = faqData;
+  const { activeFaq, id, handleFaqToggle, title, details } = faqData;
 
   return (
     <>
@@ -18,7 +19,7 @@ const FAQItem = ({ faqData }: { faqData: FaqData }) => {
           }}
           className="flex cursor-pointer items-center justify-between px-6 py-5 text-metatitle3 font-medium text-black dark:text-white lg:px-9 lg:py-7.5"
         >
-          {quest}
+          {title}
 
           {activeFaq === id ? (
             <svg
@@ -53,7 +54,7 @@ const FAQItem = ({ faqData }: { faqData: FaqData }) => {
             activeFaq === id ? "block" : "hidden"
           }`}
         >
-          {ans}
+          {details}
         </p>
       </div>
     </>

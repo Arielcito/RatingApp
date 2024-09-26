@@ -191,7 +191,7 @@ const Header = () => {
             </div>
 
             <div className="mr-[60px] flex items-center justify-end lg:mr-0">
-              {pathUrl.startsWith("/enterprise") ? (
+              {pathUrl?.startsWith("/enterprise") ? (
                 <>
                 <Link
                   href={"/"}

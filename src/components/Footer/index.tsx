@@ -45,7 +45,7 @@ const Footer = () => {
                       alt="Logo"
                       priority
                       className="block max-w-full dark:hidden"
-                      style={{ width: "auto", height: "auto" }}
+                      style={{ width: "200px", height: "200px" }}
                     />
                     <Image
                       width={173}
@@ -54,7 +54,7 @@ const Footer = () => {
                       alt="Logo"
                       priority
                       className="hidden max-w-full dark:block"
-                      style={{ width: "auto", height: "auto" }}
+                      style={{ width: "200px", height: "200px" }}
                     />
                   </Link>
                   <p className="text-base text-body">

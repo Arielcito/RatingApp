@@ -25,7 +25,6 @@ export default function EnterprisePage() {
       <FeaturesEnterprise />
       <FeaturesTab />
       <FunFact />
-      <Integration />
       <CTA />
       <FAQ />
       <Testimonial />

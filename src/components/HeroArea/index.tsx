@@ -19,7 +19,7 @@ const HeroArea = () => {
 
   return (
     <>
-      <section id="home" className="pt-[165px]">
+      <section id="home" className="pt-[200px]">
         <div className="container ">
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full  lg:w-7/12">
