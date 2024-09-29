@@ -4,7 +4,7 @@ import { getPosts } from "@/sanity/sanity-utils";
 
 const Blog = async () => {
   const posts = await getPosts();
-  console.log(posts)
+  
   return (
     <section className="pb-[60px] pt-[110px]" id="blog">
       <div className="container">

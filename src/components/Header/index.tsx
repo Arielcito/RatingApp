@@ -85,25 +85,25 @@ const Header = () => {
       >
         <div className="container relative max-w-[1400px]">
           <div className="flex items-center justify-between">
-            <div className="block py-4 lg:py-0">
-              <Link href="/" className="block ">
+            <div className="block py-2 lg:py-0"> {/* Reducido el padding vertical */}
+              <Link href="/" className="block pl-4"> {/* Añadido padding izquierdo para mover el logo a la derecha */}
                 <Image
-                  width={120} // Reducido de 173
-                  height={24} // Reducido de 34
+                  width={160} // Aumentado de 120 a 160
+                  height={32} // Aumentado de 24 a 32
                   src={"/images/logo/logo.svg"}
                   alt="Logo"
                   priority
                   className="block dark:hidden"
-                  style={{ width: "200px", height: "200px" }} // Ajustado para mantener la proporción
+                  style={{ width: "200px", height: "auto" }} // Ajustado para mantener la proporción
                 />
                 <Image
-                  width={120} // Reducido de 173
-                  height={24} // Reducido de 34
+                  width={160} // Aumentado de 120 a 160
+                  height={32} // Aumentado de 24 a 32
                   src={"/images/logo/logo-white.svg"}
                   alt="Logo"
                   priority
                   className="hidden dark:block"
-                  style={{ width: "200px", height: "200px" }} // Ajustado para mantener la proporción
+                  style={{ width: "200px", height: "100px" }} // Ajustado para mantener la proporción
                 />
               </Link>
             </div>
