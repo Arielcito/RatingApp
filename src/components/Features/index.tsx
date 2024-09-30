@@ -27,7 +27,7 @@ const featuresData: Feature[] = [
     ),
     title: "Todo Tu Entretenimiento en Una App",
     description:
-      "Accede a tus canales de TV, emisoras de radio y plataformas de streaming favoritas, todo desde una única aplicación fácil de usar.",
+      "Accede a tus canales de TV, emisoras de radio, plataformas de streaming y diario online favoritos, todo desde una única aplicación fácil de usar.",
   },
   {
     icon: (
@@ -117,7 +117,7 @@ const featuresData: Feature[] = [
     ),
     title: "Gana Mientras te Diviertes",
     description:
-      "Acumula puntos por ver y opinar. Canjéalos por premios exclusivos, desde productos electrónicos hasta experiencias únicas.",
+      "Participa en el mejor programa de premios y sorteo. Próximamente acumula puntos y tokens por usar la app y canjealos por premios exclusivos y experiencias únicas ",
   },
   {
     icon: (

@@ -80,7 +80,7 @@ const workProcessData: Feature[] = [
     
     title: "Gana!",
     description:
-      "Gana beneficios mientras disfrutas de TV, radio y streaming mientr",
+      "Gana beneficios mientras disfrutas de TV, radio, diarios y streaming",
   },
 ];
 

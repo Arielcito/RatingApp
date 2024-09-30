@@ -105,7 +105,7 @@ const BlogItem = ({ blog }: { blog: Blog }) => {
             className="mt-8 inline-block rounded-md bg-primary px-8 py-[10px] text-base font-medium text-white hover:bg-opacity-90"
             href={`/blog/${blog?.slug.current}`}
           >
-            Read More
+            Ver mas
           </Link>
         </div>
       </div>

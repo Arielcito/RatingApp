@@ -94,7 +94,7 @@ const Header = () => {
                   alt="Logo"
                   priority
                   className="block dark:hidden"
-                  style={{ width: "auto", height: "auto" }} // Ajustado para mantener la proporción
+                  style={{ width: "100px", height: "100px" }} // Ajustado para mantener la proporción
                 />
                 <Image
                   width={160} // Aumentado de 120 a 160
@@ -103,7 +103,7 @@ const Header = () => {
                   alt="Logo"
                   priority
                   className="hidden dark:block"
-                  style={{ width: "auto", height: "auto" }} // Ajustado para mantener la proporción
+                  style={{ width: "200px", height: "100px" }} // Ajustado para mantener la proporción
                 />
               </Link>
             </div>

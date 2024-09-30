@@ -3,7 +3,7 @@ import React from "react";
 const Contact = () => {
   return (
     <>
-      <section id="support" className="pb-[110px] pt-[100px]">
+      <section id="contact" className="pb-[110px] pt-[100px]">
         <div className="container">
           <div
             className="wow fadeInUp mx-auto mb-10 max-w-[690px] text-center"

@@ -9,20 +9,24 @@ const footerNavData: FooterMenu[] = [
     title: "Home",
     navItems: [
       {
-        label: "Product",
-        route: "#",
+        label: "Que ofrecemos?",
+        route: "/#features",
       },
       {
-        label: "Pricing",
-        route: "#",
+        label: "Sobre Nosotros",
+        route: "/#about",
       },
       {
-        label: "Business",
-        route: "#",
+        label: "Como Funciona?",
+        route: "/#work-process",
       },
       {
-        label: "Enterprise",
-        route: "#",
+        label: "Contacto",
+        route: "/#contact",
+      },
+      {
+        label: "Blog",
+        route: "/blog",
       },
     ],
   },
@@ -39,26 +43,26 @@ const Footer = () => {
                 <div className="mb-11 max-w-[320px]">
                   <Link href="/" className="mb-8 inline-block">
                     <Image
-                      width={173}
-                      height={34}
+                      width={160}
+                      height={32}
                       src={"/images/logo/logo.svg"}
                       alt="Logo"
                       priority
                       className="block max-w-full dark:hidden"
-                      style={{ width: "200px", height: "200px" }}
+                      style={{ width: "100px", height: "100px" }}
                     />
                     <Image
-                      width={173}
-                      height={34}
+                      width={160}
+                      height={32}
                       src={"/images/logo/logo-white.svg"}
                       alt="Logo"
                       priority
                       className="hidden max-w-full dark:block"
-                      style={{ width: "200px", height: "200px" }}
+                      style={{ width: "200px", height: "100px" }}
                     />
                   </Link>
                   <p className="text-base text-body">
-                    RatingApp es una aplicacion para ganar premios mientras ves TV, radio y Streaming
+                    RatingApp es una aplicación para ganar premios mientras ves TV, radio y Streaming
                   </p>
                 </div>
               </div>
@@ -68,17 +72,17 @@ const Footer = () => {
                   {footerNavData.map((group, groupIndex) => (
                     <div
                       key={groupIndex}
-                      className={`w-full px-4 sm:w-1/2 md:w-2/12 lg:w-2/12 ${groupIndex === 0 ? "md:w-2/12 lg:w-2/12" : groupIndex === 3 ? "md:w-4/12 lg:w-4/12" : "md:w-3/12 lg:w-3/12"}`}
+                      className="w-full px-4"
                     >
                       <div className="mb-11">
                         <h3 className="mb-8 text-[22px] font-medium text-black dark:text-white">
                           {group.title}
                         </h3>
 
-                        <ul className="space-y-[10px]">
+                        <ul className="flex flex-col flex-wrap ">
                           {group.navItems &&
                             group.navItems.map((item, index) => (
-                              <li key={index}>
+                              <li key={index} className="flex flex-col space-y-2">
                                 <Link
                                   href={item.route}
                                   className="inline-block text-base text-body hover:text-primary"

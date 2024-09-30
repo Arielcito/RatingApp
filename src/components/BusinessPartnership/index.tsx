@@ -97,7 +97,7 @@ const BusinessPartnership = () => {
             <div className="flex flex-col items-start gap-8 md:w-1/2">
               <div className="flex flex-col gap-4">
                 <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
-                  ¿Eres una empresa y quieres ser parte?
+                  Eres un Multimedio audiovisual y quieres ser parte?
                 </h2>
                 <p className="text-base text-body">
                   Únete a nuestra plataforma y conecta con tu audiencia de una
@@ -110,10 +110,16 @@ const BusinessPartnership = () => {
                 data-wow-delay=".2s"
               >
                 <Link
-                  href="/enterprise"
+                  href="/#contact"
                   className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
                 >
                   Contáctanos para más información
+                </Link>
+                <Link
+                  href="/enterprise"
+                  className="mx-6 hidden rounded-md px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
+                >
+                  Mas información
                 </Link>
               </div>
             </div>
