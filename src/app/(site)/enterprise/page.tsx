@@ -8,7 +8,6 @@ import FeaturesEnterprise from '@/components/FeaturesEnterprise'
 import FeaturesTab from '@/components/FeaturesTab';
 import FunFact from '@/components/FunFact';
 import HeroEnterprise from '@/components/HeroEnterprise'
-import Integration from '@/components/Integration';
 import Testimonial from '@/components/TestimonialEnterprise';
 import { Metadata } from 'next';
 
@@ -23,6 +22,7 @@ export default function EnterprisePage() {
       <HeroEnterprise />
       <Clients />
       <FeaturesEnterprise />
+      <AboutEnteprise />
       <FeaturesTab />
       <FunFact />
       <CTA />
