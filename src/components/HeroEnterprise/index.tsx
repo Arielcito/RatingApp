@@ -25,7 +25,7 @@ const HeroEnterprise = () => {
                 data-wow-delay=".3s"
               >
                 <span className="mb-5 block text-lg font-medium leading-tight text-black dark:text-white sm:text-[22px] xl:text-[22px]">
-                  El mejor servicio IPTV de Argentina
+                  Bienvenido a la Revolución 
                 </span>
                 <h1 className="mb-6 text-3xl font-bold leading-tight text-black dark:text-white sm:text-[40px] md:text-[50px] lg:text-[42px] xl:text-[50px]">
                 Optimiza tus decisiones con datos reales y en tiempo real

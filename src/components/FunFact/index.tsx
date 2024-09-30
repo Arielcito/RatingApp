@@ -31,7 +31,7 @@ const FunFact = () => {
               Métricas Confiables Avaladas por Expertos
             </h2>
             <p className="mx-auto lg:w-11/12">
-              Nuestras métricas son verificadas y avaladas por la prestigiosa Facultad de La Plata, 
+              Nuestras métricas son verificadas y avaladas por la Confederación económica de la provincia de bs as, 
               garantizando la confiabilidad y precisión de nuestros datos. Confía en nosotros para 
               obtener información precisa y actualizada.
             </p>

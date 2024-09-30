@@ -19,7 +19,15 @@ const featuresTabData: FeatureTab[] = [
   },
   {
     id: "Streaming",
-    title: "Métricas Avanzadas para Contenido Bajo Demanda",
+    title: "Métricas Avanzadas de Streaming",
+    desc1: `En el entorno del video bajo demanda, la medición es clave para entender cómo los usuarios interactúan con el contenido.`,
+    desc2: `Nuestra plataforma ofrece métricas que cubren tanto el contenido gratuito (AVOD) como el de pago (SVOD), ayudando a mejorar la experiencia del usuario y la retención de suscriptores.`,
+    image: "/images/features/features-light-01.png",
+    imageDark: "/images/features/features-dark-01.svg",
+  },
+  {
+    id: "Diarios",
+    title: "Métricas Avanzadas de Diarios Online",
     desc1: `En el entorno del video bajo demanda, la medición es clave para entender cómo los usuarios interactúan con el contenido.`,
     desc2: `Nuestra plataforma ofrece métricas que cubren tanto el contenido gratuito (AVOD) como el de pago (SVOD), ayudando a mejorar la experiencia del usuario y la retención de suscriptores.`,
     image: "/images/features/features-light-01.png",
