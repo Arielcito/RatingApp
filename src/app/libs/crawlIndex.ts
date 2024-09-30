@@ -31,7 +31,7 @@ export const structuredAlgoliaHtmlData = async ({
   }
 };
 
-async function addToAlgolia(record) {
+async function addToAlgolia(record: any) {
   try {
     const client = algoliasearch(APP_ID, API_KEY);
     const index = client.initIndex(INDEX);

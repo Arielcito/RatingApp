@@ -1,9 +1,9 @@
 import { prisma } from "@/app/libs/prismaDB";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 
-export const POST = async (request) => {
+export const POST = async (request: NextRequest) => {
   const body = await request.json();
   const { token } = body;
 

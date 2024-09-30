@@ -3,8 +3,9 @@ import { prisma } from "@/app/libs/prismaDB";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendEmail } from "@/app/libs/email";
+import { NextRequest } from 'next/server';
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   const { email } = body;
 

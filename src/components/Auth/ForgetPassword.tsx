@@ -34,8 +34,13 @@ const ForgetPassword = () => {
 
       setData({ email: "" });
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data);
+      if (error instanceof Error) {
+        console.log(error);
+        toast.error(error.message);
+      } else {
+        console.log('Error desconocido:', error);
+        toast.error('Ha ocurrido un error inesperado');
+      }
     }
   };
 

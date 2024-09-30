@@ -20,7 +20,7 @@ export async function sanityFetch<QueryResponse>({
 	qParams?: QueryParams;
 	tags: string[];
 }): Promise<QueryResponse> {
-	return client.fetch<QueryResponse>(query, qParams, {
+	return client.fetch<QueryResponse>(query, qParams || {}, {
 		cache: "force-cache",
 		next: { tags },
 	});
@@ -48,7 +48,7 @@ export const getPostBySlug = async (slug: string) => {
 	return data;
 };
 
-export const getPostsByTag = async (tag: string) => {
+export const getPostsByTag = async (tag: any) => {
 	const data: Blog[] = await sanityFetch({
 		query: postQueryByTag,
 		qParams: { tag },

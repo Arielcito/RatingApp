@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import { prisma } from "@/app/libs/prismaDB";
 import { NextResponse } from "next/server";
+import { NextRequest } from 'next/server';
 
 import { sendEmail } from "@/app/libs/email";
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   const { email, password } = body;
 

@@ -4,36 +4,40 @@ import Image from "next/image";
 
 const testimonialData: Testimonial[] = [
   {
+    id: 1,
     quote:
       "Lorem ipsum dolor sit amet, consect adipiscing elit. Pellentesque dignissim nisi a odio laoreet luctus. Ut sed diam, quis bibendum ex.",
     authorImage: "/images/testimonials/author-1.png",
     authorName: "Musharof Chowdhury",
     authorRole: "Web Entrepreneur",
-    review: 5.0,
+    review: "5.0",
   },
   {
+    id: 2,
     quote:
       "Lorem ipsum dolor sit amet, consect adipiscing elit. Pellentesque dignissim nisi a odio laoreet luctus. Ut sed diam, quis bibendum ex.",
     authorImage: "/images/testimonials/author-2.png",
     authorName: "Naimur Rahman",
     authorRole: "Product Designer",
-    review: 5.0,
+    review: "5.0",
   },
   {
+    id: 3,
     quote:
       "Lorem ipsum dolor sit amet, consect adipiscing elit. Pellentesque dignissim nisi a odio laoreet luctus. Ut sed diam, quis bibendum ex.",
     authorImage: "/images/testimonials/author-3.png",
     authorName: "Devid Miller",
     authorRole: "App Developer",
-    review: 5.0,
+    review: "5.0",
   },
   {
+    id: 4,
     quote:
       "Lorem ipsum dolor sit amet, consect adipiscing elit. Pellentesque dignissim nisi a odio laoreet luctus. Ut sed diam, quis bibendum ex.",
     authorImage: "/images/testimonials/author-04.png",
     authorName: "Justin Farnandes",
     authorRole: "Seo Expert",
-    review: 5.0,
+    review: "5.0",
   },
 ];
 
