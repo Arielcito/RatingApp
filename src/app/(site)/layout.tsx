@@ -11,6 +11,7 @@ import AuthProvider from "../context/AuthContext";
 import ToasterContext from "../context/ToastContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import { ThemeProvider } from "next-themes";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -18,13 +19,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [loading, setLoading] = useState<boolean>(true);
+  const pathUrl = usePathname();
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+  // Verificar si estamos en una ruta de estudio
+  const isStudioRoute = pathUrl?.startsWith('/(studio)');
+
+  if (isStudioRoute) {
+    // Si es una ruta de estudio, solo renderizar los children sin el layout completo
+    return <>{children}</>;
+  }
+
+  // Para otras rutas, mantener el layout existente
   return (
-    <html lang="en">
+    <html lang="es">
       <body suppressHydrationWarning={true}>
         <NextTopLoader
           color="#006BFF"

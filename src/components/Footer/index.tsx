@@ -6,7 +6,7 @@ import { FooterMenu } from "@/types/footerMenu";
 
 const footerNavData: FooterMenu[] = [
   {
-    title: "Home",
+    title: "Inicio",
     navItems: [
       {
         label: "Que ofrecemos?",
