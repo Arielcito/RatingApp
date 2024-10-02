@@ -31,83 +31,13 @@ const FunFact = () => {
               Métricas Confiables Avaladas por Expertos
             </h2>
             <p className="mx-auto lg:w-11/12">
-              Nuestras métricas son verificadas y avaladas por la Confederación económica de la provincia de bs as, 
+              Nuestras métricas son verificadas y avaladas por la Confederación Económica de la Provincia de Buenos Aires(CEPBA), 
               garantizando la confiabilidad y precisión de nuestros datos. Confía en nosotros para 
               obtener información precisa y actualizada.
             </p>
           </motion.div>
 
-          {/* <div className="flex flex-wrap justify-center gap-8 lg:gap-42.5">
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: -20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.5 }}
-              viewport={{ once: true }}
-              className="animate_top text-center"
-            >
-              <h3 className="mb-2.5 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle3">
-                500K
-              </h3>
-              <p className="text-lg lg:text-para2">World Wide Clients</p>
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: -20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.7 }}
-              viewport={{ once: true }}
-              className="animate_top text-center"
-            >
-              <h3 className="mb-2.5 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle3">
-                1M+
-              </h3>
-              <p className="text-lg lg:text-para2">Downloads</p>
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: -20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.8 }}
-              viewport={{ once: true }}
-              className="animate_top text-center"
-            >
-              <h3 className="mb-2.5 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle3">
-                865
-              </h3>
-              <p className="text-lg lg:text-para2">Winning Award</p>
-            </motion.div>
-          </div> */}
+         
         </div>
       </section>
       {/* <!-- ===== Funfact End ===== --> */}

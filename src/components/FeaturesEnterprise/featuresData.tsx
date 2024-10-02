@@ -85,7 +85,7 @@ const featuresData: Feature[] = [
     ),
     title: "Innovación Tecnológica Continua",
     description:
-      "Nuestro sistema de medición integra las últimas tecnologías, permitiendo que estés siempre a la vanguardia en precisión y análisis, mientras que la competencia sigue utilizando métodos anticuados.",
+      "Nuestro sistema de medición integra las últimas tecnologías, permitiendo que estés siempre a la vanguardia en precisión y análisis.",
   },
   {
     icon: (

@@ -20,18 +20,18 @@ const featuresTabData: FeatureTab[] = [
   {
     id: "Streaming",
     title: "Métricas Avanzadas de Streaming",
-    desc1: `En el entorno del video bajo demanda, la medición es clave para entender cómo los usuarios interactúan con el contenido.`,
-    desc2: `Nuestra plataforma ofrece métricas que cubren tanto el contenido gratuito (AVOD) como el de pago (SVOD), ayudando a mejorar la experiencia del usuario y la retención de suscriptores.`,
+    desc1: `En el entorno del Streaming, la medición es clave para entender cómo los usuarios interactúan con el contenido.`,
+    desc2: `Nuestra plataforma ofrece métricas de Streaming, ayudando a mejorar la experiencia del usuario y la retención de suscriptores.`,
     image: "/images/features/features-light-01.png",
     imageDark: "/images/features/features-dark-01.svg",
   },
   {
     id: "Diarios",
-    title: "Métricas Avanzadas de Diarios Online",
-    desc1: `En el entorno del video bajo demanda, la medición es clave para entender cómo los usuarios interactúan con el contenido.`,
-    desc2: `Nuestra plataforma ofrece métricas que cubren tanto el contenido gratuito (AVOD) como el de pago (SVOD), ayudando a mejorar la experiencia del usuario y la retención de suscriptores.`,
-    image: "/images/features/features-light-01.png",
-    imageDark: "/images/features/features-dark-01.svg",
+    title: "Métricas avanzadas para diarios online",
+    desc1: `Nuestro sistema de medición para diarios online ofrece análisis detallados y en tiempo real del comportamiento de los lectores. Proporcionamos datos sobre el tiempo de lectura, la profundidad de scroll y las interacciones con el contenido, permitiendo a los editores comprender mejor a su audiencia.`,
+    desc2: `Estas métricas avanzadas incluyen el seguimiento de lecturas completas, patrones de navegación, y engagement con comentarios y compartidos. Además, ofrecemos segmentación de audiencia por dispositivo, ubicación y fuente de tráfico, ayudando a optimizar el contenido y las estrategias de monetización.`,
+    image: "/images/features/diarios-metricas-light.png",
+    imageDark: "/images/features/diarios-metricas-dark.svg",
   },
 ];
 

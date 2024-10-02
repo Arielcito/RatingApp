@@ -16,7 +16,7 @@ const HeroEnterprise = () => {
 
   return (
     <>
-      <section id="home" className="pt-[250px]">
+      <section id="home" className="pt-[150px]">
         <div className="container lg:max-w-[1305px] lg:px-10">
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-7/12">
@@ -25,7 +25,7 @@ const HeroEnterprise = () => {
                 data-wow-delay=".3s"
               >
                 <span className="mb-5 block text-lg font-medium leading-tight text-black dark:text-white sm:text-[22px] xl:text-[22px]">
-                  Bienvenido a la Revolución 
+                Bienvenidos a la RE evolución digital
                 </span>
                 <h1 className="mb-6 text-3xl font-bold leading-tight text-black dark:text-white sm:text-[40px] md:text-[50px] lg:text-[42px] xl:text-[50px]">
                 Optimiza tus decisiones con datos reales y en tiempo real
