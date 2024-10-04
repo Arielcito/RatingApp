@@ -8,7 +8,7 @@ import FsLightbox from "fslightbox-react";
 const HeroArea = () => {
   const [toggler, setToggler] = useState(false);
   const [currentWord, setCurrentWord] = useState(0);
-  const words = [" Streaming", " TV", " Radio"];
+  const words = [" Streaming", " TV", " Radio", "Diario online"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -157,24 +157,6 @@ const HeroArea = () => {
                   alt="hero image"
                   className="mx-auto max-w-full"
                 />
-                <div className="h-full w-full">
-                  <Image
-                    width={361}
-                    height={546}
-                    src={"/images/hero/hero-enterprise.png"}
-                    alt="hero image"
-                    className="mx-auto max-w-full"
-                  />
-                  <h2>Obtene las mejores metricas del mercado</h2>
-                  <div className="flex flex-wrap items-center">
-                    <Link
-                      href="#"
-                      className="mb-6 mr-6 inline-flex h-[60px] items-center rounded-lg bg-black px-[30px] py-[14px] text-white hover:bg-opacity-90 dark:bg-white dark:text-black dark:hover:bg-opacity-90"
-                    >
-                      Para empresas
-                    </Link>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
