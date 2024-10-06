@@ -6,16 +6,16 @@ const featuresTabData: FeatureTab[] = [
     title: "Medición Precisa de Audiencia TV",
     desc1: `La medición de TV te brinda datos minuto a minuto en 9 mercados de Argentina, con un análisis detallado de cómo los diferentes grupos demográficos consumen contenidos.`,
     desc2: `Esto te ayuda a mejorar la programación y optimizar la inversión publicitaria en canales de TV abierta y paga.`,
-    image: "/images/features/features-light-01.png",
-    imageDark: "/images/features/features-dark-01.svg",
+    image: "/images/features/tv-feature.png",
+    imageDark: "/images/features/tv-feature.png",
   },
   {
     id: "Radio",
     title: "Análisis Integral de Audiencia Radiofónica",
     desc1: `La medición de radio abarca tanto dispositivos tradicionales como digitales, permitiendo conocer el consumo en todos los momentos del día.`,
     desc2: `Nuestra metodología híbrida capta el comportamiento de los oyentes en múltiples regiones, ayudando a las radios a adaptarse a las nuevas tendencias de consumo.`,
-    image: "/images/features/features-light-01.png",
-    imageDark: "/images/features/features-dark-01.svg",
+    image: "/images/features/radio-feature.jpg",
+    imageDark: "/images/features/radio-feature.jpg",
   },
   {
     id: "Streaming",
@@ -30,8 +30,8 @@ const featuresTabData: FeatureTab[] = [
     title: "Métricas avanzadas para diarios online",
     desc1: `Nuestro sistema de medición para diarios online ofrece análisis detallados y en tiempo real del comportamiento de los lectores. Proporcionamos datos sobre el tiempo de lectura, la profundidad de scroll y las interacciones con el contenido, permitiendo a los editores comprender mejor a su audiencia.`,
     desc2: `Estas métricas avanzadas incluyen el seguimiento de lecturas completas, patrones de navegación, y engagement con comentarios y compartidos. Además, ofrecemos segmentación de audiencia por dispositivo, ubicación y fuente de tráfico, ayudando a optimizar el contenido y las estrategias de monetización.`,
-    image: "/images/features/diarios-metricas-light.png",
-    imageDark: "/images/features/diarios-metricas-dark.svg",
+    image: "/images/features/diario-online-feature.jpg",
+    imageDark: "/images/features/diario-online-feature.jpg",
   },
 ];
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import BlogItem from "@/components/Blog/BlogItem";
 import { getPosts } from "@/sanity/sanity-utils";
 
@@ -20,16 +21,30 @@ const Blog = async () => {
           </p>
         </div>
       </div>
-      <div className="w-full md:w-1/2 flex justify-center items-center mb-10 ">
-            <div className="aspect-w-16 aspect-h-9 w-[1000px] h-[500px]">
+      <div className="container flex flex-col md:flex-row justify-between items-start mb-10">
+        <div className="w-full md:w-2/3 pr-0 md:pr-8 mb-8 md:mb-0">
+          <div className="aspect-w-16 aspect-h-9">
+            <iframe 
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Video principal"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+        <div className="w-full md:w-1/3 space-y-4">
+          <h3 className="text-xl font-bold mb-4">Nuestras historias</h3>
+          {[1, 2, 3, 4].map((index) => (
+            <div key={index} className="aspect-w-16 aspect-h-9">
               <iframe 
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Reemplaza con el ID de tu video
-                title="YouTube video"
+                src={`https://www.youtube.com/embed/dQw4w9WgXcQ?start=${index * 10}`}
+                title={`Video ${index}`}
                 allowFullScreen
               ></iframe>
             </div>
-          </div>
+          ))}        </div>
+      </div>
       <div className="container overflow-hidden lg:max-w-[1250px]">
         <div className="-mx-4 flex flex-wrap justify-center md:-mx-7 lg:-mx-5 xl:-mx-[35px]">
           {/* <!-- blog item --> */}

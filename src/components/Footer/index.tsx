@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import FooterBottom from "@/components/Footer/FooterBottom";
 import { FooterMenu } from "@/types/footerMenu";
+import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa';
 
 const footerNavData: FooterMenu[] = [
   {
@@ -39,7 +40,7 @@ const Footer = () => {
         <div className="bg-[#F8FAFB] pb-[46px] pt-[95px] dark:bg-[#15182A]">
           <div className="container max-w-[1390px]">
             <div className="-mx-4 flex flex-wrap">
-              <div className="w-full px-4 lg:w-4/12 xl:w-5/12">
+              <div className="w-full px-4 lg:w-4/12 xl:w-4/12">
                 <div className="mb-11 max-w-[320px]">
                   <Link href="/" className="mb-8 inline-block">
                     <Image
@@ -61,13 +62,27 @@ const Footer = () => {
                       style={{ width: "200px", height: "100px" }}
                     />
                   </Link>
-                  <p className="text-base text-body">
+                  <p className="text-base text-body mb-8">
                     RatingApp es una aplicación para ganar premios mientras ves TV, radio y Streaming
                   </p>
+                  <div className="flex space-x-4">
+                    <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                      <FaFacebookF size={24} />
+                    </Link>
+                    <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                      <FaInstagram size={24} />
+                    </Link>
+                    <Link href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                      <FaTiktok size={24} />
+                    </Link>
+                    <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                      <FaYoutube size={24} />
+                    </Link>
+                  </div>
                 </div>
               </div>
 
-              <div className="w-full px-4 lg:w-8/12 xl:w-7/12">
+              <div className="w-full px-4 lg:w-4/12 xl:w-4/12">
                 <div className="-mx-4 flex flex-wrap">
                   {footerNavData.map((group, groupIndex) => (
                     <div
@@ -97,6 +112,17 @@ const Footer = () => {
                   ))}
                 </div>
               </div>
+
+              <div className="w-full px-4 lg:w-4/12 xl:w-4/12">
+                <h3 className="text-xl font-bold mb-4">Descarga nuestra app y comenza a ganar</h3>
+                <Image
+                  src="/images/qr-ratingapp.png"
+                  alt="Código QR para descargar RatingApp"
+                  width={100}
+                  height={100}
+                  className="mr-auto"
+                  />
+                </div>
             </div>
           </div>
         </div>

@@ -1,6 +1,28 @@
-import React from "react";
+'use client'
+
+import React, { useState } from "react";
+import { Spinner } from "../ui/spinner";
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Aquí iría la lógica para enviar el formulario
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulación de envío
+      setSubmitStatus('success');
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <section id="contact" className="pb-[110px] pt-[100px]">
@@ -23,7 +45,7 @@ const Contact = () => {
             className="wow fadeInUp mx-auto w-full max-w-[925px] rounded-lg bg-[#F8FAFB] px-8 py-10 shadow-card dark:bg-[#15182B] dark:shadow-card-dark sm:px-10"
             data-wow-delay=".3s"
           >
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="-mx-[22px] flex flex-wrap">
                 <div className="w-full px-[22px] md:w-1/2">
                   <div className="mb-8">
@@ -92,9 +114,13 @@ const Contact = () => {
                     </p>
                     <button
                       type="submit"
-                      className="inline-block rounded-md bg-primary px-11 py-[14px] text-base font-medium text-white hover:bg-opacity-90"
+                      disabled={isSubmitting}
+                      className="inline-block rounded-md bg-primary px-11 py-[14px] text-base font-medium text-white hover:bg-opacity-90 disabled:opacity-50"
                     >
-                      Contáctanos
+                      {isSubmitting ? (
+                        <Spinner size="small" className="mr-2" />
+                      ) : null}
+                      {isSubmitting ? "Enviando..." : "Contáctanos"}
                     </button>
                   </div>
                 </div>

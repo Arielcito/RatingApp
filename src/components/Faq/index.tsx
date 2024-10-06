@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Graphics from "@/components/Faq/Graphics";
-import faqData from "./faqData";
+import faqData, { faqData2 } from "./faqData";
 import FAQItem from "./FAQItem";
 
 const Faq = () => {
@@ -30,7 +30,8 @@ const Faq = () => {
 
             </p>
           </div>
-
+          <div className="flex flex-col md:flex-row justify-between items-start mb-10">
+            
           <div
             className="faqs wow fadeInUp mx-auto w-full max-w-[785px] rounded-lg bg-white px-6 py-[6px] shadow-card dark:bg-black dark:shadow-card-dark"
             data-wow-delay=".3s"
@@ -41,6 +42,18 @@ const Faq = () => {
                 faqData={{ ...faq, activeFaq, handleFaqToggle }}
               />
             ))}
+          </div>
+          <div
+            className="faqs wow fadeInUp mx-auto w-full max-w-[785px] rounded-lg bg-white px-6 py-[6px] shadow-card dark:bg-black dark:shadow-card-dark"
+            data-wow-delay=".3s"
+          >
+            {faqData2.map((faq, index) => (
+              <FAQItem
+                key={index}
+                faqData={{ ...faq, activeFaq, handleFaqToggle }}
+              />
+            ))}
+          </div>
           </div>
         </div>
 

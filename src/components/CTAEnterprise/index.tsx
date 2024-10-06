@@ -14,7 +14,6 @@ const CTAEnterprise = () => {
                 opacity: 0,
                 x: -20,
               },
-
               visible: {
                 opacity: 1,
                 x: 0,
@@ -24,14 +23,34 @@ const CTAEnterprise = () => {
             whileInView="visible"
             transition={{ duration: 1, delay: 0.1 }}
             viewport={{ once: true }}
-            className="animate_left md:w-[70%] lg:w-1/2"
+            className="animate_left md:w-[60%] lg:w-1/2"
           >
             <h2 className="mb-4 w-11/12 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle4">
-            Unite a Rating App y conoce a tu audiencia
+              Unite a Rating App y conoce a tu audiencia
             </h2>
-            <p>
+            <p className="mb-6">
               Descubra cómo Rating App puede ayudar a su empresa a gestionar y mejorar su reputación en línea. Contáctenos hoy para obtener más información sobre nuestros servicios y cómo podemos impulsar el crecimiento de su negocio.
             </p>
+            <a
+              href="/enterprise#contact"
+              className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-black"
+            >
+              Contactar ahora
+              <Image
+                width={20}
+                height={20}
+                src="/images/icon/icon-arrow-dark.svg"
+                alt="Flecha"
+                className="dark:hidden"
+              />
+              <Image
+                width={20}
+                height={20}
+                src="/images/icon/icon-arrow-light.svg"
+                alt="Flecha"
+                className="hidden dark:block"
+              />
+            </a>
           </motion.div>
           <motion.div
             variants={{
@@ -39,7 +58,6 @@ const CTAEnterprise = () => {
                 opacity: 0,
                 x: 20,
               },
-
               visible: {
                 opacity: 1,
                 x: 0,
@@ -49,36 +67,18 @@ const CTAEnterprise = () => {
             whileInView="visible"
             transition={{ duration: 1, delay: 0.1 }}
             viewport={{ once: true }}
-            className="animate_right lg:w-[45%]"
+            className="animate_right md:w-[40%] lg:w-1/2"
           >
-            <div className="flex items-center justify-end xl:justify-between">
+            <div className="relative h-full w-full">
               <Image
-                width={299}
-                height={299}
-                src="/images/shape/shape-06.png"
-                alt="Ilustración de empresa"
-                className="hidden xl:block"
+                src="/images/unite.jpg"
+                alt="Unite a Rating App"
+                layout="responsive"
+                width={500}
+                height={300}
+                objectFit="cover"
+                className="rounded-lg"
               />
-              <a
-                href="/enterprise#contact"
-                className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-black"
-              >
-                Contactar ahora
-                <Image
-                  width={20}
-                  height={20}
-                  src="/images/icon/icon-arrow-dark.svg"
-                  alt="Flecha"
-                  className="dark:hidden"
-                />
-                <Image
-                  width={20}
-                  height={20}
-                  src="/images/icon/icon-arrow-light.svg"
-                  alt="Flecha"
-                  className="hidden dark:block"
-                />
-              </a>
             </div>
           </motion.div>
         </div>

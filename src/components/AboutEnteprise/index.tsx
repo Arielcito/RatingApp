@@ -29,15 +29,9 @@ const AboutEnteprise = () => {
               className="animate_left relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2"
             >
               <Image
-                src="/images/about/about-light-01.png"
+                src="/images/about/observatorio-de-medios.jpg"
                 alt="About"
-                className="dark:hidden"
-                fill
-              />
-              <Image
-                src="/images/about/about-dark-01.png"
-                alt="About"
-                className="hidden dark:block"
+                className="w-full h-full object-cover"
                 fill
               />
             </motion.div>
