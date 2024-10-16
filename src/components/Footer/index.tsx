@@ -46,20 +46,11 @@ const Footer = () => {
                     <Image
                       width={160}
                       height={32}
-                      src={"/images/logo/logo.svg"}
+                      src={"/images/logo/logo.png"}
                       alt="Logo"
                       priority
-                      className="block max-w-full dark:hidden"
-                      style={{ width: "100px", height: "100px" }}
-                    />
-                    <Image
-                      width={160}
-                      height={32}
-                      src={"/images/logo/logo-white.svg"}
-                      alt="Logo"
-                      priority
-                      className="hidden max-w-full dark:block"
-                      style={{ width: "200px", height: "100px" }}
+                      className="block max-w-full "
+                      style={{ width: "auto", height: "auto" }}
                     />
                   </Link>
                   <p className="text-base text-body mb-8">

@@ -19,7 +19,7 @@ const HeroEnterprise = () => {
       <section id="home" className="pt-[150px]">
         <div className="container lg:max-w-[1305px] lg:px-10">
           <div className="-mx-4 flex flex-wrap items-center">
-            <div className="w-full px-4 lg:w-7/12">
+            <div className="w-full px-4 lg:w-5/12">
               <div
                 className="wow fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]"
                 data-wow-delay=".3s"
@@ -64,7 +64,7 @@ Solicita una demo ahora y lleva tu medio al siguiente nivel.</p>
               </div>
             </div>
 
-            <div className="w-full px-4 lg:w-5/12">
+            <div className="w-full px-4 lg:w-7/12">
               <div className="relative 2xl:-mr-7.5">
                 <Image
                   src="/images/shape/shape-01.png"
@@ -88,12 +88,6 @@ Solicita una demo ahora y lleva tu medio al siguiente nivel.</p>
                   className="absolute -right-6.5 bottom-0 z-1"
                 />
                 <div className=" relative aspect-[700/444] w-full">
-                  <Image
-                    className="shadow-solid-l dark:hidden"
-                    src="/images/heroEnterprise/hero-light.svg"
-                    alt="Hero"
-                    fill
-                  />
                   <Image
                     className="hidden shadow-solid-l dark:block"
                     src="/images/heroEnterprise/hero-dark.svg"

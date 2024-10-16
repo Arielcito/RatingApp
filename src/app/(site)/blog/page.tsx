@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const BlogGrid = async () => {
   const posts = await getPosts();
-  console.log(posts);
+
   return (
     <main>
       <section className="pb-[60px] pt-[150px] lg:pt-[220px]">

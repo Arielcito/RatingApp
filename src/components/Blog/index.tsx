@@ -23,7 +23,7 @@ const Blog = async () => {
       </div>
       <div className="container flex flex-col md:flex-row justify-between items-start mb-10">
         <div className="w-full md:w-2/3 pr-0 md:pr-8 mb-8 md:mb-0">
-          <div className="aspect-w-16 aspect-h-9">
+          <div className="aspect-w-16 aspect-h-9 h-full">
             <iframe 
               className="w-full h-full"
               src="https://www.youtube.com/embed/dQw4w9WgXcQ"
@@ -33,7 +33,7 @@ const Blog = async () => {
           </div>
         </div>
         <div className="w-full md:w-1/3 space-y-4">
-          <h3 className="text-xl font-bold mb-4">Nuestras historias</h3>
+          <h3 className="text-xl font-bold mb-4 text-black dark:text-white">Nuestras historias</h3>
           {[1, 2, 3, 4].map((index) => (
             <div key={index} className="aspect-w-16 aspect-h-9">
               <iframe 

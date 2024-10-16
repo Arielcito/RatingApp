@@ -85,25 +85,17 @@ const Header = () => {
       >
         <div className="container relative max-w-[1400px]">
           <div className="flex items-center justify-between">
-            <div className="block py-2 lg:py-0"> {/* Reducido el padding vertical */}
-              <Link href="/" className="block pl-4"> {/* Añadido padding izquierdo para mover el logo a la derecha */}
+            <div className="block py-2 lg:py-0 justify-center">
+              {/* Reducido el padding vertical */}
+              <Link href="/" className="mb-8 inline-block mt-4">
                 <Image
-                  width={160} // Aumentado de 120 a 160
-                  height={32} // Aumentado de 24 a 32
-                  src={"/images/logo/logo.svg"}
+                  width={150}
+                  height={32}
+                  src={"/images/logo/logo.png"}
                   alt="Logo"
                   priority
-                  className="block dark:hidden"
-                  style={{ width: "100px", height: "100px" }} // Ajustado para mantener la proporción
-                />
-                <Image
-                  width={160} // Aumentado de 120 a 160
-                  height={32} // Aumentado de 24 a 32
-                  src={"/images/logo/logo-white.svg"}
-                  alt="Logo"
-                  priority
-                  className="hidden dark:block"
-                  style={{ width: "200px", height: "100px" }} // Ajustado para mantener la proporción
+                  className="block max-w-full "
+                  style={{ width: "auto", height: "auto" }}
                 />
               </Link>
             </div>
@@ -193,35 +185,35 @@ const Header = () => {
             <div className="mr-[60px] flex items-center justify-end lg:mr-0">
               {pathUrl?.startsWith("/enterprise") ? (
                 <>
-                <Link
-                  href={"/"}
-                  onClick={closeMenu}
-                  className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
-                >
-                  Comunidad
-                </Link>
-                {session ? (
-                  <div className="hidden items-center sm:flex">
-                    <p className="mx-3 text-black dark:text-white">
-                      {session?.user?.name}
-                    </p>
-                    <button
-                      aria-label="SignOut"
-                      onClick={() => signOut()}
-                      className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <Link
-                      href="/enterprise/#contact"
-                      className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
-                    >
-                      Contacto
-                    </Link>
-                  </>
+                  <Link
+                    href={"/"}
+                    onClick={closeMenu}
+                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                  >
+                    Comunidad
+                  </Link>
+                  {session ? (
+                    <div className="hidden items-center sm:flex">
+                      <p className="mx-3 text-black dark:text-white">
+                        {session?.user?.name}
+                      </p>
+                      <button
+                        aria-label="SignOut"
+                        onClick={() => signOut()}
+                        className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <Link
+                        href="/enterprise/#contact"
+                        className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
+                      >
+                        Contacto
+                      </Link>
+                    </>
                   )}
                 </>
               ) : (
