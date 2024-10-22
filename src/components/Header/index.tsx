@@ -178,6 +178,15 @@ const Header = () => {
                       </li>
                     ),
                   )}
+                  <li>
+                  <Link
+                    href={"/enterprise"}
+                    onClick={closeMenu}
+                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary lg:hidden md:hidden`}
+                  >
+                    Para empresas
+                  </Link>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -221,7 +230,7 @@ const Header = () => {
                   <Link
                     href={"/enterprise"}
                     onClick={closeMenu}
-                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll hidden sm:inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
                   >
                     Para empresas
                   </Link>

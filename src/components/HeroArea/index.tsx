@@ -62,7 +62,7 @@ const HeroArea = () => {
                     className="mb-6 mr-6 inline-flex h-[60px] items-center rounded-lg bg-black px-[30px] py-[14px] text-white hover:bg-opacity-90 dark:bg-white dark:text-black dark:hover:bg-opacity-90"
                   >
                     <span className="mr-[18px] border-r border-stroke border-opacity-40 pr-[18px] leading-relaxed dark:border-[#BDBDBD]">
-                      Descargar la app
+                      DESCARGA, DIVERTITE Y GANA!!
                     </span>
                     <span>
                       <svg

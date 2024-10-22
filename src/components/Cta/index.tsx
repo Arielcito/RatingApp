@@ -16,7 +16,8 @@ const Cta = () => {
                   data-wow-delay=".2s"
                 >
                   <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[38px] md:leading-tight">
-                    Descarga Rating App y empeza a disfrutar totalmente gratis
+                    Descarga Rating App y GANA PREMIOS Y BENEFICIOS EXCLUSIVOS!
+
                   </h2>
                   <p className="mb-10 text-base text-body">
   
@@ -92,9 +93,9 @@ const Cta = () => {
                   data-wow-delay=".3s"
                 >
                   <Image
-                    width={299}
-                    height={419}
-                    src={"/images/cta/cta-light.png"}
+                    width={200}
+                    height={200}
+                    src={"/images/screens/welcome-screen.png"}
                     alt="cta image"
                     className="mx-auto max-w-full"
                   />

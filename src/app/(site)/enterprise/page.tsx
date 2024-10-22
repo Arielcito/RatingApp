@@ -29,7 +29,7 @@ export default function EnterprisePage() {
       <FAQ />
       <Testimonial />
       <Contact />
-      <Blog />
+      {/* <Blog /> */}
     </>
   )
 }

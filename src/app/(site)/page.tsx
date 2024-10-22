@@ -3,20 +3,24 @@ import HeroArea from "@/components/HeroArea";
 import Features from "@/components/Features";
 import About from "@/components/About";
 import WorkProcess from "@/components/WorkProcess";
-import Screens from "@/components/Screens";
 import Cta from "@/components/Cta";
 import Faq from "@/components/Faq";
 import Clients from "@/components/Clients";
-import Contact from "@/components/Contact";
 import BusinessPartnership from "@/components/BusinessPartnership";
-import Blog from "@/components/Blog";
+import MaintenancePage from "@/components/MaintenancePage";
 
 export const metadata: Metadata = {
   title: "RatingApp - Somos Todos",
   description: "Rating App es una aplicacion para ganar premios mientras ves TV, radio y Streaming",
 };
 
+const MAINTENANCE_MODE = true; // Cambia esto a false cuando quieras desactivar el modo de mantenimiento
+
 export default function Home() {
+  if (MAINTENANCE_MODE) {
+    return <MaintenancePage />;
+  }
+
   return (
     <>
       <HeroArea />
@@ -27,8 +31,6 @@ export default function Home() {
       <BusinessPartnership />
       <Cta />
       <Faq />
-      <Blog />
-      <Contact />
     </>
   );
 }

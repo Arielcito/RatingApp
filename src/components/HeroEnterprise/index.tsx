@@ -19,7 +19,7 @@ const HeroEnterprise = () => {
       <section id="home" className="pt-[150px]">
         <div className="container lg:max-w-[1305px] lg:px-10">
           <div className="-mx-4 flex flex-wrap items-center">
-            <div className="w-full px-4 lg:w-5/12">
+            <div className="w-full px-4 lg:w-7/12">
               <div
                 className="wow fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]"
                 data-wow-delay=".3s"
@@ -31,8 +31,7 @@ const HeroEnterprise = () => {
                 Optimiza tus decisiones con datos reales y en tiempo real
                 </h1>
                 <p className="mb-10 max-w-[475px] text-base leading-relaxed text-body">
-                Descubre el Futuro de la Medición de Audiencias
-Optimiza tus decisiones con datos reales y en tiempo real.
+                Descubre el Futuro de la Medición de Audiencias.
 Conoce nuestro Panel de Control Avanzado y revoluciona cómo gestionas tus métricas.
 Solicita una demo ahora y lleva tu medio al siguiente nivel.</p>
 
@@ -64,37 +63,18 @@ Solicita una demo ahora y lleva tu medio al siguiente nivel.</p>
               </div>
             </div>
 
-            <div className="w-full px-4 lg:w-7/12">
-              <div className="relative 2xl:-mr-7.5">
+            <div className="w-full lg:w-5/12">
+              <div
+                className="wow fadeInUp relative z-10 mx-auto flex w-full max-w-[530px] pt-2 lg:mr-0"
+                data-wow-delay=".3s"
+              >
                 <Image
-                  src="/images/shape/shape-01.png"
-                  alt="shape"
-                  width={46}
-                  height={246}
-                  className="absolute -left-11.5 top-0"
+                  width={600}
+                  height={700}
+                  src={"/images/hero/hero-phone.png"}
+                  alt="hero image"
+                  className="mx-auto max-w-full"
                 />
-                <Image
-                  src="/images/shape/shape-02.svg"
-                  alt="shape"
-                  width={36.9}
-                  height={36.7}
-                  className="absolute bottom-0 right-0 z-10"
-                />
-                <Image
-                  src="/images/shape/shape-03.svg"
-                  alt="shape"
-                  width={21.64}
-                  height={21.66}
-                  className="absolute -right-6.5 bottom-0 z-1"
-                />
-                <div className=" relative aspect-[700/444] w-full">
-                  <Image
-                    className="hidden shadow-solid-l dark:block"
-                    src="/images/heroEnterprise/hero-dark.svg"
-                    alt="Hero"
-                    fill
-                  />
-                </div>
               </div>
             </div>
           </div>

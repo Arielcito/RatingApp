@@ -5,37 +5,37 @@ import { Client } from "@/types/client";
 
 const clientsData: Client[] = [
   {
-    logo: "/images/clients/client-01.svg",
+    logo: "/images/logo/logo.png",
     link: "#",
     width: 92,
     height: 28,
   },
   {
-    logo: "/images/clients/client-02.svg",
+    logo: "/images/logo/logo.png",
     link: "#",
     width: 120,
     height: 24,
   },
   {
-    logo: "/images/clients/client-03.svg",
+    logo: "/images/logo/logo.png",
     link: "#",
     width: 99,
     height: 24,
   },
   {
-    logo: "/images/clients/client-04.svg",
+    logo: "/images/logo/logo.png",
     link: "#",
     width: 89,
     height: 32,
   },
   {
-    logo: "/images/clients/client-05.svg",
+    logo: "/images/logo/logo.png",
     link: "#",
     width: 108,
     height: 32,
   },
   {
-    logo: "/images/clients/client-06.svg",
+    logo: "/images/logo/logo.png",
     link: "#",
     width: 106,
     height: 32,

@@ -12,6 +12,9 @@ import ToasterContext from "../context/ToastContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import { ThemeProvider } from "next-themes";
 import { usePathname } from "next/navigation";
+import MaintenancePage from "@/components/MaintenancePage";
+
+const MAINTENANCE_MODE = true; // Cambia esto a false cuando quieras desactivar el modo de mantenimiento
 
 export default function RootLayout({
   children,
@@ -52,6 +55,8 @@ export default function RootLayout({
           <AuthProvider>
             {loading ? (
               <PreLoader />
+            ) : MAINTENANCE_MODE ? (
+              <MaintenancePage />
             ) : (
               <>
                 <Header />

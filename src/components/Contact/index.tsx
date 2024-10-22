@@ -39,7 +39,7 @@ const Contact = () => {
             </p>
           </div>
         </div>
-
+    
         <div className="container">
           <div
             className="wow fadeInUp mx-auto w-full max-w-[925px] rounded-lg bg-[#F8FAFB] px-8 py-10 shadow-card dark:bg-[#15182B] dark:shadow-card-dark sm:px-10"
