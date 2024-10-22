@@ -138,7 +138,7 @@ const HeroArea = () => {
                   <FsLightbox
                     toggler={toggler}
                     sources={[
-                      "https://www.youtube.com/watch?v=HXHphpDJ9T0&pp=ygULaW50cm8gdmlkZW8%3D",
+                      <iframe key="demo-video" src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview" width="640" height="480" allow="autoplay"></iframe>
                     ]}
                   />
                 </div>

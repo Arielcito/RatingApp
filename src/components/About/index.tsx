@@ -22,11 +22,9 @@ const About = () => {
                     Quienes Somos?
                   </h2>
                   <p className="mb-[30px] text-base leading-relaxed text-body">
-                    Somos una consultora tecnologica que se especializa en la
-                    medición y análisis de audiencias. Nuestro objetivo es
-                    revolucionar la industria de la medición de audiencias,
-                    ofreciendo una alternativa transparente, confiable y
-                    accesible para todos los actores del espectro televisivo.
+                    Hola! Welcome to RatingApp!
+                    Somos I+D Inteligencia Digital, una Consultora Tecnologica que se especializa en servicios, dedicada a realizar mediciones de audiencias en los medios
+                    de comunicacion en Argentina y proyectada a otros mercados globales, de television, radio, publicidad exterior y TGI (Target Group Index)
                   </p>
                 </div>
               </div>

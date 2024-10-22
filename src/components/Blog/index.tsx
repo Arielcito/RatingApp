@@ -37,12 +37,7 @@ const Blog = async () => {
           <h3 className="text-xl font-bold mb-4 text-black dark:text-white">Nuestras historias</h3>
           {[1, 2, 3, 4].map((index) => (
             <div key={index} className="aspect-w-16 aspect-h-9">
-              <iframe 
-                className="w-full h-full"
-                src={`https://www.youtube.com/embed/dQw4w9WgXcQ?start=${index * 10}`}
-                title={`Video ${index}`}
-                allowFullScreen
-              ></iframe>
+              <iframe src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview" width="640" height="480" allow="autoplay"></iframe>
             </div>
           ))}        
         </div>
@@ -60,7 +55,7 @@ const Blog = async () => {
               <Link href={`/blog/${post.slug}`}>
                 <h4 className="text-lg font-semibold text-black dark:text-white hover:text-primary">{post.title}</h4>
               </Link>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{post.description}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{post.title}</p>
             </div>
           ))}
         </div>
