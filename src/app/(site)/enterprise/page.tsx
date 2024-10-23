@@ -1,5 +1,8 @@
+import About from '@/components/About';
 import AboutEnteprise from '@/components/AboutEnteprise';
+
 import Blog from '@/components/Blog';
+
 import Clients from '@/components/Clients'
 import Contact from '@/components/Contact';
 import CTA from '@/components/CTAEnterprise';
@@ -22,6 +25,7 @@ export default function EnterprisePage() {
       <HeroEnterprise />
       <Clients />
       <FeaturesEnterprise />
+      <About />
       <AboutEnteprise />
       <FeaturesTab />
       <FunFact />

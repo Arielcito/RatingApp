@@ -4,7 +4,7 @@ const featuresTabData: FeatureTab[] = [
   {
     id: "Televisión",
     title: "Medición Precisa de Audiencia TV",
-    desc1: `La medición de TV te brinda datos minuto a minuto en 9 mercados de Argentina, con un análisis detallado de cómo los diferentes grupos demográficos consumen contenidos.`,
+    desc1: `La medición de TV te brinda valiosas estadisticas de audiencia segmentada minuto a minuto, prime time, diario, semanal, mensual e historicos, con un panel de graficas dinamicas en una interfaz amigable con el usuario, en un sistema secuencial y abarcativo a lo largo de todo el país.`,
     desc2: `Esto te ayuda a mejorar la programación y optimizar la inversión publicitaria en canales de TV abierta y paga.`,
     image: "/images/features/tv-feature.png",
     imageDark: "/images/features/tv-feature.png",
@@ -21,7 +21,7 @@ const featuresTabData: FeatureTab[] = [
     id: "Streaming",
     title: "Métricas Avanzadas de Streaming",
     desc1: `En el entorno del Streaming, la medición es clave para entender cómo los usuarios interactúan con el contenido.`,
-    desc2: `Nuestra plataforma ofrece métricas de Streaming, ayudando a mejorar la experiencia del usuario y la retención de suscriptores.`,
+    desc2: `Nuestra plataforma ofrece métricas de Streaming, ayudando a mejorar la experiencia del usuario y la retención de suscriptores. Incorporando valiosa informacion para el desarrollo de estrategias publicitarias y captacion de nuevos clientes.`,
     image: "/images/features/features-light-01.png",
     imageDark: "/images/features/features-dark-01.svg",
   },

@@ -99,7 +99,7 @@ const AboutEnteprise = () => {
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
                   Alianzas Estratégicas
                   </h3>
-                  <p>Fomentamos colaboraciones entre empresas, ONGs y sindicatos.</p>
+                  <p>Fomentamos colaboraciones entre empresas e instituciones públicas y privadas del sector.</p>
                 </div>
               </div>
             </motion.div>
