@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const BlogItem = ({ blog }: { blog: Blog }) => {
   return (
-    <article className="w-full px-4 md:w-1/2 md:px-7 lg:w-1/3 lg:px-5 xl:px-[35px]">
+    <article className="w-full px-4 md:px-7 lg:px-5 xl:px-[35px]">
       <div className="wow fadeInUp mb-10" data-wow-delay=".2s">
         <div className="relative h-[200px] overflow-hidden rounded xl:h-[240px]">
           <Link
@@ -94,11 +94,11 @@ const BlogItem = ({ blog }: { blog: Blog }) => {
               className="mb-3 inline-block text-xl font-semibold text-black hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
               href={`/blog/${blog?.slug.current}`}
             >
-              {blog?.title.substring(0, 40)}...
+              {blog?.title.substring(0, 100)}...
             </Link>
           </h3>
           <p className="text-base text-body">
-            {blog?.metadata.substring(0, 60)}
+            {blog?.metadata.substring(0, 150)}
           </p>
 
           <Link

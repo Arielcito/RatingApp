@@ -26,7 +26,7 @@ const CTAEnterprise = () => {
             className="animate_left md:w-[60%] lg:w-1/2"
           >
             <h2 className="mb-4 w-11/12 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle4">
-              Unite a Rating App y conoce a tu audiencia
+              Unite a Rating App
             </h2>
             <p className="mb-6">
               Descubra cómo Rating App puede ayudar a su empresa a gestionar y mejorar su reputación en línea. Contáctenos hoy para obtener más información sobre nuestros servicios y cómo podemos impulsar el crecimiento de su negocio.
@@ -36,20 +36,7 @@ const CTAEnterprise = () => {
               className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-black"
             >
               Contactar ahora
-              <Image
-                width={20}
-                height={20}
-                src="/images/icon/icon-arrow-dark.svg"
-                alt="Flecha"
-                className="dark:hidden"
-              />
-              <Image
-                width={20}
-                height={20}
-                src="/images/icon/icon-arrow-light.svg"
-                alt="Flecha"
-                className="hidden dark:block"
-              />
+              
             </a>
           </motion.div>
           <motion.div

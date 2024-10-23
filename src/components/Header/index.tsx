@@ -8,7 +8,7 @@ import Image from "next/image";
 import DarkModeSwitcher from "@/components/Header/DarkModeSwitcher";
 import GlobalSearchModal from "@/components/GlobalSearch";
 
-const menuData: Menu[] = [
+const communityMenuData: Menu[] = [
   {
     label: "Que ofrecemos?",
     route: "/#features",
@@ -20,10 +20,18 @@ const menuData: Menu[] = [
   {
     label: "Como Funciona?",
     route: "/#work-process",
+  }
+];
+
+const enterpriseMenuData: Menu[] = [
+  {
+    label: "Servicios",
+    route: "/enterprise#services",
   },
+  
   {
     label: "Contacto",
-    route: "/#contact",
+    route: "/enterprise#contact",
   },
 ];
 
@@ -41,6 +49,9 @@ const Header = () => {
   const { data: session } = useSession();
 
   const pathUrl = usePathname();
+  const isEnterprisePage = pathUrl?.startsWith("/enterprise");
+  const menuData = isEnterprisePage ? enterpriseMenuData : communityMenuData;
+
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -76,6 +87,9 @@ const Header = () => {
 
   return (
     <>
+      <div className="bg-yellow-400 text-black text-center py-2 font-bold">
+        Sitio en construcción
+      </div>
       <header
         className={`navbar left-0 top-0 z-50 w-full border-stroke bg-white dark:border-stroke-dark dark:bg-black ${
           sticky
@@ -178,85 +192,60 @@ const Header = () => {
                       </li>
                     ),
                   )}
-                  <li>
-                  <Link
-                    href={"/enterprise"}
-                    onClick={closeMenu}
-                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary lg:hidden md:hidden`}
-                  >
-                    Para empresas
-                  </Link>
-                  </li>
+                  {!isEnterprisePage && (
+                    <li>
+                      <Link
+                        href={"/enterprise"}
+                        onClick={closeMenu}
+                        className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary lg:hidden md:hidden`}
+                      >
+                        Para empresas
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </nav>
             </div>
 
             <div className="mr-[60px] flex items-center justify-end lg:mr-0">
-              {pathUrl?.startsWith("/enterprise") ? (
-                <>
-                  <Link
-                    href={"/"}
-                    onClick={closeMenu}
-                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+              {isEnterprisePage ? (
+                <Link
+                  href={"/"}
+                  onClick={closeMenu}
+                  className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                >
+                  Comunidad
+                </Link>
+              ) : (
+                <Link
+                  href={"/enterprise"}
+                  onClick={closeMenu}
+                  className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll hidden sm:inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                >
+                  Para empresas
+                </Link>
+              )}
+              {session ? (
+                <div className="hidden items-center sm:flex">
+                  <p className="mx-3 text-black dark:text-white">
+                    {session?.user?.name}
+                  </p>
+                  <button
+                    aria-label="SignOut"
+                    onClick={() => signOut()}
+                    className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
                   >
-                    Comunidad
-                  </Link>
-                  {session ? (
-                    <div className="hidden items-center sm:flex">
-                      <p className="mx-3 text-black dark:text-white">
-                        {session?.user?.name}
-                      </p>
-                      <button
-                        aria-label="SignOut"
-                        onClick={() => signOut()}
-                        className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
-                      >
-                        Sign Out
-                      </button>
-                    </div>
-                  ) : (
-                    <>
-                      <Link
-                        href="/enterprise/#contact"
-                        className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
-                      >
-                        Contacto
-                      </Link>
-                    </>
-                  )}
-                </>
+                    Sign Out
+                  </button>
+                </div>
               ) : (
                 <>
                   <Link
-                    href={"/enterprise"}
-                    onClick={closeMenu}
-                    className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll hidden sm:inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                    href="/auth/signup"
+                    className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
                   >
-                    Para empresas
+                    Descarga la App
                   </Link>
-                  {session ? (
-                    <div className="hidden items-center sm:flex">
-                      <p className="mx-3 text-black dark:text-white">
-                        {session?.user?.name}
-                      </p>
-                      <button
-                        aria-label="SignOut"
-                        onClick={() => signOut()}
-                        className="rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90"
-                      >
-                        Sign Out
-                      </button>
-                    </div>
-                  ) : (
-                    <>
-                      <Link
-                        href="/auth/signup"
-                        className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
-                      >
-                        Descarga la App
-                      </Link>
-                    </>
-                  )}
                 </>
               )}
             </div>

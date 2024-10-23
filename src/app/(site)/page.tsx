@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Rating App es una aplicacion para ganar premios mientras ves TV, radio y Streaming",
 };
 
-const MAINTENANCE_MODE = true; // Cambia esto a false cuando quieras desactivar el modo de mantenimiento
+const MAINTENANCE_MODE = false; // Cambia esto a false cuando quieras desactivar el modo de mantenimiento
 
 export default function Home() {
   if (MAINTENANCE_MODE) {

@@ -19,7 +19,7 @@ const HeroEnterprise = () => {
       <section id="home" className="pt-[150px]">
         <div className="container lg:max-w-[1305px] lg:px-10">
           <div className="-mx-4 flex flex-wrap items-center">
-            <div className="w-full px-4 lg:w-7/12">
+            <div className="w-full px-4 lg:w-6/12">
               <div
                 className="wow fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]"
                 data-wow-delay=".3s"
@@ -37,7 +37,7 @@ Solicita una demo ahora y lleva tu medio al siguiente nivel.</p>
 
                 <div className="flex flex-wrap items-center">
                   <a
-                    href="#contacto"
+                    href="/enterprise#contact"
                     className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-red-500 via-red-400 to-orange-500 py-4 px-9 text-base font-semibold text-white transition duration-300 ease-in-out hover:shadow-lg hover:opacity-80"
                   >
                     Revoluciona tu medición de audiencia
@@ -63,15 +63,15 @@ Solicita una demo ahora y lleva tu medio al siguiente nivel.</p>
               </div>
             </div>
 
-            <div className="w-full lg:w-5/12">
+            <div className="w-full lg:w-6/12">
               <div
-                className="wow fadeInUp relative z-10 mx-auto flex w-full max-w-[530px] pt-2 lg:mr-0"
+                className="wow fadeInUp relative z-10 mx-auto flex w-full lg:mr-0"
                 data-wow-delay=".3s"
               >
                 <Image
-                  width={600}
-                  height={700}
-                  src={"/images/hero/hero-phone.png"}
+                  width={800}
+                  height={800}
+                  src={"/images/heroEnterprise/hero.png"}
                   alt="hero image"
                   className="mx-auto max-w-full"
                 />

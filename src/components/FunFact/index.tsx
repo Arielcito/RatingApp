@@ -31,9 +31,7 @@ const FunFact = () => {
               Métricas Confiables Avaladas por Expertos
             </h2>
             <p className="mx-auto lg:w-11/12">
-              Nuestras métricas son verificadas y avaladas por la Confederación Económica de la Provincia de Buenos Aires(CEPBA), 
-              garantizando la confiabilidad y precisión de nuestros datos. Confía en nosotros para 
-              obtener información precisa y actualizada.
+             
             </p>
           </motion.div>
 

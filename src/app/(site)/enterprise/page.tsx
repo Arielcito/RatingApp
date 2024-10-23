@@ -27,9 +27,9 @@ export default function EnterprisePage() {
       <FunFact />
       <CTA />
       <FAQ />
-      <Testimonial />
+      {/*<Testimonial />  */}
       <Contact />
-      {/* <Blog /> */}
+       <Blog /> 
     </>
   )
 }
