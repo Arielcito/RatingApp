@@ -6,6 +6,18 @@ import { Spinner } from "../ui/spinner";
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({ ...prevData, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,10 +25,22 @@ const Contact = () => {
     setSubmitStatus('idle');
 
     try {
-      // Aquí iría la lógica para enviar el formulario
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulación de envío
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el formulario');
+      }
+
       setSubmitStatus('success');
+      setFormData({ name: '', company: '', email: '', phone: '', message: '' });
     } catch (error) {
+      console.error('Error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -53,8 +77,11 @@ const Contact = () => {
                       type="text"
                       name="name"
                       id="name"
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder="Ingresa tu nombre"
                       className="w-full rounded border border-stroke bg-white px-[30px] py-4 text-base text-body outline-none focus:border-primary dark:border-[#34374A] dark:bg-[#2A2E44] dark:focus:border-primary"
+                      required
                     />
                   </div>
                 </div>
@@ -101,8 +128,11 @@ const Contact = () => {
                       rows={6}
                       name="message"
                       id="message"
+                      value={formData.message}
+                      onChange={handleChange}
                       placeholder="Cuéntanos sobre ti"
                       className="w-full rounded border border-stroke bg-white px-[30px] py-4 text-base text-body outline-none focus:border-primary dark:border-[#34374A] dark:bg-[#2A2E44] dark:focus:border-primary"
+                      required
                     ></textarea>
                   </div>
                 </div>
@@ -126,6 +156,12 @@ const Contact = () => {
                 </div>
               </div>
             </form>
+            {submitStatus === 'success' && (
+              <p className="mt-4 text-center text-green-500">¡Mensaje enviado con éxito!</p>
+            )}
+            {submitStatus === 'error' && (
+              <p className="mt-4 text-center text-red-500">Error al enviar el mensaje. Por favor, inténtalo de nuevo.</p>
+            )}
           </div>
         </div>
       </section>
