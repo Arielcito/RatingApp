@@ -15,7 +15,7 @@ const Cta = () => {
                   className="wow fadeInUp mx-auto max-w-[530px] text-center lg:ml-0 lg:text-left"
                   data-wow-delay=".2s"
                 >
-                  <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[38px] md:leading-tight">
+                  <h2 className="mb-4 text-3xl font-bold bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent sm:text-4xl md:text-[38px] md:leading-tight">
                     Descarga Rating App y GANA PREMIOS Y BENEFICIOS EXCLUSIVOS!
 
                   </h2>
@@ -75,7 +75,7 @@ const Cta = () => {
                         </span>
                         <span className="text-left">
                           <span className="block text-xs opacity-70">
-                            Descargala de
+                            Proximamente en
                           </span>
                           <span className="block text-sm font-medium">
                             App Store

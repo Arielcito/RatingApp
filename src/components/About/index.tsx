@@ -22,9 +22,10 @@ const About = () => {
                     Quienes Somos?
                   </h2>
                   <p className="mb-[30px] text-base leading-relaxed text-body">
-                    Hola! Welcome to RatingApp!
+                    Hola! Bienvenido a RatingApp!
                     Somos I+D Inteligencia Digital, una Consultora Tecnologica que se especializa en servicios, dedicada a realizar mediciones de audiencias en los medios
-                    de comunicacion en Argentina y proyectada a otros mercados globales, de television, radio, publicidad exterior, streaming, Periodicos online y TGI (Target Group Index)
+                    de comunicacion en Argentina y proyectada a otros mercados globales, de television, radio, publicidad exterior, streaming, Periodicos online, TGI (Target Group Index) y Agencias Publicitarias
+
                   </p>
                 </div>
               </div>

@@ -103,7 +103,7 @@ const partnershipFeatures: PartnershipFeature[] = [
     ),
     title: "Panel de control y métricas personalizadas",
     description:
-      " Visualiza datos clave, crea informes a medida y toma decisiones informadas para optimizar tu contenido y estrategias de audiencia.",
+      " Visualiza datos clave, crea informes a medida y toma decisiones informadas para optimizar tu contenido, estrategias de publicidad y captación de nuevos clientes.",
   },
 ];
 
@@ -123,7 +123,7 @@ const BusinessPartnership = () => {
                 <p className="text-base text-body">
                   Únete a nuestra plataforma y conecta con tu audiencia de una
                   manera innovadora. Descubre cómo podemos ayudarte a crecer y
-                  mejorar tu interacción con los clientes.
+                  mejorar tu interacción con tu audiencia.
                 </p>
               </div>
               <div

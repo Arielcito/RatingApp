@@ -19,7 +19,7 @@ const HeroArea = () => {
 
   return (
     <>
-      <section id="home" className="pt-[150px]">
+      <section id="home" className="pt-[50px]">
         <div className="container ">
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full  lg:w-6/12">
@@ -52,7 +52,7 @@ const HeroArea = () => {
                   </div>
                 </h1>
                 <p className="mb-10 max-w-[475px] text-base leading-relaxed text-body">
-                  Mira TV, escucha radio y disfruta de streaming. Todo en un
+                  Mira TV, escucha radio, lee diarios online y disfruta de streaming. Todo en un
                   solo lugar y con recompensas.
                 </p>
 
@@ -61,7 +61,7 @@ const HeroArea = () => {
                     href="#"
                     className="mb-6 mr-6 inline-flex h-[60px] items-center rounded-lg bg-black px-[30px] py-[14px] text-white hover:bg-opacity-90 dark:bg-white dark:text-black dark:hover:bg-opacity-90"
                   >
-                    <span className="mr-[18px] border-r border-stroke border-opacity-40 pr-[18px] leading-relaxed dark:border-[#BDBDBD]">
+                    <span className="mr-[18px] border-r border-stroke border-opacity-40 pr-[18px] leading-relaxed dark:border-[#BDBDBD] bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent">
                       DESCARGA, DIVERTITE Y GANA!!
                     </span>
                     <span>
