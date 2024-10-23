@@ -45,9 +45,9 @@ const clientsData: Client[] = [
 const Clients = () => {
   return (
     <>
-      <section className="relative z-10 bg-[#F8FAFB] pb-[50px] pt-[70px] dark:bg-[#15182B]">
-        <div className="container mb-10 flex flex-col items-center justify-between">
-          <h2 className="mb-4 text-lg font-bold text-black dark:text-white sm:text-2xl md:text-xl md:leading-tight flex justify-center">
+      <section className="relative z-10 bg-[#F8FAFB] pb-[20px] pt-[20px] dark:bg-[#15182B]">
+        <div className="container mb-5 flex flex-col items-center justify-between">
+          <h2 className="mb-2 text-lg font-bold text-black dark:text-white sm:text-2xl md:text-xl md:leading-tight flex justify-center">
           Estas importantes empresas e instituciones acompañan al ecosistema RatingApp
           </h2>
         </div>

@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
     const { name, company, email, phone, message } = await request.json();
 
     const { data, error } = await resend.emails.send({
-      from: 'Rating App <onboarding@resend.dev>',
-      to: ['serato.arieli@gmail.com'], 
+      from: 'Rating App <info@ratingapp.com.ar>',
+      to: ['inteligenciadigital2025@gmail.com'], 
       subject: 'Nuevo mensaje de contacto',
       react: EmailTemplate({ name, company, email, phone, message }),
     });
