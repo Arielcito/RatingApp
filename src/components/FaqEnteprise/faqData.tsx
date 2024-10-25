@@ -13,8 +13,8 @@ const faqData: FAQ[] = [
   },
   {
     id: 3,
-    title: "¿Qué medios cubre Rating App y cómo se mide la audiencia en cada uno?",
-    details: " Rating App mide la audiencia en televisión, radio y plataformas de streaming. En televisión, se recopilan datos de hogares en diferentes regiones de Argentina con dispositivos especializados como people meters y diarios de televisión. Para radio, se utiliza una metodología híbrida que combina encuestas online y telefónicas, mientras que en streaming, se miden tanto servicios gratuitos (AVOD) como pagos (SVOD), brindando un análisis completo del consumo de video​",
+    title: "¿Cómo ayuda Rating App a potenciar tu crecimiento?",
+    details: "Rating App mide la audiencia en televisión, radio, periodicos online y plataformas de streaming. ​",
   },
 ];
 
