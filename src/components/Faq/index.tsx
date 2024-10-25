@@ -6,10 +6,15 @@ import faqData, { faqData2 } from "./faqData";
 import FAQItem from "./FAQItem";
 
 const Faq = () => {
-  const [activeFaq, setActiveFaq] = useState(0);
+  const [activeFaq1, setActiveFaq1] = useState(0);
+  const [activeFaq2, setActiveFaq2] = useState(0);
 
-  const handleFaqToggle = (index: number) => {
-    activeFaq === index ? setActiveFaq(0) : setActiveFaq(index);
+  const handleFaqToggle1 = (index: number) => {
+    setActiveFaq1(activeFaq1 === index ? 0 : index);
+  };
+
+  const handleFaqToggle2 = (index: number) => {
+    setActiveFaq2(activeFaq2 === index ? 0 : index);
   };
 
   return (
@@ -39,7 +44,7 @@ const Faq = () => {
             {faqData.map((faq, index) => (
               <FAQItem
                 key={index}
-                faqData={{ ...faq, activeFaq, handleFaqToggle }}
+                faqData={{ ...faq, activeFaq: activeFaq1, handleFaqToggle: handleFaqToggle1 }}
               />
             ))}
           </div>
@@ -50,7 +55,7 @@ const Faq = () => {
             {faqData2.map((faq, index) => (
               <FAQItem
                 key={index}
-                faqData={{ ...faq, activeFaq, handleFaqToggle }}
+                faqData={{ ...faq, activeFaq: activeFaq2, handleFaqToggle: handleFaqToggle2 }}
               />
             ))}
           </div>

@@ -93,9 +93,9 @@ const Cta = () => {
                   data-wow-delay=".3s"
                 >
                   <Image
-                    width={200}
-                    height={200}
-                    src={"/images/screens/welcome-screen.png"}
+                    width={400}
+                    height={400}
+                    src={"/images/cta/cta-light.png"}
                     alt="cta image"
                     className="mx-auto max-w-full"
                   />
