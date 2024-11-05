@@ -60,7 +60,7 @@ const HeroArea = () => {
                   <div className="flex flex-row items-center w-full">
                     <Link
                       href="#"
-                      className="mb-6 mr-6 inline-flex h-[45px] items-center rounded-lg bg-black px-[20px] py-[10px] text-white hover:bg-opacity-90 dark:bg-white dark:text-black dark:hover:bg-opacity-90"
+                      className="mb-6 mr-6 inline-flex h-full items-center rounded-lg bg-black px-[20px] py-[10px] text-white hover:bg-opacity-90 dark:bg-white dark:text-black dark:hover:bg-opacity-90"
                     >
                       <span className="mr-[8px] border-r text-center border-stroke border-opacity-40 pr-[12px] text-sm leading-relaxed dark:border-[#BDBDBD] bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent">
                         DESCARGA, DIVERTITE Y GANA!!
