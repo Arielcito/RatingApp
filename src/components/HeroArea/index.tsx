@@ -143,7 +143,7 @@ const HeroArea = () => {
                       <iframe 
                         key="demo-video" 
                         src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview" 
-                        className="w-full h-full max-w-[90vw] max-h-[90vh] md:max-w-[80vw] md:max-h-[80vh] lg:max-w-[1024px] lg:max-h-[576px]"
+                        className="w-full h-full min-w-[320px] min-h-[180px] max-w-[95vw] max-h-[95vh] md:min-w-[640px] md:min-h-[360px] lg:min-w-[1280px] lg:min-h-[720px]"
                         style={{
                           aspectRatio: '16/9',
                           width: '100%',
