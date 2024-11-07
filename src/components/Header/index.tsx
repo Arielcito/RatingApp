@@ -88,12 +88,11 @@ const Header = () => {
   return (
     <>
       <header
-        className={`navbar fixed left-0 z-50 w-full border-stroke bg-white dark:border-stroke-dark dark:bg-black ${
+        className={`navbar left-0 top-0 z-50 w-full border-stroke bg-white dark:border-stroke-dark dark:bg-black ${
           sticky
-            ? "border-b bg-opacity-95 backdrop-blur-sm dark:bg-opacity-95 shadow-sm"
-            : "bg-opacity-100"
-        } transition-all duration-300`}
-        style={{ top: "0" }}
+            ? "fixed border-b bg-opacity-95 backdrop-blur-sm dark:bg-opacity-95"
+            : "absolute"
+        }`}
       >
         <div className="container relative max-w-[1400px]">
           <div className="flex items-center justify-between">
@@ -136,8 +135,8 @@ const Header = () => {
                 <span className="-mt-[2px] block h-[2px] w-7 -rotate-45 bg-black dark:bg-white"></span>
               </button>
 
-              <nav className="fixed left-0 top-0 z-[999] flex min-h-screen w-full items-center justify-center bg-white bg-opacity-95 text-center backdrop-blur-sm dark:bg-black dark:bg-opacity-95 lg:static lg:h-auto lg:w-max lg:bg-transparent lg:bg-opacity-100 lg:backdrop-blur-0 lg:backdrop-blur-none lg:dark:bg-transparent dark:lg:bg-opacity-100">
-                <ul className="flex w-full flex-col items-center space-y-6 px-4 lg:w-auto lg:flex-row lg:space-x-8 lg:space-y-0 xl:space-x-10">
+              <nav className="fixed left-0 top-0 z-[999] flex h-screen w-full items-center justify-center bg-white bg-opacity-95 text-center backdrop-blur-sm dark:bg-black dark:bg-opacity-95 lg:static lg:h-auto lg:w-max lg:bg-transparent lg:bg-opacity-100 lg:backdrop-blur-0 lg:backdrop-blur-none lg:dark:bg-transparent dark:lg:bg-opacity-100">
+                <ul className="items-center space-y-3 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-10">
                   {menuData.map((item, index) =>
                     item.children ? (
                       <li
