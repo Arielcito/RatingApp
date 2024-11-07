@@ -30,27 +30,27 @@ const Blog = async () => {
           <h3 className="mb-4 text-xl font-bold text-black dark:text-white">
             Ultimas noticias
           </h3>
-          <div className="aspect-w-16 aspect-h-9 h-full">
+          <div className="relative w-full pt-[56.25%]">
             <iframe
               src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview"
-              width="640"
-              height="480"
+              className="absolute top-0 left-0 w-full h-full"
               allow="autoplay"
-            ></iframe>
+              title="Video principal"
+            />
           </div>
         </div>
-        <div className="w-full space-y-4  md:w-1/4">
+        <div className="w-full space-y-4 md:w-1/4">
           <h3 className="mb-4 text-xl font-bold text-black dark:text-white">
             Nuestras historias
           </h3>
           {[1, 2].map((index) => (
-            <div key={index} className="aspect-w-16 aspect-h-9">
+            <div key={`historia-${index}`} className="relative w-full pt-[56.25%]">
               <iframe
                 src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview"
-                width="300"
-                height="200"
+                className="absolute top-0 left-0 w-full h-full"
                 allow="autoplay"
-              ></iframe>
+                title={`Historia ${index}`}
+              />
             </div>
           ))}
         </div>

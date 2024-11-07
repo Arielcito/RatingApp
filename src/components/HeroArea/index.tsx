@@ -140,7 +140,18 @@ const HeroArea = () => {
                   <FsLightbox
                     toggler={toggler}
                     sources={[
-                      <iframe key="demo-video" src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview" width="640" height="480" allow="autoplay"></iframe>
+                      <iframe 
+                        key="demo-video" 
+                        src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview" 
+                        className="w-full h-full max-w-[90vw] max-h-[90vh] md:max-w-[80vw] md:max-h-[80vh] lg:max-w-[1024px] lg:max-h-[576px]"
+                        style={{
+                          aspectRatio: '16/9',
+                          width: '100%',
+                          height: '100%'
+                        }}
+                        allow="autoplay"
+                        title="Demo Video"
+                      />
                     ]}
                   />
                 </div>
