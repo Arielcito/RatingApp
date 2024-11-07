@@ -87,15 +87,13 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-yellow-400 text-black text-center py-2 font-bold">
-        Sitio en construcción
-      </div>
       <header
-        className={`navbar left-0 top-0 z-50 w-full border-stroke bg-white dark:border-stroke-dark dark:bg-black ${
+        className={`navbar fixed left-0 z-50 w-full border-stroke bg-white dark:border-stroke-dark dark:bg-black ${
           sticky
-            ? "fixed border-b bg-opacity-95 backdrop-blur-sm dark:bg-opacity-95"
-            : "absolute"
-        }`}
+            ? "border-b bg-opacity-95 backdrop-blur-sm dark:bg-opacity-95 shadow-sm"
+            : "bg-opacity-100"
+        } transition-all duration-300`}
+        style={{ top: "0" }}
       >
         <div className="container relative max-w-[1400px]">
           <div className="flex items-center justify-between">
@@ -254,6 +252,7 @@ const Header = () => {
           </div>
         </div>
       </header>
+      <div className="h-[88px]" />
     </>
   );
 };
