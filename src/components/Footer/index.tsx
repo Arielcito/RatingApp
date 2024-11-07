@@ -57,7 +57,7 @@ const Footer = () => {
                     RatingApp es una aplicación para ganar premios mientras ves TV, radio y Streaming
                   </p>
                   <div className="flex space-x-4">
-                    <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                    <Link href="https://www.facebook.com/rating.aplicacion/" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
                       <FaFacebookF size={24} />
                     </Link>
                     <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
@@ -66,7 +66,7 @@ const Footer = () => {
                     <Link href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
                       <FaTiktok size={24} />
                     </Link>
-                    <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                    <Link href="https://www.youtube.com/@inteligenciadigital-id" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
                       <FaYoutube size={24} />
                     </Link>
                   </div>
