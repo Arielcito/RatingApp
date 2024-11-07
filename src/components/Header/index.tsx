@@ -138,13 +138,13 @@ const Header = () => {
                 <span className="-mt-[2px] block h-[2px] w-7 -rotate-45 bg-black dark:bg-white"></span>
               </button>
 
-              <nav className="fixed left-0 top-0 z-[999] flex h-screen w-full items-center justify-center bg-white bg-opacity-95 text-center backdrop-blur-sm dark:bg-black dark:bg-opacity-95 lg:static lg:h-auto lg:w-max lg:bg-transparent lg:bg-opacity-100 lg:backdrop-blur-0 lg:backdrop-blur-none lg:dark:bg-transparent dark:lg:bg-opacity-100">
-                <ul className="items-center space-y-3 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-10">
+              <nav className="fixed left-0 top-0 z-[999] flex min-h-screen w-full items-center justify-center bg-white bg-opacity-95 text-center backdrop-blur-sm dark:bg-black dark:bg-opacity-95 lg:static lg:h-auto lg:w-max lg:bg-transparent lg:bg-opacity-100 lg:backdrop-blur-0 lg:backdrop-blur-none lg:dark:bg-transparent dark:lg:bg-opacity-100">
+                <ul className="flex w-full flex-col items-center space-y-6 px-4 lg:w-auto lg:flex-row lg:space-x-8 lg:space-y-0 xl:space-x-10">
                   {menuData.map((item, index) =>
                     item.children ? (
                       <li
-                        key={index}
-                        className="submenu-item menu-item group relative"
+                        key={`menu-${item.label}`}
+                        className="submenu-item menu-item group relative w-full text-center lg:w-auto"
                       >
                         <Link
                           onClick={() => handleSubmenu(index)}
@@ -181,11 +181,13 @@ const Header = () => {
                         </ul>
                       </li>
                     ) : (
-                      <li key={index} className="menu-item">
+                      <li key={`menu-${item.label}`} className="menu-item w-full text-center lg:w-auto">
                         <Link
                           href={item.route}
                           onClick={closeMenu}
-                          className={`${sticky ? "lg:py-[21px]" : "lg:py-7"} ud-menu-scroll inline-flex items-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary`}
+                          className={`${
+                            sticky ? "lg:py-[21px]" : "lg:py-7"
+                          } ud-menu-scroll inline-flex w-full items-center justify-center text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary lg:w-auto`}
                         >
                           {item.label}
                         </Link>
