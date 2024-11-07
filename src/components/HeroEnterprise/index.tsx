@@ -16,7 +16,7 @@ const HeroEnterprise = () => {
 
   return (
     <>
-      <section id="home" className="pt-[150px]">
+      <section id="home" className="pt-[100px]">
         <div className="container lg:max-w-[1305px] lg:px-10">
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-6/12">
@@ -24,6 +24,7 @@ const HeroEnterprise = () => {
                 className="wow fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]"
                 data-wow-delay=".3s"
               >
+                <Image src="/images/logo/logo-lanzamiento.png" alt="Logo" width={100} height={100} />
                 <span className="mb-5 block text-lg font-medium leading-tight text-black dark:text-white sm:text-[22px] xl:text-[22px]">
                 Bienvenidos a la RE evolución digital
                 </span>
