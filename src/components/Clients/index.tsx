@@ -48,7 +48,7 @@ const Clients = () => {
           >
             {clientsData.map((client) => (
               <div
-                key={client.id}
+                key={client.logo}
                 className="flex-shrink-0 px-4 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6"
               >
                 <div className="mb-5 text-center">
@@ -57,7 +57,7 @@ const Clients = () => {
                       width={client.width}
                       height={client.height}
                       src={client.logo}
-                      alt={client.name}
+                      alt="Clientes"
                       className="mx-auto max-w-full opacity-[65%] transition-opacity duration-300 hover:opacity-100"
                     />
                   </Link>
