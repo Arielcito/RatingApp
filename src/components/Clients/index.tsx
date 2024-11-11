@@ -3,58 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Client } from "@/types/client";
-
-const clientsData: Client[] = [
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 92,
-    height: 28,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 120,
-    height: 24,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 99,
-    height: 24,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 89,
-    height: 32,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 108,
-    height: 32,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 106,
-    height: 32,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 106,
-    height: 32,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 106,
-    height: 32,
-  },
-];
+import { clientsData } from "@/data/clients";
 
 const Clients = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -63,15 +12,14 @@ const Clients = () => {
   useEffect(() => {
     if (!shouldAnimate || !sliderRef.current) return;
 
-    // Duplicar los elementos para el scroll infinito
     const slider = sliderRef.current;
     const items = Array.from(slider.children);
-    items.forEach(item => {
+    
+    for (const item of items) {
       const clone = item.cloneNode(true);
       slider.appendChild(clone);
-    });
+    }
 
-    // Configurar la animación
     slider.animate(
       [
         { transform: 'translateX(0)' },
@@ -79,7 +27,7 @@ const Clients = () => {
       ],
       {
         duration: 30000,
-        iterations: Infinity,
+        iterations: Number.POSITIVE_INFINITY,
         easing: 'linear'
       }
     );
@@ -98,9 +46,9 @@ const Clients = () => {
             ref={sliderRef}
             className="flex items-center"
           >
-            {clientsData.map((client, idx) => (
+            {clientsData.map((client) => (
               <div
-                key={`client-${idx}`}
+                key={client.id}
                 className="flex-shrink-0 px-4 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6"
               >
                 <div className="mb-5 text-center">
@@ -109,7 +57,7 @@ const Clients = () => {
                       width={client.width}
                       height={client.height}
                       src={client.logo}
-                      alt={`Cliente ${idx + 1}`}
+                      alt={client.name}
                       className="mx-auto max-w-full opacity-[65%] transition-opacity duration-300 hover:opacity-100"
                     />
                   </Link>
