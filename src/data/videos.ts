@@ -26,6 +26,7 @@ export const sideVideos: Video[] = [
   {
     id: "historia-2",
     title: "Historia 2",
-    url: "https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview"
+    //url: "https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview"
+    url: "https://geo.dailymotion.com/player.html?video=x98rgo8"
   }
 ]; 
