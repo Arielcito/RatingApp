@@ -1,18 +1,7 @@
 import type { Client } from "@/types/client";
 
 export const clientsData: Client[] = [
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 92,
-    height: 28,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 120,
-    height: 24,
-  },
+
   {
     logo: "/images/logo/logo.png",
     link: "#",
@@ -26,7 +15,13 @@ export const clientsData: Client[] = [
     height: 32,
   },
   {
-    logo: "/images/logo/logo.png",
+    logo: "https://drive.google.com/uc?id=1gTI0zTHbAkAfe6Mw6VFxyHpIeFnfGABb&export=download",
+    link: "#",
+    width: 120,
+    height: 24,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1vb9vlfDQTcWKRp2kqeKUpM5VrSL89Sy6&export=download",
     link: "#",
     width: 108,
     height: 32,

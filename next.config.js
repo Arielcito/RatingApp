@@ -2,7 +2,7 @@
 const nextConfig = {
   // ... otras configuraciones existentes
   images: {
-    domains: ['cdn.sanity.io'],
+    domains: ['cdn.sanity.io',"drive.google.com"],
   },
 }
 
