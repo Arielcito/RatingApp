@@ -3,7 +3,7 @@ import type { Client } from "@/types/client";
 export const clientsData: Client[] = [
 
   {
-    logo: "https://drive.google.com/uc?id=1RLVPyza7W8zCnI65qYy77Z0ew8uJV__Z&export=download",
+    logo: "https://drive.google.com/uc?id=1pw-CkkBEeLqEk_To_-sph-wB00msqHem&export=download",
     link: "#",
     width: 99,
     height: 24,
