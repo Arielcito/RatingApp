@@ -21,12 +21,6 @@ export const clientsData: Client[] = [
     height: 24,
   },
   {
-    logo: "https://drive.google.com/uc?id=1gTI0zTHbAkAfe6Mw6VFxyHpIeFnfGABb&export=download",
-    link: "#",
-    width: 120,
-    height: 24,
-  },
-  {
     logo: "https://drive.google.com/uc?id=1vb9vlfDQTcWKRp2kqeKUpM5VrSL89Sy6&export=download",
     link: "#",
     width: 108,
