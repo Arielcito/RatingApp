@@ -39,6 +39,12 @@ export const clientsData: Client[] = [
     height: 32,
   },
   {
+    logo: "https://drive.google.com/uc?id=1UYIauCocpqUDKQKFkxHVyxVqmrY8Vrjt&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
     logo: "https://drive.google.com/uc?id=1RLVPyza7W8zCnI65qYy77Z0ew8uJV__Z&export=download",
     link: "#",
     width: 99,
@@ -69,7 +75,7 @@ export const clientsData: Client[] = [
     height: 32,
   },
   {
-    logo: "/images/logo/logo.png",
+    logo: "https://drive.google.com/uc?id=1UYIauCocpqUDKQKFkxHVyxVqmrY8Vrjt&export=download",
     link: "#",
     width: 106,
     height: 32,
