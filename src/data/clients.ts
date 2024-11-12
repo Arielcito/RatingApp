@@ -33,6 +33,12 @@ export const clientsData: Client[] = [
     height: 32,
   },
   {
+    logo: "https://drive.google.com/uc?id=1vrB9yWas--394C3OXBjAdBHHmXno1inS&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
     logo: "/images/logo/logo.png",
     link: "#",
     width: 106,
