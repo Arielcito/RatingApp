@@ -7,7 +7,8 @@ export interface Video {
 export const mainVideo: Video = {
   id: "main-video",
   title: "Video Principal",
-  url: "https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview"
+  //url2: "https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview",
+  url: "https://www.youtube.com/watch?v=f0y-8bxb_A8&t=26s"
 };
 
 export const sideVideos: Video[] = [
