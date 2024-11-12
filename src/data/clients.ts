@@ -3,13 +3,13 @@ import type { Client } from "@/types/client";
 export const clientsData: Client[] = [
 
   {
-    logo: "https://drive.google.com/uc?id=d/1qLBJQi10lX_dw5GHAvJK9OnTtau2Z-RY&export=download",
+    logo: "https://drive.google.com/uc?id=d/1RLVPyza7W8zCnI65qYy77Z0ew8uJV__Z&export=download",
     link: "#",
     width: 99,
     height: 24,
   },
   {
-    logo: "https://drive.google.com/uc?id=1RLVPyza7W8zCnI65qYy77Z0ew8uJV__Z&export=download",
+    logo: "https://drive.google.com/uc?id=1qLBJQi10lX_dw5GHAvJK9OnTtau2Z-RY&export=download",
     link: "#",
     width: 89,
     height: 32,
