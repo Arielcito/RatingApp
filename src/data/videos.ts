@@ -14,7 +14,7 @@ export const sideVideos: Video[] = [
   {
     id: "historia-1",
     title: "Historia 1",
-    url: "https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview"
+    url: "https://drive.google.com/file/d/1puqzvpNKRFfnyZ9wv3zvjD3ckdgaDErE/preview"
   },
   {
     id: "historia-2",
