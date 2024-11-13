@@ -10,7 +10,6 @@ const VideoPlayer = ({ video }: { video: Video }) => (
     <iframe
       src={video.url}
       className="absolute top-0 left-0 w-full h-full"
-      allow="autoplay"
       title={video.title}
     />
   </div>
@@ -38,15 +37,20 @@ const Blog = async () => {
           </h3>
           <VideoPlayer video={mainVideo} />
         </div>
-        <div className="w-full space-y-4 md:w-1/4">
+        <div className="w-full md:w-1/4">
           <h3 className="mb-4 text-xl font-bold text-black dark:text-white">
             Nuestras historias
           </h3>
-          {sideVideos.map((video) => (
-            <div key={video.id}>
-              <VideoPlayer video={video} />
-            </div>
-          ))}
+          <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-100 dark:scrollbar-track-dark">
+            {sideVideos.map((video) => (
+              <div 
+                key={video.id}
+                className="last:mb-2"
+              >
+                <VideoPlayer video={video} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="container mb-10 flex flex-col items-start justify-between md:flex-row">

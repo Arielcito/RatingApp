@@ -22,3 +22,13 @@ export type Blog = {
   tags: string[];
   publishedAt: string;
 };
+
+export interface Post {
+  _id: string;
+  _createdAt: string;
+  title: string;
+  slug: string;
+  image: string;
+  overview?: string;
+  content: any;
+}

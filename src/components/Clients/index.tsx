@@ -3,9 +3,12 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { clientsData } from "@/data/clients";
+import { getClientsByPath } from "@/data/clients";
+import { usePathname } from "next/navigation";
 
 const Clients = () => {
+  const pathname = usePathname();
+  const clientsData = getClientsByPath(pathname || '');
   const sliderRef = useRef<HTMLDivElement>(null);
   const shouldAnimate = clientsData.length > 6;
 

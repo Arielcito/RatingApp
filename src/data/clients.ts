@@ -1,7 +1,6 @@
 import type { Client } from "@/types/client";
 
-export const clientsData: Client[] = [
-
+export const clientesComunidad: Client[] = [
   {
     logo: "https://drive.google.com/uc?id=1pw-CkkBEeLqEk_To_-sph-wB00msqHem&export=download",
     link: "#",
@@ -19,7 +18,33 @@ export const clientsData: Client[] = [
     link: "#",
     width: 120,
     height: 24,
+  },{
+    logo: "https://drive.google.com/uc?id=1vb9vlfDQTcWKRp2kqeKUpM5VrSL89Sy6&export=download",
+    link: "#",
+    width: 108,
+    height: 32,
   },
+  {
+    logo: "https://drive.google.com/uc?id=1l5KmcpWB-jTNbetKY0LoEIyEgOP7Mj11&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1vrB9yWas--394C3OXBjAdBHHmXno1inS&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "/images/logo/logo.png",
+    link: "#",
+    width: 106,
+    height: 32,
+  }
+];
+
+export const clientesEmpresas: Client[] = [
   {
     logo: "https://drive.google.com/uc?id=1vb9vlfDQTcWKRp2kqeKUpM5VrSL89Sy6&export=download",
     link: "#",
@@ -43,17 +68,10 @@ export const clientsData: Client[] = [
     link: "#",
     width: 106,
     height: 32,
-  }/*,
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 106,
-    height: 32,
-  },
-  {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 106,
-    height: 32,
-  }*/
-]; 
+  }
+];
+
+// Función helper para obtener el array correcto según la ruta
+export const getClientsByPath = (path: string): Client[] => {
+  return path.startsWith('/enterprise') ? clientesEmpresas : clientesComunidad;
+}; 
