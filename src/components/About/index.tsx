@@ -4,6 +4,16 @@ import React from "react";
 import Image from "next/image";
 import Graphics from "@/components/About/Graphics";
 import { motion } from "framer-motion";
+import { castingNews } from "@/data/news";
+
+export interface News {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  image: string;
+  category: string;
+}
 
 const About = () => {
   return (
@@ -132,6 +142,51 @@ const About = () => {
                 </div>
               </div>
             </motion.div>
+          </div>
+        </div>
+
+        <div className="container lg:max-w-[1120px] mt-20">
+          <h2 className="text-3xl font-bold text-black dark:text-white text-center mb-10">
+            Últimas Noticias
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {castingNews.map((news) => (
+              <motion.div
+                key={news.id}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="bg-white dark:bg-blacksection rounded-lg overflow-hidden shadow-lg"
+              >
+                <div className="relative h-48">
+                  <Image
+                    src={news.image}
+                    alt={news.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <span className="absolute top-4 left-4 bg-meta text-white px-3 py-1 rounded-full text-sm">
+                    {news.category}
+                  </span>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-black dark:text-white mb-2">
+                    {news.title}
+                  </h3>
+                  <p className="text-body mb-4">
+                    {news.description}
+                  </p>
+                  <span className="text-sm text-meta">
+                    {new Date(news.date).toLocaleDateString()}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
 

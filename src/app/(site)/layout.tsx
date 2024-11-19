@@ -13,6 +13,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { ThemeProvider } from "next-themes";
 import { usePathname } from "next/navigation";
 import MaintenancePage from "@/components/MaintenancePage";
+import Script from "next/script";
 
 const MAINTENANCE_MODE = false; // Cambia esto a false cuando quieras desactivar el modo de mantenimiento
 
@@ -39,6 +40,10 @@ export default function RootLayout({
   // Para otras rutas, mantener el layout existente
   return (
     <html lang="es">
+      <head>
+        <Script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js" strategy="afterInteractive" />
+        <Script src="https://files.bpcontent.cloud/2024/11/14/05/20241114055043-G6VW4DG1.js" strategy="afterInteractive" />
+      </head>
       <body suppressHydrationWarning={true}>
         <NextTopLoader
           color="#006BFF"
