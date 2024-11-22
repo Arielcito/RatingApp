@@ -36,7 +36,7 @@ const AllBlogsPage = async () => {
                 className="relative block aspect-[37/25] w-full"
               >
                 <Image
-                  src={post.image || "/images/blog/placeholder.jpg"}
+                  src={post.mainImage || "/images/blog/placeholder.jpg"}
                   alt={post.title}
                   fill
                   className="object-cover object-center transition duration-300 group-hover:scale-105"
@@ -52,13 +52,13 @@ const AllBlogsPage = async () => {
                   </Link>
                 </h3>
                 <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base text-body-color dark:border-white dark:border-opacity-10">
-                  {post.overview || post.title}
+                  { post.title}
                 </p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div className="mr-4">
                       <span className="text-sm font-medium text-body-color">
-                        {new Date(post._createdAt).toLocaleDateString('es-ES', {
+                        {new Date(post.publishedAt).toLocaleDateString('es-ES', {
                           day: 'numeric',
                           month: 'long',
                           year: 'numeric'

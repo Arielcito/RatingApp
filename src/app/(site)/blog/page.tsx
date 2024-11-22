@@ -1,7 +1,8 @@
 import { getPosts } from "@/sanity/sanity-utils";
 import BlogItem from "@/components/Blog/BlogItem";
-import { Metadata } from "next";
-import { Post } from "@/types/Post";
+import type { Metadata } from "next";
+import { Blog } from "@/types/blog";
+
 
 export const metadata: Metadata = {
   title: `Blog - ${process.env.SITE_NAME}`,
@@ -22,7 +23,7 @@ export default async function BlogPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
               {posts?.length > 0 ? (
-                posts.map((post: Post) => (
+                posts.map((post: Blog) => (
                   <BlogItem key={post._id} blog={post} />
                 ))
               ) : (
