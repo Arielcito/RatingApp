@@ -46,6 +46,23 @@ export const clientesComunidad: Client[] = [
 
 export const clientesEmpresas: Client[] = [
   {
+    logo: "https://drive.google.com/uc?id=1pw-CkkBEeLqEk_To_-sph-wB00msqHem&export=download",
+    link: "#",
+    width: 99,
+    height: 24,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1qLBJQi10lX_dw5GHAvJK9OnTtau2Z-RY&export=download",
+    link: "#",
+    width: 89,
+    height: 32,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1gTI0zTHbAkAfe6Mw6VFxyHpIeFnfGABb&export=download",
+    link: "#",
+    width: 120,
+    height: 24,
+  },{
     logo: "https://drive.google.com/uc?id=1vb9vlfDQTcWKRp2kqeKUpM5VrSL89Sy6&export=download",
     link: "#",
     width: 108,
