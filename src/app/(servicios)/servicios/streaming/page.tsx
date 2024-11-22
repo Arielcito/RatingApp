@@ -2,16 +2,15 @@
 
 import { IptvPlatform } from '@/components/iptv-platform';
 import { useSubscriber } from "@/app/context/SubscriberContext";
-import { MediaPlatform } from '@/components/media-platform';
 
-const tvChannels = ['Canal 4', 'Canal 10', 'Canal 12', 'TV Ciudad', 'TNU'];
+const streamingServices = ['Netflix', 'Amazon Prime', 'Disney+', 'HBO Max', 'Star+'];
 
-export default function TvPage() {
+export default function StreamingPage() {
   const { subscriber } = useSubscriber();
 
   if (!subscriber) {
     return null;
   }
 
-  return <MediaPlatform  />;
+  return <IptvPlatform serviceType="streaming" channels={streamingServices} />;
 } 

@@ -2,16 +2,15 @@
 
 import { IptvPlatform } from '@/components/iptv-platform';
 import { useSubscriber } from "@/app/context/SubscriberContext";
-import { MediaPlatform } from '@/components/media-platform';
 
-const tvChannels = ['Canal 4', 'Canal 10', 'Canal 12', 'TV Ciudad', 'TNU'];
+const diarios = ['El País', 'El Observador', 'La Diaria', 'Búsqueda', 'Brecha'];
 
-export default function TvPage() {
+export default function DiariosPage() {
   const { subscriber } = useSubscriber();
 
   if (!subscriber) {
     return null;
   }
 
-  return <MediaPlatform  />;
+  return <IptvPlatform serviceType="diarios" channels={diarios} />;
 } 

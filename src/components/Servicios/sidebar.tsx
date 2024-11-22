@@ -2,54 +2,88 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
-import { Tv, Radio, Laptop, Newspaper } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useRouter } from "next/navigation";
+import { Tv, Radio, Laptop, Newspaper, ChevronLeft } from "lucide-react";
+import { useState, useEffect } from "react";
 
-const menuItems = [
-  {
-    title: "TV",
-    icon: Tv,
-    href: "/servicios/tv",
-  },
-  {
-    title: "Radio",
-    icon: Radio,
-    href: "/servicios/radio",
-  },
-  {
-    title: "Streaming",
-    icon: Laptop,
-    href: "/servicios/streaming",
-  },
-  {
-    title: "Diarios Online",
-    icon: Newspaper,
-    href: "/servicios/diarios",
-  },
+const categories = [
+  { id: 'destacado', name: 'Destacado', icon: Tv, path: '/servicios/tv' },
+  { id: 'tv', name: 'Televisión', icon: Tv, path: '/servicios/tv' },
+  { id: 'peliculas', name: 'Películas', icon: Laptop, path: '/servicios/streaming' },
+  { id: 'series', name: 'Series', icon: Laptop, path: '/servicios/streaming' },
+  { id: 'radio', name: 'Radio', icon: Radio, path: '/servicios/radio' },
+  { id: 'noticias', name: 'Noticias', icon: Newspaper, path: '/servicios/diarios' }
 ];
 
-export function Sidebar() {
-  const pathname = usePathname();
+interface SidebarProps {
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+}
+
+export function Sidebar({ selectedCategory, onCategoryChange }: SidebarProps) {
+  const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsOpen(false);
+      } else {
+        setIsOpen(true);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleCategoryClick = (category: typeof categories[0]) => {
+    onCategoryChange(category.id);
+    router.push(category.path);
+  };
 
   return (
-    <div className="flex h-[calc(100vh-5rem)] w-[200px] flex-col border-r border-stroke bg-blacksection p-4">
-      <div className="space-y-2">
-        {menuItems.map((item) => (
-          <Button
-            key={item.href}
-            variant={pathname === item.href ? "secondary" : "ghost"}
-            className={cn(
-              "w-full justify-start gap-2",
-              pathname === item.href && "bg-gradient-custom text-white hover:bg-gradient-custom hover:text-white"
-            )}
-            onClick={() => router.push(item.href)}
-          >
-            <item.icon className="h-5 w-5" />
-            {item.title}
-          </Button>
-        ))}
-      </div>
-    </div>
+    <>
+      <aside className={cn(
+        "w-64 border-r border-gray-800 transition-all duration-200",
+        !isOpen && "w-20"
+      )}>
+        <ScrollArea className="h-full">
+          <div className="p-4">
+            <Button
+              variant="ghost"
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-full justify-end p-2 mb-4 text-white"
+              aria-label={isOpen ? "Colapsar menú" : "Expandir menú"}
+            >
+              <ChevronLeft className={cn(
+                "h-6 w-6 transition-transform duration-200",
+                !isOpen && "rotate-180"
+              )} />
+            </Button>
+
+            {categories.map((category) => (
+              <Button
+                key={category.id}
+                variant="ghost"
+                className={`w-full justify-start mb-1 ${
+                  selectedCategory === category.id ? 'bg-yellow-500 text-black hover:bg-yellow-600' : 'text-white'
+                }`}
+                onClick={() => handleCategoryClick(category)}
+                title={category.name}
+              >
+                <category.icon className={cn(
+                  "h-5 w-5",
+                  isOpen && "mr-2"
+                )} />
+                {isOpen && category.name}
+              </Button>
+            ))}
+          </div>
+        </ScrollArea>
+      </aside>
+    </>
   );
 } 
