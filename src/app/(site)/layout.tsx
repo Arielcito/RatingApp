@@ -7,6 +7,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import { usePathname } from "next/navigation";
+import ToasterContext from "../context/ToastContext";
+import { ThemeProvider } from "next-themes";
 
 export default function SiteLayout({
   children,
@@ -33,9 +35,17 @@ export default function SiteLayout({
         <PreLoader />
       ) : (
         <>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            forcedTheme="dark"
+          >
+            <ToasterContext />
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </ThemeProvider>
           <ScrollToTop />
         </>
       )}

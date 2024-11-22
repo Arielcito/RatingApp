@@ -41,8 +41,8 @@ const Signin = () => {
         console.log('✅ Login exitoso, estableciendo subscriber...');
         setSubscriber(data);
         toast.success('Inicio de sesión exitoso');
-        console.log('🔄 Redirigiendo a /servicios...');
-        router.push('/servicios');
+        console.log('🔄 Redirigiendo a /servicios/tv...');
+        router.push('/servicios/tv');
       } else {
         console.log('❌ Error: No se recibieron datos del servidor');
         toast.error('Credenciales inválidas');

@@ -1,30 +1,62 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { ChevronRight, MoreVertical } from 'lucide-react'
 import type { Channel } from '@/types/channel';
+import Hls from 'hls.js'
+
 interface MediaPlatformProps {
   channels: Channel[];
 }
 
 export function MediaPlatform({ channels }: MediaPlatformProps) {
+  const [currentChannel, setCurrentChannel] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const hls = new Hls();
+    if (Hls.isSupported()) {
+      hls.loadSource(channels[currentChannel].tvWebURL);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(error => {
+          console.error('Error al reproducir:', error);
+        });
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = channels[currentChannel].tvWebURL;
+    }
+
+    return () => {
+      hls.destroy();
+    };
+  }, [currentChannel, channels]);
+
+  const handleChannelChange = (index: number) => {
+    setCurrentChannel(index);
+  };
+
   return (
-    <div className=" bg-black text-white">
-      <div className="flex ">
-        {/* Main Content */}
+    <div className="bg-black text-white">
+      <div className="flex">
         <main className="flex-1">
-          {/* Video Player */}
           <div className="aspect-video bg-gray-900 relative">
-            <video className="w-full h-full">
-              <source src={channels[0].tvWebURL} type="video/mp4" />
+            <video 
+              ref={videoRef}
+              className="w-full h-full"
+              controls
+            >
               <track 
-                kind="captions"
-                src="/captions.vtt"
-                srcLang="es"
-                label="Spanish"
+                kind="captions" 
+                srcLang="en" 
+                src="/path/to/captions.vtt" 
+                label="English captions"
+                default
               />
-              Tu navegador no soporta el elemento de video.
             </video>
           </div>
 
@@ -41,7 +73,7 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             </div>
 
             <div className="grid gap-4">
-              {channels.map((channel) => (
+              {channels.map((channel, index) => (
                 <div key={channel.id} className="flex gap-4 bg-gray-900 rounded-lg overflow-hidden">
                   <img
                     src={channel.iconUrl ?? ''}
@@ -60,7 +92,11 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
                     <p className="text-sm text-gray-400 mt-2">{channel.description}</p>
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-sm text-gray-400">{channel.pais}</span>
-                      <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                      <Button 
+                        size="sm" 
+                        className="bg-purple-600 hover:bg-purple-700"
+                        onClick={() => handleChannelChange(index)}
+                      >
                         VER AHORA
                       </Button>
                     </div>
