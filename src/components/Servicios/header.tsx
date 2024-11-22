@@ -71,12 +71,15 @@ export function Header() {
           {subscriber ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="gap-2 text-white">
+                <Button variant="ghost" className="gap-2 text-white" >
                   <UserCircle2 className="h-4 w-4" />
                   {subscriber.name}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => router.push('/profile')}>
+                  Mi Perfil
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
                   Cerrar Sesión
                 </DropdownMenuItem>
