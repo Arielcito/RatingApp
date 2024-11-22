@@ -14,6 +14,7 @@ import { ThemeProvider } from "next-themes";
 import { usePathname } from "next/navigation";
 import MaintenancePage from "@/components/MaintenancePage";
 import Script from "next/script";
+import { SubscriberProvider } from "../context/SubscriberContext";
 
 const MAINTENANCE_MODE = false; // Cambia esto a false cuando quieras desactivar el modo de mantenimiento
 
@@ -39,38 +40,23 @@ export default function RootLayout({
 
   // Para otras rutas, mantener el layout existente
   return (
-    <html lang="es">
-      <head>
-        <Script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js" strategy="afterInteractive" />
-        <Script src="https://files.bpcontent.cloud/2024/11/14/05/20241114055043-G6VW4DG1.js" strategy="afterInteractive" />
-      </head>
-      <body suppressHydrationWarning={true}>
-        <NextTopLoader
-          color="#006BFF"
-          crawlSpeed={300}
-          showSpinner={false}
-          shadow="none"
-        />
-
+    <html lang="es" className="dark" suppressHydrationWarning>
+      <body>
         <ThemeProvider
-          enableSystem={false}
           attribute="class"
           defaultTheme="dark"
+          enableSystem={false}
+          forcedTheme="dark"
         >
           <AuthProvider>
-            {loading ? (
-              <PreLoader />
-            ) : MAINTENANCE_MODE ? (
-              <MaintenancePage />
-            ) : (
-              <>
-                <Header />
-                <ToasterContext />
-                <main>{children}</main>
-                <Footer />
-                <ScrollToTop />
-              </>
-            )}
+            <SubscriberProvider>
+              <ToasterContext />
+              <NextTopLoader />
+              <Header />
+              <main>{children}</main>
+              <Footer />
+              <ScrollToTop />
+            </SubscriberProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

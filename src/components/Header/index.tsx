@@ -5,8 +5,8 @@ import { onScroll } from "@/utils/scrollActive";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import DarkModeSwitcher from "@/components/Header/DarkModeSwitcher";
-import GlobalSearchModal from "@/components/GlobalSearch";
+import { useSubscriber } from '@/app/context/SubscriberContext';
+import { useRouter } from 'next/navigation';
 
 const communityMenuData: Menu[] = [
   {
@@ -36,6 +36,9 @@ const enterpriseMenuData: Menu[] = [
 ];
 
 const Header = () => {
+  const { subscriber, setSubscriber } = useSubscriber();
+  const router = useRouter();
+
   useEffect(() => {
     if (window.location.pathname === "/") {
       window.addEventListener("scroll", onScroll);
@@ -83,6 +86,11 @@ const Header = () => {
 
   const closeMenu = () => {
     setNavbarOpen(false);
+  };
+
+  const handleLogout = () => {
+    setSubscriber(null);
+    router.push('/');
   };
 
   return (
