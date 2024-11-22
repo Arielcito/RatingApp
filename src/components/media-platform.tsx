@@ -46,17 +46,8 @@ export function MediaPlatform() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Header 
-        selectedTab={selectedTab}
-        onTabChange={handleTabChange}
-      />
+    <div className=" bg-black text-white">
       <div className="flex h-[calc(100vh-73px)]">
-        <Sidebar 
-          selectedCategory={selectedCategory}
-          onCategoryChange={handleCategoryChange}
-        />
-
         {/* Main Content */}
         <main className="flex-1">
           {/* Video Player */}

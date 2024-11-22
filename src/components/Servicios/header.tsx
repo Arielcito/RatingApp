@@ -12,14 +12,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Search, Tv, PlayCircle, UserCircle2 } from "lucide-react";
 import { Input } from "../ui/input";
+import { useState } from "react";
 
-interface HeaderProps {
-  selectedTab: string;
-  onTabChange: (tab: string) => void;
-}
-
-export function Header({ selectedTab, onTabChange }: HeaderProps) {
+export function Header() {
   const { subscriber, setSubscriber } = useSubscriber();
+  const [selectedTab, setSelectedTab] = useState('tv');
   const router = useRouter();
   const pathname = usePathname();
 
@@ -28,13 +25,8 @@ export function Header({ selectedTab, onTabChange }: HeaderProps) {
     router.push("/");
   };
 
-  const handleNavigation = (tab: string) => {
-    onTabChange(tab);
-    if (tab === 'tv') {
-      router.push('/servicios/tv');
-    } else if (tab === 'ondemand') {
-      router.push('/servicios/streaming');
-    }
+  const handleTabChange = (tab: string) => {
+    router.push(`/servicios/${tab}`);
   };
 
   return (
@@ -53,7 +45,7 @@ export function Header({ selectedTab, onTabChange }: HeaderProps) {
           <Button 
             variant={selectedTab === 'tv' ? "default" : "ghost"}
             className={`text-white ${selectedTab === 'tv' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
-            onClick={() => handleNavigation('tv')}
+            onClick={() => handleTabChange('tv')}
           >
             <Tv className="mr-2 h-4 w-4" />
             TV en vivo
@@ -61,7 +53,7 @@ export function Header({ selectedTab, onTabChange }: HeaderProps) {
           <Button 
             variant={selectedTab === 'ondemand' ? "default" : "ghost"}
             className={`text-white ${selectedTab === 'ondemand' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
-            onClick={() => handleNavigation('ondemand')}
+            onClick={() => handleTabChange('ondemand')}
           >
             <PlayCircle className="mr-2 h-4 w-4" />
             On Demand

@@ -16,15 +16,10 @@ const categories = [
   { id: 'noticias', name: 'Noticias', icon: Newspaper, path: '/servicios/diarios' }
 ];
 
-interface SidebarProps {
-  selectedCategory: string;
-  onCategoryChange: (category: string) => void;
-}
-
-export function Sidebar({ selectedCategory, onCategoryChange }: SidebarProps) {
+export function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
-  
+  const [selectedCategory, setSelectedCategory] = useState('destacado');
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -39,9 +34,13 @@ export function Sidebar({ selectedCategory, onCategoryChange }: SidebarProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleCategoryClick = (category: typeof categories[0]) => {
-    onCategoryChange(category.id);
+  const onCategoryChange = (category: typeof categories[0]) => {
+    setSelectedCategory(category.id);
     router.push(category.path);
+  };
+
+  const handleCategoryClick = (category: typeof categories[0]) => {
+    onCategoryChange(category);
   };
 
   return (
