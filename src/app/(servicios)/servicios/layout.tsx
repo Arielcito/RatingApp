@@ -12,27 +12,25 @@ export default function ServiciosLayout({
   children: React.ReactNode;
 }) {
   const { subscriber } = useSubscriber();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!subscriber) {
-      router.push("/auth/signin");
-    }
-  }, [subscriber, router]);
 
   if (!subscriber) {
+    console.log('⏳ ServiciosLayout - Renderizando null mientras se verifica subscriber');
     return null;
   }
 
   return (
-    <div className="min-h-screen bg-background dark:bg-blacksection">
-      <Header />
+    <html lang="es">
+      <body>
+        <div className="min-h-screen bg-background dark:bg-blacksection">
+          <Header />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-8">
           {children}
         </main>
-      </div>
-    </div>
+        </div>
+        </div>
+      </body>
+    </html>
   );
 } 

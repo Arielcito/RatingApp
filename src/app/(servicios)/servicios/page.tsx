@@ -1,16 +1,20 @@
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Servicios - Rating App",
-  description: "Plataforma de servicios de Rating App",
-};
+import { useSubscriber } from "@/app/context/SubscriberContext";
 
 export default function ServiciosPage() {
+  const { subscriber } = useSubscriber();
+
+  if (!subscriber) {
+    return null;
+  }
+
   return (
+    
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold text-white">Bienvenido a Rating App</h1>
       <p className="text-gray-400">
-        Selecciona un servicio del menú lateral para comenzar.
+        Bienvenido {subscriber.name}
       </p>
     </div>
   );

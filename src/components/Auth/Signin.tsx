@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import validateEmail from "@/app/libs/validate";
 import { useRouter } from 'next/navigation';
 import { useSubscriber } from '@/app/context/SubscriberContext';
+import Cookies from 'js-cookie';
 
 const Signin = () => {
   const router = useRouter();
@@ -21,8 +22,10 @@ const Signin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log('🚀 Iniciando proceso de login...');
 
     try {
+      console.log('📤 Enviando request al servidor:', formData);
       const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/login', {
         method: 'POST',
         headers: {
@@ -32,17 +35,21 @@ const Signin = () => {
       });
 
       const data = await response.json();
+      console.log('📥 Respuesta del servidor:', data);
 
       if (data) {
+        console.log('✅ Login exitoso, estableciendo subscriber...');
         setSubscriber(data);
         toast.success('Inicio de sesión exitoso');
+        console.log('🔄 Redirigiendo a /servicios...');
         router.push('/servicios');
       } else {
+        console.log('❌ Error: No se recibieron datos del servidor');
         toast.error('Credenciales inválidas');
       }
     } catch (error) {
+      console.error('🔥 Error en el proceso de login:', error);
       toast.error('Error al iniciar sesión');
-      console.error('Error:', error);
     } finally {
       setIsLoading(false);
     }

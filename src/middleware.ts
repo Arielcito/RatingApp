@@ -2,13 +2,23 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // Obtener el subscriber del localStorage (convertido a cookie en el cliente)
-  const subscriber = request.cookies.get('subscriber')
+  console.log('🔒 Middleware ejecutándose para:', request.nextUrl.pathname);
+  const subscriber = request.cookies.get('subscriber')?.value
   
-  // Verificar si la ruta actual es /servicios
   if (request.nextUrl.pathname.startsWith('/servicios')) {
+    console.log('🔍 Verificando acceso a ruta protegida /servicios');
+    
     if (!subscriber) {
-      // Si no hay subscriber, redirigir al login
+      console.log('⚠️ No se encontró cookie de subscriber, redirigiendo a login');
+      return NextResponse.redirect(new URL('/auth/signin', request.url))
+    }
+    
+    try {
+      console.log('🍪 Verificando validez de la cookie:', subscriber);
+      const parsedSubscriber = JSON.parse(subscriber);
+      console.log('✅ Cookie válida:', parsedSubscriber);
+    } catch (error) {
+      console.error('❌ Cookie inválida:', error);
       return NextResponse.redirect(new URL('/auth/signin', request.url))
     }
   }
