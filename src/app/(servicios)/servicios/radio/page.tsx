@@ -1,16 +1,38 @@
 "use client";
 
-import { IptvPlatform } from '@/components/iptv-platform';
-import { useSubscriber } from "@/app/context/SubscriberContext";
-
-const radioChannels = ['Radio Carve', 'Radio Sarandí', 'Radio Universal', 'Radio Del Sol', 'Radio Rural'];
+import { useEffect, useState } from 'react'
+import { IptvPlatform } from '@/components/iptv-platform'
+import { useSubscriber } from "@/app/context/SubscriberContext"
+import { getRadioChannels } from '@/lib/api/channels'
+import type { Channel } from '@/types/channel'
+import { MediaPlatform } from '@/components/media-platform';
 
 export default function RadioPage() {
-  const { subscriber } = useSubscriber();
+  const { subscriber } = useSubscriber()
+  const [channels, setChannels] = useState<Channel[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  if (!subscriber) {
-    return null;
-  }
+  useEffect(() => {
+    const loadChannels = async () => {
+      try {
+        const radioChannels = await getRadioChannels()
+        console.log(radioChannels)
+        setChannels(radioChannels)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error desconocido')
+        console.error('Error fetching radio channels:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  return <IptvPlatform serviceType="radio" channels={radioChannels} />;
+    loadChannels()
+  }, [])
+
+  if (!subscriber) return null
+  if (isLoading) return <div>Cargando canales...</div>
+  if (error) return <div>Error: {error}</div>
+
+  return <MediaPlatform channels={channels} />
 } 

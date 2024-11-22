@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { MediaPlatform } from '@/components/media-platform';
 import { useSubscriber } from "@/app/context/SubscriberContext";
+import { getTvChannels } from '@/lib/api/channels';
 import type { Channel } from '@/types/channel';
 
 export default function TvPage() {
@@ -12,13 +13,10 @@ export default function TvPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchChannels = async () => {
+    const loadChannels = async () => {
       try {
-        const response = await fetch('https://ratingapp.net.ar:18000/ratingSignals/list');
-        if (!response.ok) throw new Error('Error al cargar los canales');
-        
-        const data = await response.json();
-        const tvChannels = data.filter((channel: Channel) => channel.tvWebURL !== null);
+        const tvChannels = await getTvChannels();
+        console.log(tvChannels)
         setChannels(tvChannels);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido');
@@ -28,7 +26,7 @@ export default function TvPage() {
       }
     };
 
-    fetchChannels();
+    loadChannels();
   }, []);
 
   if (!subscriber) return null;

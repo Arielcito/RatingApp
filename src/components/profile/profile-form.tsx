@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select'
 import { toast } from 'react-hot-toast'
 import type { Subscriber } from '@/types/subscriber'
+import type { Channel } from '@/types/channel'
 
 const profileFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -39,6 +40,27 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 export function ProfileForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [channels, setChannels] = useState<Channel[]>([])
+  const [channelsError, setChannelsError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchTvChannels = async () => {
+      try {
+        const response = await fetch('https://ratingapp.net.ar:18000/ratingSignals/list')
+        if (!response.ok) throw new Error('Error al cargar los canales')
+        
+        const data = await response.json()
+        // Filter only channels with tvWebOnline = true
+        const tvChannels = data.filter((channel: Channel) => channel.tvWebOnline === true)
+        setChannels(tvChannels)
+      } catch (error) {
+        setChannelsError(error instanceof Error ? error.message : 'Error desconocido')
+        console.error('Error fetching TV channels:', error)
+      }
+    }
+
+    fetchTvChannels()
+  }, [])
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
