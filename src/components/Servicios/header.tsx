@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Search, Tv, PlayCircle, UserCircle2 } from "lucide-react";
+import { Search, Tv, Radio, PlaySquare, Newspaper, UserCircle2 } from "lucide-react";
 import { Input } from "../ui/input";
 import { useState } from "react";
 
@@ -51,12 +51,28 @@ export function Header() {
             TV en vivo
           </Button>
           <Button 
-            variant={selectedTab === 'ondemand' ? "default" : "ghost"}
-            className={`text-white ${selectedTab === 'ondemand' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
-            onClick={() => handleTabChange('ondemand')}
+            variant={selectedTab === 'radio' ? "default" : "ghost"}
+            className={`text-white ${selectedTab === 'radio' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            onClick={() => handleTabChange('radio')}
           >
-            <PlayCircle className="mr-2 h-4 w-4" />
-            On Demand
+            <Radio className="mr-2 h-4 w-4" />
+            Radio
+          </Button>
+          <Button 
+            variant={selectedTab === 'streaming' ? "default" : "ghost"}
+            className={`text-white ${selectedTab === 'streaming' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            onClick={() => handleTabChange('streaming')}
+          >
+            <PlaySquare className="mr-2 h-4 w-4" />
+            Streaming
+          </Button>
+          <Button 
+            variant={selectedTab === 'diario' ? "default" : "ghost"}
+            className={`text-white ${selectedTab === 'diario' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            onClick={() => handleTabChange('diario')}
+          >
+            <Newspaper className="mr-2 h-4 w-4" />
+            Diario Online
           </Button>
         </div>
 

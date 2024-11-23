@@ -6,6 +6,7 @@ import { useSubscriber } from "@/app/context/SubscriberContext"
 import { getRadioChannels } from '@/lib/api/channels'
 import type { Channel } from '@/types/channel'
 import { MediaPlatform } from '@/components/media-platform';
+import { RadioInterfaceComponent } from '@/components/radio-interface'
 
 export default function RadioPage() {
   const { subscriber } = useSubscriber()
@@ -34,5 +35,5 @@ export default function RadioPage() {
   if (isLoading) return <div>Cargando canales...</div>
   if (error) return <div>Error: {error}</div>
 
-  return <MediaPlatform channels={channels} />
+  return <RadioInterfaceComponent channels={channels} />
 } 
