@@ -21,7 +21,7 @@ export const avaladosPorExpertos: AvaladosPorExpertos[] = [
     title: "CEPBA y BBVA. Herramientas para potenciar tus finanzas. Sin costo",
     description:
       "Herramientas para potenciar tus finanzas. Descubri nuevas herramientas para hacer rendir tu capital. Exponen: Manuela Moralejo e Ivan Fernandez",
-    date: "2024-11-25",
+    date: "2024-11-25 16:00",
     image:
       "https://drive.google.com/uc?id=1gpzL0a4YezL2DMgGdA7ObE07T_vY0We_&export=download",
     category: "Actividad Virtual",
