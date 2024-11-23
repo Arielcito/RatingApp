@@ -18,7 +18,8 @@ export const clientesComunidad: Client[] = [
     link: "#",
     width: 120,
     height: 24,
-  },{
+  },
+  {
     logo: "https://drive.google.com/uc?id=1vb9vlfDQTcWKRp2kqeKUpM5VrSL89Sy6&export=download",
     link: "#",
     width: 108,
@@ -37,11 +38,23 @@ export const clientesComunidad: Client[] = [
     height: 32,
   },
   {
+    logo: "https://drive.google.com/uc?id=1HYRb-xea1lHF4yGOhvlmAzS_xXALqB3W&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1XSxSZEIbwPJuYv3S7yq0nPzxLlMY7y9k&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
     logo: "/images/logo/logo.png",
     link: "#",
     width: 106,
     height: 32,
-  }
+  },
 ];
 
 export const clientesEmpresas: Client[] = [
@@ -62,7 +75,8 @@ export const clientesEmpresas: Client[] = [
     link: "#",
     width: 120,
     height: 24,
-  },{
+  },
+  {
     logo: "https://drive.google.com/uc?id=1vb9vlfDQTcWKRp2kqeKUpM5VrSL89Sy6&export=download",
     link: "#",
     width: 108,
@@ -85,10 +99,10 @@ export const clientesEmpresas: Client[] = [
     link: "#",
     width: 106,
     height: 32,
-  }
+  },
 ];
 
 // Función helper para obtener el array correcto según la ruta
 export const getClientsByPath = (path: string): Client[] => {
-  return path.startsWith('/enterprise') ? clientesEmpresas : clientesComunidad;
-}; 
+  return path.startsWith("/enterprise") ? clientesEmpresas : clientesComunidad;
+};
