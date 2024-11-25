@@ -168,7 +168,7 @@ const About = () => {
                     src={news.image}
                     alt={news.title}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                   />
                   <span className="absolute top-4 left-4 bg-meta text-white px-3 py-1 rounded-full text-sm">
                     {news.category}
