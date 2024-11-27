@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react'
-import { IptvPlatform } from '@/components/iptv-platform'
 import { useSubscriber } from "@/app/context/SubscriberContext"
 import { getRadioChannels } from '@/lib/api/channels'
 import type { Channel } from '@/types/channel'

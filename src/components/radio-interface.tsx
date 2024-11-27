@@ -2,29 +2,24 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Slider } from "@/components/ui/slider"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MenuIcon, Search, Radio, Tv, Laptop, Newspaper, PlayCircle, Pause, SkipForward, SkipBack, Volume2, Heart, UserCircle2, MoreVertical } from 'lucide-react'
+import { PlayCircle, Pause, SkipForward, SkipBack, Volume2, MoreVertical } from 'lucide-react'
 import type { Channel } from '@/types/channel'
-import { useToast } from '@/components/ui/use-toast'
-
+import toast from 'react-hot-toast'
 interface RadioInterfaceProps {
   channels: Channel[]
 }
+import Image from 'next/image'
+import { getResourceURL } from '@/lib/utils'
 
 export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
-  const [selectedTab, setSelectedTab] = useState('radio')
-  const [selectedCategory, setSelectedCategory] = useState('destacado')
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentStation, setCurrentStation] = useState(channels[0])
   const [volume, setVolume] = useState(50)
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { toast } = useToast()
 
   useEffect(() => {
     if (audioRef.current) {
@@ -62,11 +57,7 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
         setIsPlaying(true)
       } catch (error) {
         const errorMessage = 'No se pudo reproducir la emisora. Por favor, intente nuevamente.'
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: errorMessage,
-        })
+        toast.error(errorMessage)
         setError(errorMessage)
       } finally {
         setIsLoading(false)
@@ -85,15 +76,11 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
           console.error(errorMessage, e)
           setIsPlaying(false)
           setError(errorMessage)
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: errorMessage,
-          })
+          toast.error(errorMessage)
         }}
       />
 
-      <Button 
+      <Button     
         variant="default" 
         size="icon" 
         className="h-16 w-16" 
@@ -121,10 +108,14 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
           {/* Radio Player */}
           <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
             <div className="text-center">
-              <img 
-                src={currentStation.iconUrl || '/placeholder.svg?height=120&width=200'} 
-                alt={currentStation.name} 
-                className="w-48 h-48 mx-auto mb-4 rounded-full" 
+              <Image
+                src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
+                alt={currentStation.name}
+                width={100}
+                height={100}
+                className="object-cover rounded-lg"
+                priority={false}
+                quality={75}
               />
               <h2 className="text-3xl font-bold mb-2">{currentStation.name}</h2>
               <p className="text-xl text-gray-400 mb-1">
@@ -164,10 +155,14 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
               {channels.map((station) => (
                 <Card key={station.id} className="bg-gray-900">
                   <CardHeader className="flex flex-row items-center gap-4">
-                    <img
-                      src={station.iconUrl || '/placeholder.svg?height=120&width=200'}
+                    <Image
+                      src={station.iconUrl ? getResourceURL(station.iconUrl) : ''}
                       alt={station.name}
-                      className="w-16 h-16 rounded-full"
+                      width={100}
+                      height={100}
+                      className="object-cover rounded-lg"
+                      priority={false}
+                      quality={75}
                     />
                     <div className="flex-1">
                       <CardTitle>{station.name}</CardTitle>

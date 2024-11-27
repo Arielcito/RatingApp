@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { ChevronRight, MoreVertical } from 'lucide-react'
 import type { Channel } from '@/types/channel';
 import Hls from 'hls.js'
+import Image from 'next/image';
+import { getResourceURL } from '@/lib/utils';
 
 interface MediaPlatformProps {
   channels: Channel[];
@@ -39,6 +41,7 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   const handleChannelChange = (index: number) => {
     setCurrentChannel(index);
   };
+
 
   return (
     <div className="bg-black text-white">
@@ -75,11 +78,17 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             <div className="grid gap-4">
               {channels.map((channel, index) => (
                 <div key={channel.id} className="flex gap-4 bg-gray-900 rounded-lg overflow-hidden">
-                  <img
-                    src={channel.iconUrl ?? ''}
-                    alt={channel.name}
-                    className="w-48 h-28 object-cover"
-                  />
+                  <div className="relative w-48 h-28">
+                    <Image
+                      src={channel.iconUrl ? getResourceURL(channel.iconUrl) : ''}
+                      alt={channel.name}
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority={false}
+                      quality={75}
+                    />
+                  </div>
                   <div className="flex-1 p-4">
                     <div className="flex justify-between items-start">
                       <div>
