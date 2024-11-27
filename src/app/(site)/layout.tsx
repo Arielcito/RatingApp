@@ -2,7 +2,8 @@
 
 import "../../css/animate.css";
 import "../../css/style.css";
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import PreLoader from "@/components/PreLoader";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -14,8 +15,9 @@ import { ThemeProvider } from "next-themes";
 import { usePathname } from "next/navigation";
 import MaintenancePage from "@/components/MaintenancePage";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react"
 
-const MAINTENANCE_MODE = false; // Cambia esto a false cuando quieras desactivar el modo de mantenimiento
+const MAINTENANCE_MODE = false; 
 
 export default function RootLayout({
   children,
@@ -45,6 +47,7 @@ export default function RootLayout({
         <Script src="https://files.bpcontent.cloud/2024/11/14/05/20241114055043-G6VW4DG1.js" strategy="afterInteractive" />
       </head>
       <body suppressHydrationWarning={true}>
+        <Analytics />
         <NextTopLoader
           color="#006BFF"
           crawlSpeed={300}
