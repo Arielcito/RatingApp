@@ -16,6 +16,7 @@ import { usePathname } from "next/navigation";
 import MaintenancePage from "@/components/MaintenancePage";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const MAINTENANCE_MODE = false; 
 
@@ -48,6 +49,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         <Analytics />
+        <SpeedInsights />
         <NextTopLoader
           color="#006BFF"
           crawlSpeed={300}
