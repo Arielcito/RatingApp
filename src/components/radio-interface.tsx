@@ -7,13 +7,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { PlayCircle, Pause, SkipForward, SkipBack, Volume2, MoreVertical } from 'lucide-react'
 import type { Channel } from '@/types/channel'
 import toast from 'react-hot-toast'
-interface RadioInterfaceProps {
-  channels: Channel[]
-}
 import Image from 'next/image'
 import { getResourceURL } from '@/lib/utils'
+import { AdvertisingBanner } from '@/components/advertising-banner'
+import { Campaign } from '@/types/campaign'
 
-export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
+interface RadioInterfaceProps {
+  channels: Channel[]
+  campaigns: Campaign[]
+}
+
+export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentStation, setCurrentStation] = useState(channels[0])
   const [volume, setVolume] = useState(50)
@@ -78,7 +82,9 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
           setError(errorMessage)
           toast.error(errorMessage)
         }}
-      />
+      >
+        <track kind="captions" />
+      </audio>
 
       <Button     
         variant="default" 
@@ -148,6 +154,9 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
               </div>
             </div>
           </div>
+
+          {/* Advertising Banner */}
+          <AdvertisingBanner campaigns={campaigns} />
 
           {/* Station Guide */}
           <div className="p-4">

@@ -3,22 +3,25 @@
 import { useEffect, useState } from 'react'
 import { useSubscriber } from "@/app/context/SubscriberContext"
 import { getRadioChannels } from '@/lib/api/channels'
-import type { Channel } from '@/types/channel'
-import { MediaPlatform } from '@/components/media-platform';
+import { getActiveCampaigns } from '@/lib/api/campaign'
 import { RadioInterfaceComponent } from '@/components/radio-interface'
+import type { Channel } from '@/types/channel';
+import type { Campaign } from '@/types/campaign';
 
-export default function RadioPage() {
+export default async function RadioPage() {
   const { subscriber } = useSubscriber()
-  const [channels, setChannels] = useState<Channel[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
+  const [channels, setChannels] = useState<Channel[]>([])
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
   useEffect(() => {
     const loadChannels = async () => {
       try {
         const radioChannels = await getRadioChannels()
-        console.log(radioChannels)
+        const campaigns = await getActiveCampaigns()
+
         setChannels(radioChannels)
+        setCampaigns(campaigns)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido')
         console.error('Error fetching radio channels:', err)
@@ -34,5 +37,5 @@ export default function RadioPage() {
   if (isLoading) return <div>Cargando canales...</div>
   if (error) return <div>Error: {error}</div>
 
-  return <RadioInterfaceComponent channels={channels} />
+  return <RadioInterfaceComponent channels={channels} campaigns={campaigns} />
 } 

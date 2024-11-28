@@ -12,11 +12,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Search, Tv, Radio, PlaySquare, Newspaper, UserCircle2 } from "lucide-react";
 import { Input } from "../ui/input";
-import { useState } from "react";
 
 export function Header() {
   const { subscriber, setSubscriber } = useSubscriber();
-  const [selectedTab, setSelectedTab] = useState('tv');
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,6 +25,11 @@ export function Header() {
 
   const handleTabChange = (tab: string) => {
     router.push(`/servicios/${tab}`);
+  };
+
+  // Función para determinar si una ruta está activa
+  const isActiveRoute = (route: string) => {
+    return pathname === `/servicios/${route}`;
   };
 
   return (
@@ -43,33 +46,33 @@ export function Header() {
         
         <div className="flex gap-4 mx-auto">
           <Button 
-            variant={selectedTab === 'tv' ? "default" : "ghost"}
-            className={`text-white ${selectedTab === 'tv' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            variant={isActiveRoute('tv') ? "default" : "ghost"}
+            className={`text-white ${isActiveRoute('tv') ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
             onClick={() => handleTabChange('tv')}
           >
             <Tv className="mr-2 h-4 w-4" />
             TV en vivo
           </Button>
           <Button 
-            variant={selectedTab === 'radio' ? "default" : "ghost"}
-            className={`text-white ${selectedTab === 'radio' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            variant={isActiveRoute('radio') ? "default" : "ghost"}
+            className={`text-white ${isActiveRoute('radio') ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
             onClick={() => handleTabChange('radio')}
           >
             <Radio className="mr-2 h-4 w-4" />
             Radio
           </Button>
           <Button 
-            variant={selectedTab === 'streaming' ? "default" : "ghost"}
-            className={`text-white ${selectedTab === 'streaming' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            variant={isActiveRoute('streaming') ? "default" : "ghost"}
+            className={`text-white ${isActiveRoute('streaming') ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
             onClick={() => handleTabChange('streaming')}
           >
             <PlaySquare className="mr-2 h-4 w-4" />
             Streaming
           </Button>
           <Button 
-            variant={selectedTab === 'diario' ? "default" : "ghost"}
-            className={`text-white ${selectedTab === 'diario' ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
-            onClick={() => handleTabChange('diario')}
+            variant={isActiveRoute('diarios') ? "default" : "ghost"}
+            className={`text-white ${isActiveRoute('diarios') ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            onClick={() => handleTabChange('diarios')}
           >
             <Newspaper className="mr-2 h-4 w-4" />
             Diario Online
@@ -87,7 +90,7 @@ export function Header() {
           {subscriber ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="gap-2 text-white" >
+                <Button variant="ghost" className="gap-2 text-white">
                   <UserCircle2 className="h-4 w-4" />
                   {subscriber.name}
                 </Button>

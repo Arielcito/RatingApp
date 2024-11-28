@@ -1,7 +1,7 @@
 export interface Channel {
     id: number;
     name: string;
-    tvWebURL: string;
+    tvWebURL: string | null;
     fmFrequency: string | null;
     tvAirChannel: string | null;
     radioWebURL: string | null;
@@ -14,7 +14,7 @@ export interface Channel {
     radioWebOnline: boolean | null;
     streamingUrl: string | null;
     onlineNewsUrl: string | null;
-    streaming: string | null;
-    onlineNews: string | null;
+    streaming: boolean | null;
+    onlineNews: boolean | null;
     siteUrl: string | null;
   }

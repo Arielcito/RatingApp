@@ -4,15 +4,18 @@ import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { ChevronRight, MoreVertical } from 'lucide-react'
 import type { Channel } from '@/types/channel';
+import type { Campaign } from '@/types/campaign';
 import Hls from 'hls.js'
 import Image from 'next/image';
 import { getResourceURL } from '@/lib/utils';
+import { AdvertisingBanner } from '@/components/advertising-banner';
 
 interface MediaPlatformProps {
   channels: Channel[];
+  campaigns: Campaign[];
 }
 
-export function MediaPlatform({ channels }: MediaPlatformProps) {
+export function MediaPlatform({ channels, campaigns }: MediaPlatformProps) {
   const [currentChannel, setCurrentChannel] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -22,7 +25,7 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
 
     const hls = new Hls();
     if (Hls.isSupported()) {
-      hls.loadSource(channels[currentChannel].tvWebURL);
+      hls.loadSource(channels[currentChannel]?.tvWebURL || channels[currentChannel]?.streamingUrl || '');
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         video.play().catch(error => {
@@ -30,7 +33,7 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
         });
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = channels[currentChannel].tvWebURL;
+      video.src = channels[currentChannel]?.tvWebURL || channels[currentChannel]?.streamingUrl || '';
     }
 
     return () => {
@@ -63,10 +66,15 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             </video>
           </div>
 
+          {/* Advertising Banner */}
+          <div className="mt-4">
+            <AdvertisingBanner campaigns={campaigns} />
+          </div>
+
           {/* Program Guide */}
           <div className="p-4">
             <div className="flex justify-between items-center mb-4">
-              <div className="text-gray-400">Ahora: {channels[0].pais}</div>
+              <div className="text-gray-400">Ahora: {channels[0]?.pais}</div>
               <div className="flex items-center gap-2">
                 <span>A continuación</span>
                 <Button variant="ghost" size="sm" className="text-white">
