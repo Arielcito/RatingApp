@@ -8,7 +8,7 @@ import { RadioInterfaceComponent } from '@/components/radio-interface'
 import type { Channel } from '@/types/channel';
 import type { Campaign } from '@/types/campaign';
 
-export default async function RadioPage() {
+export default function RadioPage() {
   const { subscriber } = useSubscriber()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

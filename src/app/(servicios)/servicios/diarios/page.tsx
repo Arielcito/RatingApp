@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import Image from 'next/image';
 import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
+import { useRouter } from 'next/navigation'
 
 export default function DiariosPage() {
   const { subscriber } = useSubscriber();
@@ -17,6 +18,7 @@ export default function DiariosPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter()
 
   useEffect(() => {
     const loadData = async () => {
@@ -39,6 +41,10 @@ export default function DiariosPage() {
     loadData();
   }, []);
 
+  const handleNewspaperClick = (newspaper: Channel) => {
+    router.push(`/servicios/diarios/${newspaper.id}`)
+  }
+
   if (!subscriber) return null;
   if (isLoading) return (
     <div className="flex items-center justify-center min-h-screen">
@@ -49,7 +55,7 @@ export default function DiariosPage() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">Diarios Digitales</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center text-white">Diarios Digitales</h1>
       
       {/* Newspaper Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -60,14 +66,10 @@ export default function DiariosPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             whileHover={{ scale: 1.05 }}
-            className="bg-white rounded-lg shadow-lg overflow-hidden"
+            className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer"
+            onClick={() => handleNewspaperClick(newspaper)}
           >
-            <a 
-              href={newspaper.onlineNewsUrl || newspaper.siteUrl || '#'} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block h-full"
-            >
+            <div className="block h-full">
               <div className="relative h-48">
                 <Image
                   src={newspaper.iconUrl ? getResourceURL(newspaper.iconUrl) : '/newspaper-placeholder.png'}
@@ -92,7 +94,7 @@ export default function DiariosPage() {
                   Leer ahora
                 </motion.button>
               </div>
-            </a>
+            </div>
           </motion.div>
         ))}
       </div>

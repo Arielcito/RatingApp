@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
@@ -10,7 +8,7 @@ import toast from 'react-hot-toast'
 import Image from 'next/image'
 import { getResourceURL } from '@/lib/utils'
 import { AdvertisingBanner } from '@/components/advertising-banner'
-import { Campaign } from '@/types/campaign'
+import type { Campaign } from '@/types/campaign'
 
 interface RadioInterfaceProps {
   channels: Channel[]
@@ -31,18 +29,38 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
     }
   }, [volume])
 
+  const validateAudioSource = (url: string): boolean => {
+    return Boolean(url) && (
+      url.startsWith('http://') || 
+      url.startsWith('https://') || 
+      url.startsWith('data:')
+    )
+  }
+
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
+        const sourceUrl = currentStation.streamingUrl || currentStation.radioWebURL || ''
+        if (!validateAudioSource(sourceUrl)) {
+          const errorMessage = 'URL de transmisión no válida'
+          toast.error(errorMessage)
+          setError(errorMessage)
+          setIsPlaying(false)
+          return
+        }
+
         audioRef.current.play().catch(error => {
           console.error('Error playing audio:', error)
+          const errorMessage = 'No se pudo reproducir la emisora. Formato no soportado o conexión inestable.'
+          toast.error(errorMessage)
+          setError(errorMessage)
           setIsPlaying(false)
         })
       } else {
         audioRef.current.pause()
       }
     }
-  }, [isPlaying])
+  }, [isPlaying, currentStation])
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying)
@@ -53,6 +71,15 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
     setError(null)
     setIsPlaying(false)
     setCurrentStation(station)
+    
+    const sourceUrl = station.streamingUrl || station.radioWebURL || ''
+    if (!validateAudioSource(sourceUrl)) {
+      const errorMessage = 'URL de transmisión no válida'
+      toast.error(errorMessage)
+      setError(errorMessage)
+      setIsLoading(false)
+      return
+    }
     
     if (audioRef.current) {
       audioRef.current.load()
@@ -71,49 +98,17 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <audio
-        ref={audioRef}
-        src={currentStation.streamingUrl || currentStation.radioWebURL || ''}
-        preload="none"
-        onError={(e) => {
-          const errorMessage = 'Error al cargar el audio. Por favor, verifique su conexión.'
-          console.error(errorMessage, e)
-          setIsPlaying(false)
-          setError(errorMessage)
-          toast.error(errorMessage)
-        }}
-      >
-        <track kind="captions" />
-      </audio>
-
-      <Button     
-        variant="default" 
-        size="icon" 
-        className="h-16 w-16" 
-        onClick={togglePlay}
-        disabled={isLoading || !!error}
-      >
-        {isLoading ? (
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white" />
-        ) : isPlaying ? (
-          <Pause className="h-8 w-8" />
-        ) : (
-          <PlayCircle className="h-8 w-8" />
-        )}
-        <span className="sr-only">
-          {isLoading ? 'Cargando' : isPlaying ? 'Pausar' : 'Reproducir'}
-        </span>
-      </Button>
-
-      {error && (
-        <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
-      )}
-
       <div className="flex h-[calc(100vh-73px)]">
         <main className="flex-1 overflow-auto">
-          {/* Radio Player */}
+          <audio
+            ref={audioRef}
+            src={currentStation.streamingUrl || currentStation.radioWebURL || ''}
+            preload="none"
+          >
+            <track kind="captions" />
+          </audio>
           <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
-            <div className="text-center">
+            <div className="text-center flex flex-col items-center">
               <Image
                 src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
                 alt={currentStation.name}

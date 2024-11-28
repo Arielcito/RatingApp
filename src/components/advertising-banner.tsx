@@ -13,16 +13,16 @@ export function AdvertisingBanner({ campaigns }: AdvertisingBannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
-    if (campaigns.length <= 1) return
+    if (!campaigns?.length) return
 
     const interval = setInterval(() => {
       setCurrentIndex((current) => (current + 1) % campaigns.length)
     }, 5000) // Rotate every 5 seconds
 
     return () => clearInterval(interval)
-  }, [campaigns.length])
+  }, [campaigns?.length])
 
-  if (!campaigns.length) return null
+  if (!campaigns?.length) return null
 
   const currentCampaign = campaigns[currentIndex]
 
