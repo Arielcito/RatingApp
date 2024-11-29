@@ -3,6 +3,9 @@
 import { useSubscriber } from "@/app/context/SubscriberContext";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import { useState, useCallback, useEffect } from "react";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,11 +15,66 @@ import {
 import { Button } from "@/components/ui/button";
 import { Search, Tv, Radio, PlaySquare, Newspaper, UserCircle2 } from "lucide-react";
 import { Input } from "../ui/input";
+import { Channel } from "@/types/channel";
+
+interface SearchResult {
+  id: number;
+  name: string;
+  type: 'tv' | 'radio' | 'streaming' | 'diarios';
+  logo?: string;
+}
 
 export function Header() {
   const { subscriber, setSubscriber } = useSubscriber();
   const router = useRouter();
   const pathname = usePathname();
+  const { toast } = useToast();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const handleSearch = useCallback(async (term: string) => {
+    if (!term) {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const response = await fetch('https://ratingapp.net.ar:18000/ratingSignals/list');
+      if (!response.ok) throw new Error('Failed to fetch data');
+      
+      const data = await response.json();
+      
+      // Filter the data based on search term
+      const filtered = data.filter((item: Channel) => 
+        item.name.toLowerCase().includes(term.toLowerCase())
+      );
+
+      setSearchResults(filtered);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar los resultados de búsqueda",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSearching(false);
+    }
+  }, [toast]);
+
+  // Effect to handle debounced search
+  useEffect(() => {
+    handleSearch(debouncedSearchTerm);
+  }, [debouncedSearchTerm, handleSearch]);
+
+  const handleSearchItemClick = (result: SearchResult) => {
+    router.push(`/servicios/${result.type}/${result.id}`);
+    setSearchTerm("");
+    setSearchResults([]);
+  };
 
   const handleLogout = () => {
     setSubscriber(null);
@@ -85,7 +143,41 @@ export function Header() {
             <Input
               placeholder="Buscar"
               className="pl-8 bg-gray-900 border-gray-800 text-white w-[200px]"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
+            
+            {/* Search Results Dropdown */}
+            {searchResults.length > 0 && searchTerm && (
+              <div className="absolute top-full left-0 w-full mt-1 bg-gray-900 border border-gray-800 rounded-md shadow-lg z-50">
+                {searchResults.map((result) => (
+                  <button
+                    key={result.id}
+                    type="button"
+                    className="w-full px-4 py-2 text-left text-sm text-white hover:bg-gray-800 flex items-center gap-2"
+                    onClick={() => handleSearchItemClick(result)}
+                  >
+                    {result.logo && (
+                      <Image
+                        src={result.logo}
+                        alt={result.name}
+                        width={20}
+                        height={20}
+                        className="rounded-sm object-contain"
+                      />
+                    )}
+                    <span>{result.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Loading State */}
+            {isSearching && (
+              <div className="absolute top-full left-0 w-full mt-1 bg-gray-900 border border-gray-800 rounded-md p-2 text-center text-sm text-gray-400">
+                Buscando...
+              </div>
+            )}
           </div>
           {subscriber ? (
             <DropdownMenu>
