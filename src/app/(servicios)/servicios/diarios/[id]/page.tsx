@@ -60,7 +60,7 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
       </div>
 
       <div className="mt-4">
-        <AdvertisingBanner campaigns={campaigns} />
+        <AdvertisingBanner />
       </div>
     </div>
   )

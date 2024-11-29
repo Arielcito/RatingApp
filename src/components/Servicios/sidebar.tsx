@@ -146,9 +146,11 @@ export function Sidebar() {
               
             </div>
           )}
-          <h2 className="text-white text-lg font-bold mb-2">Categorías</h2>
-          {/* Categorías */}
-          {categories.map((category) => (
+          {isOpen && (
+            <h2 className="text-white text-lg font-bold mb-2 ">Categorías</h2>
+          )}
+              {/* Categorías */}
+              {categories.map((category) => (
             <Button
               key={category.id}
               variant="ghost"

@@ -25,6 +25,7 @@ import {
 import { toast } from 'react-hot-toast'
 import type { Subscriber } from '@/types/subscriber'
 import type { Channel } from '@/types/channel'
+import { useSubscriber } from '@/app/context/SubscriberContext'
 
 const profileFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -40,51 +41,42 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 export function ProfileForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [channels, setChannels] = useState<Channel[]>([])
-  const [channelsError, setChannelsError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const fetchTvChannels = async () => {
-      try {
-        const response = await fetch('https://ratingapp.net.ar:18000/ratingSignals/list')
-        if (!response.ok) throw new Error('Error al cargar los canales')
-        
-        const data = await response.json()
-        // Filter only channels with tvWebOnline = true
-        const tvChannels = data.filter((channel: Channel) => channel.tvWebOnline === true)
-        setChannels(tvChannels)
-      } catch (error) {
-        setChannelsError(error instanceof Error ? error.message : 'Error desconocido')
-        console.error('Error fetching TV channels:', error)
-      }
-    }
-
-    fetchTvChannels()
-  }, [])
-
+  const { subscriber } = useSubscriber()
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: async () => {
       try {
-        const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/add', {
+        const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/getSubscriber', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: null })
+          body: JSON.stringify({ id: subscriber?.id })
         })
+        
         if (!response.ok) throw new Error('Error fetching profile')
         const data: Subscriber = await response.json()
+        
+        const formattedDate = data.birthDate ? 
+          new Date(data.birthDate).toISOString().split('T')[0] : ''
+        
         return {
-          name: data.name,
-          email: data.email,
-          birthDate: data.birthDate,
-          gender: data.gender,
-          telefono: data.telefono,
-          document: data.document,
+          name: data.name || '',
+          email: data.email || '',
+          birthDate: formattedDate,
+          gender: data.gender || '',
+          telefono: data.telefono || '',
+          document: data.document || '',
         }
       } catch (error) {
         console.error('Error loading profile:', error)
         toast.error('Error al cargar el perfil')
-        return {}
+        return {
+          name: '',
+          email: '',
+          birthDate: '',
+          gender: '',
+          telefono: '',
+          document: ''
+        }
       }
     },
   })
@@ -93,10 +85,11 @@ export function ProfileForm() {
     setIsLoading(true)
     try {
       const payload = {
-        id: null,
+        id: subscriber?.id,
         ...data,
+        birthDate: new Date(data.birthDate).toISOString(),
         created: new Date().toISOString(),
-        passwd: '',
+        passwd: subscriber?.passwd || '',
         captcha: null
       }
 
@@ -172,10 +165,14 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Género</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select 
+                onValueChange={field.onChange} 
+                value={field.value}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar género" />
+                    <SelectValue />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

@@ -43,5 +43,5 @@ export default function StreamingPage() {
   );
   if (error) return <div className="text-red-500 text-center p-4">Error: {error}</div>;
 
-  return <MediaPlatform channels={channels} campaigns={campaigns} />;
+  return <MediaPlatform channels={channels} />;
 } 

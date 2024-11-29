@@ -31,24 +31,20 @@ export const SubscriberProvider = ({ children }: { children: React.ReactNode }) 
         Cookies.remove('subscriber');
       }
     } else {
-      console.log('⚠️ No se encontró cookie de subscriber');
     }
     setIsLoading(false);
   }, []);
 
   const handleSetSubscriber = (newSubscriber: Subscriber | null) => {
-    console.log('🔄 Actualizando subscriber:', newSubscriber);
     setSubscriber(newSubscriber);
     
     if (newSubscriber) {
-      console.log('💾 Guardando subscriber en cookie...');
       try {
         Cookies.set('subscriber', JSON.stringify(newSubscriber), {
           expires: 7,
           secure: true,
           sameSite: 'strict'
         });
-        console.log('✅ Cookie guardada exitosamente');
       } catch (error) {
         console.error('❌ Error al guardar la cookie:', error);
       }

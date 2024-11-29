@@ -22,10 +22,7 @@ const Signin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log('🚀 Iniciando proceso de login...');
-
     try {
-      console.log('📤 Enviando request al servidor:', formData);
       const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/login', {
         method: 'POST',
         headers: {
@@ -35,13 +32,10 @@ const Signin = () => {
       });
 
       const data = await response.json();
-      console.log('📥 Respuesta del servidor:', data);
 
       if (data) {
-        console.log('✅ Login exitoso, estableciendo subscriber...');
         setSubscriber(data);
         toast.success('Inicio de sesión exitoso');
-        console.log('🔄 Redirigiendo a /servicios/tv...');
         router.push('/servicios/tv');
       } else {
         console.log('❌ Error: No se recibieron datos del servidor');
