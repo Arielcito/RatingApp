@@ -15,7 +15,6 @@ import { useRouter } from 'next/navigation'
 export default function DiariosPage() {
   const { subscriber } = useSubscriber();
   const [newspapers, setNewspapers] = useState<Channel[]>([]);
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter()
@@ -23,13 +22,9 @@ export default function DiariosPage() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [newsChannels, activeCampaigns] = await Promise.all([
-          getOnlineNewsChannels(),
-          getActiveCampaigns()
-        ]);
-        console.log('Diarios disponibles:', newsChannels);
-        setNewspapers(newsChannels);
-        setCampaigns(activeCampaigns);
+        const newsChannels = await getOnlineNewsChannels()
+        console.log('Diarios disponibles:', newsChannels)
+        setNewspapers(newsChannels)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido');
         console.error('Error cargando datos:', err);
@@ -101,7 +96,7 @@ export default function DiariosPage() {
 
       {/* Advertising Banner */}
       <div className="mt-8">
-        <AdvertisingBanner campaigns={campaigns} />
+        <AdvertisingBanner />
       </div>
     </div>
   );

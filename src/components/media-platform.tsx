@@ -9,13 +9,13 @@ import Hls from 'hls.js'
 import Image from 'next/image';
 import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface MediaPlatformProps {
   channels: Channel[];
-  campaigns: Campaign[];
 }
 
-export function MediaPlatform({ channels, campaigns }: MediaPlatformProps) {
+export function MediaPlatform({ channels }: MediaPlatformProps) {
   const [currentChannel, setCurrentChannel] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -68,11 +68,16 @@ export function MediaPlatform({ channels, campaigns }: MediaPlatformProps) {
 
           {/* Advertising Banner */}
           <div className="mt-4">
-            <AdvertisingBanner campaigns={campaigns} />
+            <AdvertisingBanner />
           </div>
 
           {/* Program Guide */}
-          <div className="p-4">
+          <motion.div 
+            className="p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="flex justify-between items-center mb-4">
               <div className="text-gray-400">Ahora: {channels[0]?.pais}</div>
               <div className="flex items-center gap-2">
@@ -84,44 +89,57 @@ export function MediaPlatform({ channels, campaigns }: MediaPlatformProps) {
             </div>
 
             <div className="grid gap-4">
-              {channels.map((channel, index) => (
-                <div key={channel.id} className="flex gap-4 bg-gray-900 rounded-lg overflow-hidden">
-                  <div className="relative w-48 h-28">
-                    <Image
-                      src={channel.iconUrl ? getResourceURL(channel.iconUrl) : ''}
-                      alt={channel.name}
-                      fill
-                      className="object-cover rounded-lg"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority={false}
-                      quality={75}
-                    />
-                  </div>
-                  <div className="flex-1 p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-bold">{channel.name}</h3>
+              <AnimatePresence mode="popLayout">
+                {channels.map((channel, index) => (
+                  <motion.div
+                    key={channel.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="flex gap-4 bg-gray-900 rounded-lg overflow-hidden"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="relative w-48 h-28">
+                      <Image
+                        src={channel.iconUrl ? getResourceURL(channel.iconUrl) : ''}
+                        alt={channel.name}
+                        fill
+                        className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={false}
+                        quality={75}
+                      />
+                    </div>
+                    <div className="flex-1 p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-bold">{channel.name}</h3>
+                        </div>
+                        <Button variant="ghost" size="icon">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
                       </div>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
+                      <p className="text-sm text-gray-400 mt-2">{channel.description}</p>
+                      <div className="flex justify-between items-center mt-2">
+                        <span className="text-sm text-gray-400">{channel.pais}</span>
+                        <motion.button 
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded text-sm"
+                          onClick={() => handleChannelChange(index)}
+                        >
+                          VER AHORA
+                        </motion.button>
+                      </div>
                     </div>
-                    <p className="text-sm text-gray-400 mt-2">{channel.description}</p>
-                    <div className="flex justify-between items-center mt-2">
-                      <span className="text-sm text-gray-400">{channel.pais}</span>
-                      <Button 
-                        size="sm" 
-                        className="bg-purple-600 hover:bg-purple-700"
-                        onClick={() => handleChannelChange(index)}
-                      >
-                        VER AHORA
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
         </main>
       </div>
     </div>

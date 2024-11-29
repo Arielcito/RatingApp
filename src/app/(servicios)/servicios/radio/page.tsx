@@ -13,15 +13,13 @@ export default function RadioPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [channels, setChannels] = useState<Channel[]>([])
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+
   useEffect(() => {
     const loadChannels = async () => {
       try {
         const radioChannels = await getRadioChannels()
-        const campaigns = await getActiveCampaigns()
-
+        
         setChannels(radioChannels)
-        setCampaigns(campaigns)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido')
         console.error('Error fetching radio channels:', err)
@@ -37,5 +35,5 @@ export default function RadioPage() {
   if (isLoading) return <div>Cargando canales...</div>
   if (error) return <div>Error: {error}</div>
 
-  return <RadioInterfaceComponent channels={channels} campaigns={campaigns} />
+  return <RadioInterfaceComponent channels={channels} />
 } 

@@ -9,13 +9,13 @@ import Image from 'next/image'
 import { getResourceURL } from '@/lib/utils'
 import { AdvertisingBanner } from '@/components/advertising-banner'
 import type { Campaign } from '@/types/campaign'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface RadioInterfaceProps {
   channels: Channel[]
-  campaigns: Campaign[]
 }
 
-export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceProps) {
+export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentStation, setCurrentStation] = useState(channels[0])
   const [volume, setVolume] = useState(50)
@@ -37,6 +37,7 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
     )
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -97,7 +98,7 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white">
       <div className="flex h-[calc(100vh-73px)]">
         <main className="flex-1 overflow-auto">
           <audio
@@ -107,23 +108,43 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
           >
             <track kind="captions" />
           </audio>
-          <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
-            <div className="text-center flex flex-col items-center">
-              <Image
-                src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
-                alt={currentStation.name}
-                width={100}
-                height={100}
-                className="object-cover rounded-lg"
-                priority={false}
-                quality={75}
-              />
-              <h2 className="text-3xl font-bold mb-2">{currentStation.name}</h2>
-              <p className="text-xl text-gray-400 mb-1">
+          <motion.div 
+            className="h-[400px] bg-gray-900 relative flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div 
+              className="text-center flex flex-col items-center"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Image
+                  src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
+                  alt={currentStation.name}
+                  width={80}
+                  height={80}
+                  className="object-cover rounded-lg"
+                  priority={false}
+                  quality={75}
+                />
+              </motion.div>
+              <h2 className="text-2xl font-bold mb-1">{currentStation.name}</h2>
+              <p className="text-lg text-gray-400 mb-1">
                 {currentStation.fmFrequency && `FM ${currentStation.fmFrequency}`}
                 {currentStation.localidad && ` - ${currentStation.localidad}`}
               </p>
-              <div className="flex items-center justify-center gap-4 mt-4">
+              <motion.div 
+                className="flex items-center justify-center gap-4 mt-2"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
                 <Button variant="ghost" size="icon" onClick={() => {}}>
                   <SkipBack className="h-6 w-6" />
                   <span className="sr-only">Anterior</span>
@@ -136,8 +157,8 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
                   <SkipForward className="h-6 w-6" />
                   <span className="sr-only">Siguiente</span>
                 </Button>
-              </div>
-              <div className="flex items-center justify-center gap-4 mt-4 w-64 mx-auto">
+              </motion.div>
+              <div className="flex items-center justify-center gap-4 mt-2 w-64 mx-auto">
                 <Volume2 className="h-5 w-5" />
                 <Slider
                   value={[volume]}
@@ -147,57 +168,72 @@ export function RadioInterfaceComponent({ channels, campaigns }: RadioInterfaceP
                   className="flex-1"
                 />
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Advertising Banner */}
-          <AdvertisingBanner campaigns={campaigns} />
+          <AdvertisingBanner />
 
           {/* Station Guide */}
           <div className="p-4">
             <div className="grid gap-4">
-              {channels.map((station) => (
-                <Card key={station.id} className="bg-gray-900">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    <Image
-                      src={station.iconUrl ? getResourceURL(station.iconUrl) : ''}
-                      alt={station.name}
-                      width={100}
-                      height={100}
-                      className="object-cover rounded-lg"
-                      priority={false}
-                      quality={75}
-                    />
-                    <div className="flex-1">
-                      <CardTitle>{station.name}</CardTitle>
-                      <CardDescription>
-                        {station.fmFrequency ? `FM ${station.fmFrequency}` : 'Radio Online'}
-                      </CardDescription>
-                    </div>
-                    <Button variant="ghost" size="icon">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold">{station.localidad}</p>
-                        {station.description && (
-                          <p className="text-sm text-gray-400">{station.description}</p>
-                        )}
-                      </div>
-                      <Button 
-                        size="sm" 
-                        className="bg-purple-600 hover:bg-purple-700" 
-                        onClick={() => handleStationChange(station)}
-                        disabled={!station.streamingUrl && !station.radioWebURL}
-                      >
-                        {currentStation.id === station.id && isPlaying ? 'REPRODUCIENDO' : 'ESCUCHAR'}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              <AnimatePresence>
+                {channels.map((station, index) => (
+                  <motion.div
+                    key={station.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <Card className="bg-gray-900">
+                        <CardHeader className="flex flex-row items-center gap-4">
+                          <Image
+                            src={station.iconUrl ? getResourceURL(station.iconUrl) : ''}
+                            alt={station.name}
+                            width={100}
+                            height={100}
+                            className="object-cover rounded-lg"
+                            priority={false}
+                            quality={75}
+                          />
+                          <div className="flex-1">
+                            <CardTitle>{station.name}</CardTitle>
+                            <CardDescription>
+                              {station.fmFrequency ? `FM ${station.fmFrequency}` : 'Radio Online'}
+                            </CardDescription>
+                          </div>
+                          <Button variant="ghost" size="icon">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="font-semibold">{station.localidad}</p>
+                              {station.description && (
+                                <p className="text-sm text-gray-400">{station.description}</p>
+                              )}
+                            </div>
+                            <Button 
+                              size="sm" 
+                              className="bg-purple-600 hover:bg-purple-700" 
+                              onClick={() => handleStationChange(station)}
+                              disabled={!station.streamingUrl && !station.radioWebURL}
+                            >
+                              {currentStation.id === station.id && isPlaying ? 'REPRODUCIENDO' : 'ESCUCHAR'}
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           </div>
         </main>
