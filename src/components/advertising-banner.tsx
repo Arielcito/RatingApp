@@ -35,8 +35,8 @@ export function AdvertisingBanner() {
   const currentCampaign = campaigns[currentIndex]
 
   return (
-    <div className="w-full bg-gray-900 p-4">
-      <div className="relative aspect-[16/9] max-w-3xl mx-auto">
+    <div className="w-full bg-gray-900">
+      <div className="relative aspect-[16/9] max-w-sm mx-auto">
         <Image
           src={getAdvertisingImageURL(currentCampaign.image_url)}
           alt={currentCampaign.title}

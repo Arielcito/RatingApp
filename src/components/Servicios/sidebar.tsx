@@ -17,13 +17,12 @@ import {
 
 const categories = [
   { id: 'destacado', name: 'Destacado', icon: Tv, path: '/servicios/tv' },
-  { id: 'tv', name: 'Televisión', icon: Tv, path: '/servicios/tv' },
-  { id: 'peliculas', name: 'Películas', icon: Laptop, path: '/servicios/streaming' },
-  { id: 'series', name: 'Series', icon: Laptop, path: '/servicios/streaming' },
-  { id: 'radio', name: 'Radio', icon: Radio, path: '/servicios/radio' },
-  { id: 'noticias', name: 'Noticias', icon: Newspaper, path: '/servicios/diarios' }
-];
-
+  { id: 'musica', name: 'Música', icon: Radio, path: '/servicios/radio' },
+  { id: 'noticias', name: 'Noticias', icon: Newspaper, path: '/servicios/diarios' },
+  { id: 'deportes', name: 'Deportes', icon: Tv, path: '/servicios/tv' },
+  { id: 'cultura', name: 'Cultura', icon: Tv, path: '/servicios/tv' },
+  { id: 'podcasts', name: 'Podcasts', icon: Tv, path: '/servicios/tv' }
+]
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
@@ -144,6 +143,7 @@ export function Sidebar() {
                   ))}
                 </SelectContent>
               </Select>
+              
             </div>
           )}
           <h2 className="text-white text-lg font-bold mb-2">Categorías</h2>

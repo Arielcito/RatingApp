@@ -10,22 +10,52 @@ import Image from 'next/image';
 import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
 import { motion, AnimatePresence } from 'framer-motion'
+import { useSearchParams } from 'next/navigation'
 
 interface MediaPlatformProps {
   channels: Channel[];
 }
 
 export function MediaPlatform({ channels }: MediaPlatformProps) {
+  const searchParams = useSearchParams()
   const [currentChannel, setCurrentChannel] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const getFilteredChannels = () => {
+    const provincia = searchParams.get('provincia')
+    const localidad = searchParams.get('localidad')
+    
+    return channels.filter(channel => {
+      if (provincia === 'all') return true
+      if (!provincia) return true
+      
+      const matchesProvincia = channel.provincia === provincia
+      if (localidad === 'all') return matchesProvincia
+      if (!localidad) return matchesProvincia
+      
+      return matchesProvincia && channel.localidad === localidad
+    })
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    const filteredChannels = getFilteredChannels()
+    if (filteredChannels.length > 0) {
+      setCurrentChannel(0)
+    }
+  }, [searchParams])
+  
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
+    const filteredChannels = getFilteredChannels()
+    if (filteredChannels.length === 0) return
+
     const hls = new Hls();
     if (Hls.isSupported()) {
-      hls.loadSource(channels[currentChannel]?.tvWebURL || channels[currentChannel]?.streamingUrl || '');
+      hls.loadSource(filteredChannels[currentChannel]?.tvWebURL || filteredChannels[currentChannel]?.streamingUrl || '');
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         video.play().catch(error => {
@@ -33,18 +63,24 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
         });
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = channels[currentChannel]?.tvWebURL || channels[currentChannel]?.streamingUrl || '';
+      video.src = filteredChannels[currentChannel]?.tvWebURL || filteredChannels[currentChannel]?.streamingUrl || '';
     }
 
     return () => {
       hls.destroy();
     };
-  }, [currentChannel, channels]);
+  }, [currentChannel, channels, searchParams]);
 
   const handleChannelChange = (index: number) => {
     setCurrentChannel(index);
   };
 
+  const handleNextChannel = () => {
+    const filteredChannels = getFilteredChannels()
+    setCurrentChannel((prev) => 
+      prev === filteredChannels.length - 1 ? 0 : prev + 1
+    )
+  }
 
   return (
     <div className="bg-black text-white">
@@ -79,18 +115,25 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             transition={{ duration: 0.5 }}
           >
             <div className="flex justify-between items-center mb-4">
-              <div className="text-gray-400">Ahora: {channels[0]?.pais}</div>
+              <div className="text-gray-400">
+                Ahora: {getFilteredChannels()[currentChannel]?.name}
+              </div>
               <div className="flex items-center gap-2">
                 <span>A continuación</span>
-                <Button variant="ghost" size="sm" className="text-white">
-                  Después <ChevronRight className="h-4 w-4" />
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-white"
+                  onClick={handleNextChannel}
+                >
+                  Siguiente <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>
 
             <div className="grid gap-4">
               <AnimatePresence mode="popLayout">
-                {channels.map((channel, index) => (
+                {getFilteredChannels().map((channel, index) => (
                   <motion.div
                     key={channel.id}
                     layout

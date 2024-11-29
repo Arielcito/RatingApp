@@ -10,12 +10,14 @@ import { getResourceURL } from '@/lib/utils'
 import { AdvertisingBanner } from '@/components/advertising-banner'
 import type { Campaign } from '@/types/campaign'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useSearchParams } from 'next/navigation'
 
 interface RadioInterfaceProps {
   channels: Channel[]
 }
 
 export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
+  const searchParams = useSearchParams()
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentStation, setCurrentStation] = useState(channels[0])
   const [volume, setVolume] = useState(50)
@@ -97,6 +99,46 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
     }
   }
 
+  // Add this function to filter channels based on location
+  const getFilteredChannels = () => {
+    const provincia = searchParams.get('provincia')
+    const localidad = searchParams.get('localidad')
+    
+    return channels.filter(channel => {
+      if (provincia === 'all') return true
+      if (!provincia) return true
+      
+      const matchesProvincia = channel.provincia === provincia
+      if (localidad === 'all') return matchesProvincia
+      if (!localidad) return matchesProvincia
+      
+      return matchesProvincia && channel.localidad === localidad
+    })
+  }
+
+  // Update the initial state to use the first filtered channel
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
+    const filteredChannels = getFilteredChannels()
+    if (filteredChannels.length > 0) {
+      setCurrentStation(filteredChannels[0])
+    }
+  }, [searchParams])
+
+  const handleNextStation = () => {
+    const filteredChannels = getFilteredChannels()
+    const currentIndex = filteredChannels.findIndex(channel => channel.id === currentStation.id)
+    const nextIndex = (currentIndex + 1) % filteredChannels.length
+    handleStationChange(filteredChannels[nextIndex])
+  }
+
+  const handlePreviousStation = () => {
+    const filteredChannels = getFilteredChannels()
+    const currentIndex = filteredChannels.findIndex(channel => channel.id === currentStation.id)
+    const previousIndex = currentIndex === 0 ? filteredChannels.length - 1 : currentIndex - 1
+    handleStationChange(filteredChannels[previousIndex])
+  }
+
   return (
     <div className="min-h-screen text-white">
       <div className="flex h-[calc(100vh-73px)]">
@@ -145,15 +187,30 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <Button variant="ghost" size="icon" onClick={() => {}}>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={handlePreviousStation}
+                  disabled={getFilteredChannels().length <= 1}
+                >
                   <SkipBack className="h-6 w-6" />
                   <span className="sr-only">Anterior</span>
                 </Button>
-                <Button variant="default" size="icon" className="h-16 w-16" onClick={togglePlay}>
+                <Button 
+                  variant="default" 
+                  size="icon" 
+                  className="h-16 w-16" 
+                  onClick={togglePlay}
+                >
                   {isPlaying ? <Pause className="h-8 w-8" /> : <PlayCircle className="h-8 w-8" />}
                   <span className="sr-only">{isPlaying ? 'Pausar' : 'Reproducir'}</span>
                 </Button>
-                <Button variant="ghost" size="icon" onClick={() => {}}>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={handleNextStation}
+                  disabled={getFilteredChannels().length <= 1}
+                >
                   <SkipForward className="h-6 w-6" />
                   <span className="sr-only">Siguiente</span>
                 </Button>
@@ -178,7 +235,7 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
           <div className="p-4">
             <div className="grid gap-4">
               <AnimatePresence>
-                {channels.map((station, index) => (
+                {getFilteredChannels().map((station, index) => (
                   <motion.div
                     key={station.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -207,13 +264,8 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                               {station.fmFrequency ? `FM ${station.fmFrequency}` : 'Radio Online'}
                             </CardDescription>
                           </div>
-                          <Button variant="ghost" size="icon">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </CardHeader>
-                        <CardContent>
                           <div className="flex justify-between items-center">
-                            <div>
+                            <div className='mr-4'>
                               <p className="font-semibold">{station.localidad}</p>
                               {station.description && (
                                 <p className="text-sm text-gray-400">{station.description}</p>
@@ -228,7 +280,7 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                               {currentStation.id === station.id && isPlaying ? 'REPRODUCIENDO' : 'ESCUCHAR'}
                             </Button>
                           </div>
-                        </CardContent>
+                        </CardHeader>
                       </Card>
                     </motion.div>
                   </motion.div>
