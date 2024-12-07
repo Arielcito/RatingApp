@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="dark" suppressHydrationWarning>
-      <body className="bg-background dark:bg-blacksection overflow-hidden">
+      <body className="overflow-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
