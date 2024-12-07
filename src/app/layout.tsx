@@ -15,6 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <html lang="es" className="dark" suppressHydrationWarning>
+      <body className="overflow-hidden">
           <AuthProvider>
             <SubscriberProvider>
               <ToasterContext />
@@ -22,5 +24,7 @@ export default function RootLayout({
               {children}
             </SubscriberProvider>
           </AuthProvider>
+      </body>
+    </html>
   );
 } 
