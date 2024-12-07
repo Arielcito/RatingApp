@@ -66,7 +66,7 @@ const Blog = async () => {
           </h3>
           {posts?.slice(1, 4).map((post) => (
             <div key={post._id} className="mb-4">
-              <Link href={`/blog/${post.slug}`}>
+              <Link href={`/blog/${post.slug.current}`}>
                 <h4 className="text-lg font-semibold text-black hover:text-primary dark:text-white">
                   {post.title}
                 </h4>
