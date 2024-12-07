@@ -19,8 +19,6 @@ export default function ServiciosRootLayout({
   }
 
   return (
-    <html lang="es" className="dark" suppressHydrationWarning>
-      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -38,7 +36,5 @@ export default function ServiciosRootLayout({
             </div>
           </div>
         </ThemeProvider>
-      </body>
-    </html>
   );
 } 

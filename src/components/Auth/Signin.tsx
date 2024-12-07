@@ -53,7 +53,7 @@ const Signin = () => {
     <section className="pb-[110px] pt-[150px] lg:pt-[150px]">
       <div className="container">
         <div className="mx-auto max-w-[500px] rounded-lg bg-blacksection p-6 shadow-card-dark flex flex-col items-center justify-center flex-grow">
-          <Image src="/images/logo/logo.png" alt="Logo" width={200} height={200} className="mb-8" />
+          <Image src="/images/logo/logo.png" alt="Logo" width={200} height={200} className="mb-8" priority/>
           <h2 className="mb-8 text-2xl font-bold text-white">
             Iniciar Sesión
           </h2>

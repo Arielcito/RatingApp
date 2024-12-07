@@ -83,6 +83,17 @@ export function Sidebar() {
     router.push(category.path);
   };
 
+  const handleClearFilters = () => {
+    setSelectedCategory('destacado');
+    setSelectedProvincia(null);
+    setSelectedLocalidad(null);
+    
+    const params = new URLSearchParams();
+    router.push(`${pathname}?${params.toString()}`);
+    
+    router.push('/servicios/tv');
+  };
+
   return (
     <aside className={cn(
       "w-64 border-r border-gray-800 transition-all duration-200",
@@ -167,6 +178,16 @@ export function Sidebar() {
               {isOpen && category.name}
             </Button>
           ))}
+
+          <div className="pt-2">
+            <Button 
+              variant="outline" 
+              className="w-full text-muted-foreground hover:text-primary"
+              onClick={handleClearFilters}
+            >
+              Limpiar filtros
+            </Button>
+          </div>
         </div>
       </ScrollArea>
     </aside>

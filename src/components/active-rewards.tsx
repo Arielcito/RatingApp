@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -8,61 +8,41 @@ import { Gift, Clock } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
-interface Reward {
+interface Campaign {
   id: number
   title: string
   description: string
-  endDate: Date
-  image: string
-  participants: number
-  status: 'active' | 'completed'
+  from_date: string
+  to_date: string
+  award_description: string
+  image_url: string
+  created: string
+  winner: string
+  active: boolean
 }
 
-const rewards: Reward[] = [
-  {
-    id: 1,
-    title: "Suscripción Premium Gratis",
-    description: "Participa y gana 3 meses de suscripción premium a nuestra plataforma",
-    endDate: new Date('2024-04-30'),
-    image: "/images/rewards/premium-subscription.jpg",
-    participants: 156,
-    status: 'active'
-  },
-  {
-    id: 2,
-    title: "Smart TV 55'",
-    description: "Sorteamos una Smart TV Samsung 55' entre nuestros suscriptores",
-    endDate: new Date('2024-05-15'),
-    image: "/images/rewards/smart-tv.jpg",
-    participants: 342,
-    status: 'active'
-  },
-  {
-    id: 3,
-    title: "Entradas VIP Concierto",
-    description: "Gana entradas VIP para el próximo concierto exclusivo",
-    endDate: new Date('2024-04-20'),
-    image: "/images/rewards/concert-tickets.jpg",
-    participants: 89,
-    status: 'active'
-  }
-]
-
-interface RewardCardProps {
-  reward: Reward
-  isMain?: boolean
+function getAdvertisingImageURL(resourceName: string) {
+  return `http://ratingapp.net.ar:8000/advertising/${resourceName}`.trim()
 }
 
-function formatTimeLeft(endDate: Date): string {
+function formatTimeLeft(endDate: string): string {
   const now = new Date()
-  const timeLeft = endDate.getTime() - now.getTime()
+  const end = new Date(endDate)
+  const timeLeft = end.getTime() - now.getTime()
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24))
   const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
   
   return `${days}d ${hours}h restantes`
 }
 
-function RewardCard({ reward, isMain = false }: RewardCardProps) {
+interface RewardCardProps {
+  campaign: Campaign
+  isMain?: boolean
+}
+
+function RewardCard({ campaign, isMain = false }: RewardCardProps) {
+  const isCaducado = campaign.id < 0
+
   return (
     <Card className={`
       relative overflow-hidden
@@ -70,25 +50,33 @@ function RewardCard({ reward, isMain = false }: RewardCardProps) {
       border border-stroke dark:border-strokedark
       hover:shadow-solid-3 transition-shadow
       ${isMain ? 'col-span-full' : ''}
+      ${isCaducado ? 'opacity-75' : ''}
     `}>
       <div className="relative h-48 md:h-64">
         <Image
-          src={reward.image}
-          alt={reward.title}
+          src={getAdvertisingImageURL(campaign.image_url)}
+          alt={campaign.title}
           fill
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-3" />
+        {isCaducado && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <Badge variant="destructive" className="text-lg">
+              Caducado
+            </Badge>
+          </div>
+        )}
       </div>
       
       <CardContent className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div>
             <CardTitle className="text-itemtitle2 font-semibold text-black dark:text-white mb-2">
-              {reward.title}
+              {campaign.title}
             </CardTitle>
             <CardDescription className="text-metatitle3 text-body dark:text-white/70">
-              {reward.description}
+              {campaign.description}
             </CardDescription>
           </div>
           <Gift className="h-8 w-8 text-primary" />
@@ -97,16 +85,22 @@ function RewardCard({ reward, isMain = false }: RewardCardProps) {
         <div className="flex items-center gap-2 mb-4">
           <Clock className="h-4 w-4 text-meta" />
           <span className="text-sm text-meta font-medium">
-            {formatTimeLeft(reward.endDate)}
+            {formatTimeLeft(campaign.to_date)}
           </span>
         </div>
 
         <div className="flex items-center justify-between">
           <Badge variant="secondary" className="bg-meta/10 text-meta">
-            {reward.participants} participantes
+            {campaign.award_description}
           </Badge>
-          <Button className="bg-gradient-custom text-white hover:opacity-90">
-            Participar
+          <Button 
+            className={`
+              bg-gradient-custom text-white 
+              ${isCaducado ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'}
+            `}
+            disabled={isCaducado}
+          >
+            {isCaducado ? 'Finalizado' : 'Participar'}
           </Button>
         </div>
       </CardContent>
@@ -115,7 +109,32 @@ function RewardCard({ reward, isMain = false }: RewardCardProps) {
 }
 
 export function ActiveRewardsComponent() {
-  const [mainReward, ...otherRewards] = rewards
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const response = await fetch('https://ratingapp.net.ar:18000/campaigns/listActive')
+        if (!response.ok) throw new Error('Error al cargar las campañas')
+        const data: Campaign[] = await response.json()
+        setCampaigns(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error desconocido')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCampaigns()
+  }, [])
+
+  if (loading) return <div>Cargando sorteos...</div>
+  if (error) return <div>Error: {error}</div>
+  if (!campaigns || campaigns.length === 0) return <div>No hay sorteos activos</div>
+
+  const [mainCampaign, ...otherCampaigns] = campaigns
 
   return (
     <div className="space-y-8">
@@ -125,9 +144,9 @@ export function ActiveRewardsComponent() {
       
       <ScrollArea className="h-[calc(100vh-200px)]">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <RewardCard reward={mainReward} isMain={true} />
-          {otherRewards.map((reward) => (
-            <RewardCard key={reward.id} reward={reward} />
+          {mainCampaign && <RewardCard campaign={mainCampaign} isMain={true} />}
+          {otherCampaigns.map((campaign) => (
+            <RewardCard key={campaign.id} campaign={campaign} />
           ))}
         </div>
       </ScrollArea>
