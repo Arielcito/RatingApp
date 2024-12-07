@@ -236,7 +236,6 @@ const About = () => {
                             fill="currentColor"
                             viewBox="0 0 24 24"
                             aria-label="Play video"
-                   
                           >
                             <path d="M8 5v14l11-7z" />
                           </svg>
@@ -252,13 +251,13 @@ const About = () => {
                         className="object-contain transition-transform duration-300 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                         <svg
                           className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
                           aria-label="Expand image"
-                          title="Expand image"
                         >
                           <path
                             strokeLinecap="round"
