@@ -13,9 +13,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Search, Tv, Radio, PlaySquare, Newspaper, UserCircle2 } from "lucide-react";
+import { Search, Tv, Radio, PlaySquare, Newspaper, UserCircle2, Trophy } from "lucide-react";
 import { Input } from "../ui/input";
-import { Channel } from "@/types/channel";
+import type { Channel } from "@/types/channel";
 
 interface SearchResult {
   id: number;
@@ -134,6 +134,14 @@ export function Header() {
           >
             <Newspaper className="mr-2 h-4 w-4" />
             Diario Online
+          </Button>
+          <Button 
+            variant={isActiveRoute('premios') ? "default" : "ghost"}
+            className={`text-white ${isActiveRoute('premios') ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            onClick={() => handleTabChange('premios')}
+          >
+            <Trophy className="mr-2 h-4 w-4" />
+            Premios
           </Button>
         </div>
 

@@ -5,13 +5,10 @@ import Image from 'next/image'
 import type { Campaign } from '@/types/campaign'
 import { getActiveCampaigns, getAdvertisingImageURL } from '@/lib/api/campaign'
 
-interface AdvertisingBannerProps {
-  campaigns: Campaign[]
-}
-
 export function AdvertisingBanner() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
+
   useEffect(() => {
     const loadCampaigns = async () => {
       const campaigns = await getActiveCampaigns()

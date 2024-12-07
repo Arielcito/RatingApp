@@ -23,7 +23,7 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
           getActiveCampaigns()
         ])
         console.log(newsChannel)
-        setNewspaper(newsChannel.find(channel => channel.id === Number(params.id)) || null)
+        setNewspaper(newsChannel.find(channel => channel.id === params.id) || null)
         setCampaigns(activeCampaigns)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido')

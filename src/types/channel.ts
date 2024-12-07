@@ -9,4 +9,12 @@ export interface Channel {
     localidad: string;
     pais: string;
     isIPTV: boolean;
+    siteUrl: string;
+    onlineNews: boolean;
+    onlineNewsUrl: string;
+    tvWebOnline: boolean;
+    radioWebOnline: boolean;
+    streaming: boolean;
+    radioWebURL: string;
+    fmFrequency: string;
 }
