@@ -112,10 +112,11 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             ) : (
               <iframe
                 title={`Canal ${getFilteredChannels()[currentChannel]?.name}`}
-                src={getFilteredChannels()[currentChannel]?.siteUrl || ''}
+                src={`/api/proxy?url=${encodeURIComponent(getFilteredChannels()[currentChannel]?.tvWebURL || '')}`}
                 className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                sandbox="allow-same-origin allow-scripts"
               />
             )}
           </div>

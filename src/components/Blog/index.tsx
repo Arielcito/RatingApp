@@ -8,6 +8,7 @@ import { Video, mainVideo, sideVideos } from "@/data/videos";
 const VideoPlayer = ({ video }: { video: Video }) => (
   <div className="relative w-full pt-[56.25%]">
     <iframe
+    is="x-frame-bypass"
       src={video.url}
       className="absolute top-0 left-0 w-full h-full"
       title={video.title}

@@ -141,6 +141,7 @@ const HeroArea = () => {
                     toggler={toggler}
                     sources={[
                       <iframe 
+                      is="x-frame-bypass"
                         key="demo-video" 
                         src="https://drive.google.com/file/d/1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a/preview" 
                         className="w-full h-full min-w-[320px] min-h-[180px] max-w-[95vw] max-h-[95vh] md:min-w-[640px] md:min-h-[360px] lg:min-w-[1280px] lg:min-h-[720px]"
