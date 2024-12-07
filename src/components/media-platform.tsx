@@ -53,22 +53,26 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     const filteredChannels = getFilteredChannels()
     if (filteredChannels.length === 0) return
 
-    const hls = new Hls();
-    if (Hls.isSupported()) {
-      hls.loadSource(filteredChannels[currentChannel]?.tvWebURL || filteredChannels[currentChannel]?.streamingUrl || '');
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch(error => {
-          console.error('Error al reproducir:', error);
+    const currentChannelData = filteredChannels[currentChannel]
+    
+    if (currentChannelData.isIPTV) {
+      const hls = new Hls();
+      if (Hls.isSupported()) {
+        hls.loadSource(currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || '');
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          video.play().catch(error => {
+            console.error('Error al reproducir:', error);
+          });
         });
-      });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = filteredChannels[currentChannel]?.tvWebURL || filteredChannels[currentChannel]?.streamingUrl || '';
-    }
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || '';
+      }
 
-    return () => {
-      hls.destroy();
-    };
+      return () => {
+        hls.destroy();
+      };
+    }
   }, [currentChannel, channels, searchParams]);
 
   const handleChannelChange = (index: number) => {
@@ -87,19 +91,29 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
       <div className="flex">
         <main className="flex-1">
           <div className="aspect-video bg-gray-900 relative">
-            <video 
-              ref={videoRef}
-              className="w-full h-full"
-              controls
-            >
-              <track 
-                kind="captions" 
-                srcLang="en" 
-                src="/path/to/captions.vtt" 
-                label="English captions"
-                default
+            {getFilteredChannels()[currentChannel]?.isIPTV ? (
+              <video 
+                ref={videoRef}
+                className="w-full h-full"
+                controls
+              >
+                <track 
+                  kind="captions" 
+                  srcLang="en" 
+                  src="/path/to/captions.vtt" 
+                  label="English captions"
+                  default
+                />
+              </video>
+            ) : (
+              <iframe
+                title={`Canal ${getFilteredChannels()[currentChannel]?.name}`}
+                src={getFilteredChannels()[currentChannel]?.tvWebURL || ''}
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
               />
-            </video>
+            )}
           </div>
 
           {/* Advertising Banner */}
