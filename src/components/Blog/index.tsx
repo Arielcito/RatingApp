@@ -17,7 +17,7 @@ const VideoPlayer = ({ video }: { video: Video }) => (
 
 const Blog = async () => {
   const posts = await getPosts();
-
+  console.log(posts);
   return (
     <section className="flex flex-col items-center pb-[60px] pt-[110px]" id="blog">
       <div className="container">

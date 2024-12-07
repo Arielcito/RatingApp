@@ -2,15 +2,10 @@ import Signup from "@/components/Auth/Signup";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign Up Page - Appline SaaS Boilerplate",
-  description: "This is Sign Up page for Startup Pro",
-  // other metadata
+  title: "Registro - Rating App",
+  description: "Crea una cuenta en Rating App",
 };
 
-export default function Register() {
-  return (
-    <>
-      <Signup />
-    </>
-  );
+export default function SignupPage() {
+  return <Signup />;
 }

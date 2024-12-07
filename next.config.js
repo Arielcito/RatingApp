@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ... otras configuraciones existentes
   images: {
-    domains: ['cdn.sanity.io',"drive.google.com"],
+    domains: ['ratingapp.net.ar', 'drive.google.com', 'cdn.sanity.io'],
   },
 }
 
