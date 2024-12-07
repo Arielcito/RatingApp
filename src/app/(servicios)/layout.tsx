@@ -5,6 +5,7 @@ import { Header } from "@/components/Servicios/header";
 import { useSubscriber } from "@/app/context/SubscriberContext";
 import { ThemeProvider } from "next-themes";
 import ToasterContext from "../context/ToastContext";
+import Script from "next/dist/client/script";
 
 export default function ServiciosRootLayout({
   children,
@@ -19,8 +20,10 @@ export default function ServiciosRootLayout({
   }
 
   return (
-        <ThemeProvider
-          attribute="class"
+    <>
+      <Script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js" strategy="afterInteractive" />
+      <ThemeProvider
+        attribute="class"
           defaultTheme="dark"
           enableSystem={false}
           forcedTheme="dark"
@@ -34,7 +37,8 @@ export default function ServiciosRootLayout({
                 {children}
               </main>
             </div>
-          </div>
-        </ThemeProvider>
+        </div>
+      </ThemeProvider>
+    </>
   );
 } 

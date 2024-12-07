@@ -58,6 +58,7 @@ export default function RootLayout({
           enableSystem={false}
           attribute="class"
           defaultTheme="dark"
+          forcedTheme="dark"
         >
           <AuthProvider>
             {loading ? (

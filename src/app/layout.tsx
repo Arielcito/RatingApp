@@ -15,14 +15,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className="dark" suppressHydrationWarning>
-      <body className="overflow-hidden">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          forcedTheme="dark"
-        >
           <AuthProvider>
             <SubscriberProvider>
               <ToasterContext />
@@ -30,8 +22,5 @@ export default function RootLayout({
               {children}
             </SubscriberProvider>
           </AuthProvider>
-        </ThemeProvider>
-      </body>
-    </html>
   );
 } 
