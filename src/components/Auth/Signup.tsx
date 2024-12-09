@@ -83,26 +83,28 @@ const Signup = () => {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-dark dark:text-white">
+              <label htmlFor="birthDate" className="mb-2 block text-sm text-dark dark:text-white">
                 Fecha de nacimiento
               </label>
               <input
+                id="birthDate"
                 type="date"
                 value={formData.birthDate}
                 onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-dark dark:text-white"
+                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-dark dark:text-white">
+              <label htmlFor="gender" className="mb-2 block text-sm text-dark dark:text-white">
                 Género
               </label>
               <select
+                id="gender"
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-dark dark:text-white"
+                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-white [&>option]:text-black"
                 required
               >
                 <option value="">Seleccionar género</option>
@@ -113,53 +115,57 @@ const Signup = () => {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-dark dark:text-white">
+              <label htmlFor="email" className="mb-2 block text-sm text-dark dark:text-white">
                 Email
               </label>
               <input
+                id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-dark dark:text-white"
+                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-dark dark:text-white">
+              <label htmlFor="document" className="mb-2 block text-sm text-dark dark:text-white">
                 Documento
               </label>
               <input
+                id="document"
                 type="text"
                 value={formData.document}
                 onChange={(e) => setFormData({ ...formData, document: e.target.value })}
-                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-dark dark:text-white"
+                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-dark dark:text-white">
+              <label htmlFor="telefono" className="mb-2 block text-sm text-dark dark:text-white">
                 Teléfono
               </label>
               <input
+                id="telefono"
                 type="tel"
                 value={formData.telefono}
                 onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-dark dark:text-white"
+                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-dark dark:text-white">
+              <label htmlFor="passwd" className="mb-2 block text-sm text-dark dark:text-white">
                 Contraseña
               </label>
               <input
+                id="passwd"
                 type="password"
                 value={formData.passwd}
                 onChange={(e) => setFormData({ ...formData, passwd: e.target.value })}
-                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-dark dark:text-white"
+                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-white"
                 required
               />
             </div>

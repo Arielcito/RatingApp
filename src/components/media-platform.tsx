@@ -77,10 +77,13 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
 
   const handleChannelChange = (index: number) => {
     setCurrentChannel(index);
-    window.scrollTo({ 
-      top: 0,
-      behavior: 'smooth'
-    });
+    const videoContainer = document.querySelector('.aspect-video');
+    if (videoContainer) {
+      videoContainer.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   const handleNextChannel = () => {

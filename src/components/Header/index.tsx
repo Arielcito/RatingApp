@@ -252,7 +252,7 @@ const Header = () => {
                     href="/auth/signup"
                     className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
                   >
-                    Descarga la App
+                    Iniciar Sesión
                   </Link>
                 </>
               )}
