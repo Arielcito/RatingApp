@@ -24,6 +24,7 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [iframeError, setIframeError] = useState(false)
 
   useEffect(() => {
     if (audioRef.current) {
@@ -70,6 +71,9 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   }
 
   const handleStationChange = async (station: Channel) => {
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    
     setIsLoading(true)
     setError(null)
     setIsPlaying(false)
@@ -139,18 +143,29 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
     handleStationChange(filteredChannels[previousIndex])
   }
 
+  // Modificar el componente de audio para mostrar iframe o audio según isIPTV
+  const handleIframeError = () => {
+    setIframeError(true)
+    const radioUrl = currentStation?.radioWebURL
+    if (radioUrl) {
+      window.open(radioUrl, '_blank')
+    }
+  }
+
   return (
     <div className="min-h-screen text-white">
       <div className="flex h-[calc(100vh-73px)]">
         <main className="flex-1 overflow-auto">
-          <audio
-            ref={audioRef}
-            src={currentStation.streamingUrl || currentStation.radioWebURL || ''}
-            preload="none"
-          >
-            <track kind="captions" />
-          </audio>
-          <motion.div 
+          {currentStation.isIPTV ? (
+            <div>
+              <audio
+                ref={audioRef}
+              src={currentStation.streamingUrl || ''}
+              preload="none"
+            >
+              <track kind="captions" />
+            </audio>
+            <motion.div 
             className="h-[400px] bg-gray-900 relative flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -226,8 +241,19 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                 />
               </div>
             </motion.div>
-          </motion.div>
-
+              </motion.div>
+            </div>
+          ) : (
+            <iframe
+              title={currentStation.name}
+              src={currentStation.radioWebURL}
+              className="w-full h-[400px] border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              onError={handleIframeError}
+            />
+          )}
+          
           {/* Advertising Banner */}
           <AdvertisingBanner />
 

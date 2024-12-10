@@ -20,6 +20,7 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   const searchParams = useSearchParams()
   const [currentChannel, setCurrentChannel] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [iframeError, setIframeError] = useState(false);
 
   const getFilteredChannels = () => {
     const provincia = searchParams.get('provincia')
@@ -93,6 +94,14 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     )
   }
 
+  const handleIframeError = () => {
+    setIframeError(true);
+    const channelUrl = getFilteredChannels()[currentChannel]?.tvWebURL;
+    if (channelUrl) {
+      window.open(channelUrl, '_blank');
+    }
+  };
+
   return (
     <div className="bg-black text-white">
       <div className="flex">
@@ -115,11 +124,11 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             ) : (
               <iframe
                 title={`Canal ${getFilteredChannels()[currentChannel]?.name}`}
-                src={`/api/proxy?url=${encodeURIComponent(getFilteredChannels()[currentChannel]?.tvWebURL || '')}`}
+                src={getFilteredChannels()[currentChannel]?.tvWebURL}
                 className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                sandbox="allow-same-origin allow-scripts"
+                onError={handleIframeError}
               />
             )}
           </div>
