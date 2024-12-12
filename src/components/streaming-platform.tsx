@@ -12,15 +12,16 @@ import { AdvertisingBanner } from '@/components/advertising-banner';
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
 
-interface MediaPlatformProps {
+interface StreamingPlatformProps {
   channels: Channel[];
 }
 
-export function MediaPlatform({ channels }: MediaPlatformProps) {
+export function StreamingPlatform({ channels }: StreamingPlatformProps) {
   const searchParams = useSearchParams()
   const [currentChannel, setCurrentChannel] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [iframeError, setIframeError] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   const getFilteredChannels = () => {
     const provincia = searchParams.get('provincia')
@@ -49,38 +50,39 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
-      console.log('currentChannel', currentChannel)
-    const video = videoRef.current;
-    console.log('videoRef', videoRef)
-    if (!video) return;
-    console.log('video', video)
-    const filteredChannels = getFilteredChannels()
-    if (filteredChannels.length === 0) return
+      console.log('isVideoReady', isVideoReady)
+      if (!isVideoReady) return;
+      
+      const video = videoRef.current;
+      if (!video) return;
+      console.log('video', video)
+      const filteredChannels = getFilteredChannels()
+      if (filteredChannels.length === 0) return
 
-    const currentChannelData = filteredChannels[currentChannel]
-    console.log('currentChannelData', currentChannelData)
-    if (currentChannelData.isIPTV) {
+      const currentChannelData = filteredChannels[currentChannel]
+      console.log('currentChannelData', currentChannelData)
+      if (currentChannelData.isIPTV) {
 
-      console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
-      const hls = new Hls();
-      if (Hls.isSupported()) {
-        hls.loadSource(currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || '');
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play().catch(error => {
-            console.error('Error al reproducir:', error);
-          });
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
-        video.src = currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || currentChannelData?.siteUrl || '';
-      }
+        const hls = new Hls();
+        if (Hls.isSupported()) {
+          hls.loadSource(currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || '');
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            video.play().catch(error => {
+              console.error('Error al reproducir:', error);
+            });
+          });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
+          video.src = currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || currentChannelData?.siteUrl || '';
+        }
 
-      return () => {
-        hls.destroy();
-      };
-    }
-  }, [currentChannel, channels, searchParams]);
+        return () => {
+          hls.destroy();
+        };
+      }
+    }, [currentChannel, channels, searchParams, isVideoReady]);
 
   const handleChannelChange = (index: number) => {
     setCurrentChannel(index);
@@ -118,6 +120,7 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
                 ref={videoRef}
                 className="w-full h-full"
                 controls
+                onLoadedMetadata={() => setIsVideoReady(true)}
               >
                 <track 
                   kind="captions" 
@@ -130,11 +133,9 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             ) : (
               <iframe
                 title={`Canal ${getFilteredChannels()[currentChannel]?.name}`}
-                src={getFilteredChannels()[currentChannel]?.tvWebURL}
+                src={getFilteredChannels()[currentChannel]?.streamingUrl}
                 className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                onError={handleIframeError}
               />
             )}
           </div>

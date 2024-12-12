@@ -248,7 +248,6 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
               title={currentStation.name}
               src={currentStation.radioWebURL}
               className="w-full h-[400px] border-0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               onError={handleIframeError}
             />

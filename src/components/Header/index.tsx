@@ -249,7 +249,7 @@ const Header = () => {
               ) : (
                 <>
                   <Link
-                    href="/auth/signup"
+                    href="/auth/signin"
                     className="mx-6 hidden rounded-md bg-primary px-[30px] py-[10px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block"
                   >
                     Iniciar Sesión

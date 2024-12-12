@@ -21,10 +21,6 @@ export default function ServiciosRootLayout({
 
   return (
     <>
-      <head>
-        <Script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js" strategy="afterInteractive" />
-        <Script type="module" src="https://unpkg.com/x-frame-bypass"></Script>
-      </head>
       <ThemeProvider
         attribute="class"
           defaultTheme="dark"

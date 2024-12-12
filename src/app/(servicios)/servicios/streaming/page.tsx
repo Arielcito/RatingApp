@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { MediaPlatform } from '@/components/media-platform';
 import { useSubscriber } from "@/app/context/SubscriberContext";
 import { getRadioChannels, getStreamingChannels } from '@/lib/api/channels';
 import { getActiveCampaigns } from '@/lib/api/campaign';
 import type { Channel } from '@/types/channel';
 import type { Campaign } from '@/types/campaign';
+import { StreamingPlatform } from '@/components/streaming-platform';
 
 export default function StreamingPage() {
   const { subscriber } = useSubscriber();
@@ -43,5 +43,5 @@ export default function StreamingPage() {
   );
   if (error) return <div className="text-red-500 text-center p-4">Error: {error}</div>;
 
-  return <MediaPlatform channels={channels} />;
+  return <StreamingPlatform channels={channels} />;
 } 

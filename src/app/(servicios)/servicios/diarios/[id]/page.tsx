@@ -11,25 +11,26 @@ import type { Campaign } from '@/types/campaign'
 export default function DiarioViewerPage({ params }: { params: { id: string } }) {
   const { subscriber } = useSubscriber()
   const [newspaper, setNewspaper] = useState<Channel | null>(null)
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [newsChannel, activeCampaigns] = await Promise.all([
-        getOnlineNewsChannels(),
-          getActiveCampaigns()
-        ])
-        console.log(newsChannel)
-        setNewspaper(newsChannel.find(channel => channel.id === params.id) || null)
-        setCampaigns(activeCampaigns)
+        const newsChannel = await getOnlineNewsChannels()
+        console.log('newsChannel', newsChannel)
+        const selectedId = Number(params.id)
+        const selectedNewspaper = newsChannel.find(channel => channel.id === selectedId) || null
+        console.log('selectedNewspaper', selectedNewspaper)
+        console.log('URL del diario:', selectedNewspaper?.onlineNewsUrl || selectedNewspaper?.siteUrl)
+        setNewspaper(selectedNewspaper)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido')
         console.error('Error cargando diario:', err)
       } finally {
         setIsLoading(false)
+        console.log('newspaper', newspaper)
       }
     }
 
@@ -47,22 +48,21 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
 
   return (
     <div className="container mx-auto p-4 min-h-screen flex flex-col">
+      <div className="mt-4">
+        <AdvertisingBanner />
+      </div>
+
       <h1 className="text-2xl font-bold mb-4 text-white">{newspaper.name}</h1>
       
       <div className="flex-1 bg-white rounded-lg overflow-hidden shadow-lg">
         <iframe
-          is="x-frame-bypass"
           src={newspaper.onlineNewsUrl || newspaper.siteUrl || ''}
           className="w-full h-full min-h-[calc(100vh-200px)]"
           style={{ border: 'none' }}
           title={newspaper.name}
-          sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
         />
       </div>
-
-      <div className="mt-4">
-        <AdvertisingBanner />
-      </div>
+      
     </div>
   )
 } 

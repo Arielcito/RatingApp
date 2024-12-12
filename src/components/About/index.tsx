@@ -32,7 +32,6 @@ const About = () => {
       return (
         <div key={news.id} className="relative w-full h-full max-w-[90vw] max-h-[90vh]">
           <iframe
-            is="x-frame-bypass"
             src={getVideoEmbedUrl(news.videoUrl)}
             className="w-full h-full"
             allow="autoplay"
