@@ -8,6 +8,12 @@ export const clientesComunidad: Client[] = [
     height: 24,
   },
   {
+    logo: "https://drive.google.com/uc?id=1MWnX3qmnGrLEHQzuBy_i90vVOvDdfhov&export=download",
+    link: "#",
+    width: 99,
+    height: 24,
+  },
+  {
     logo: "https://drive.google.com/uc?id=1qLBJQi10lX_dw5GHAvJK9OnTtau2Z-RY&export=download",
     link: "#",
     width: 89,
