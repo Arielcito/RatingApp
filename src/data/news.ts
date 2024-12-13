@@ -30,7 +30,7 @@ export const castingNews: News[] = [
     category: "Becas",
     image:
       "https://drive.google.com/uc?id=1KxeXkygW8chTPjN0bamhJyes2J1WRDBk&export=download",
-    type: "video",
+    type: "image",
   },
   {
     id: "3",
@@ -41,7 +41,6 @@ export const castingNews: News[] = [
     image:
       "https://drive.google.com/uc?id=19t8chupuQhwhg7bcFcj_BbkqvHkNrGnA&export=download",
     category: "Mentorías",
-    videoUrl: "1WPYdsUP_VXov3gMKZgB2U1Hx8ZdLNX9a",
-    type: "video",
+    type: "image",
   },
 ];
