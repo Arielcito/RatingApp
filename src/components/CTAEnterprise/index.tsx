@@ -28,7 +28,7 @@ const CTAEnterprise = () => {
             <h2 className="mb-4 w-11/12 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle4">
               Unite a Rating App
             </h2>
-            <p className="mb-6">
+            <p className="mb-6 text-white">
               Descubra cómo Rating App puede ayudar a su empresa a gestionar y mejorar su reputación en línea. Contáctenos hoy para obtener más información sobre nuestros servicios y cómo podemos impulsar el crecimiento de su negocio.
             </p>
             <a

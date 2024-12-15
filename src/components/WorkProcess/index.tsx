@@ -93,7 +93,7 @@ const WorkProcess = () => {
             className="wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]"
             data-wow-delay=".2s"
           >
-            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
+            <h2 className="mb-4 text-3xl font-bold text-white dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
               Como funciona Rating App?
             </h2>
           </div>
@@ -111,7 +111,7 @@ const WorkProcess = () => {
                     <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white dark:bg-[#2A2E44] dark:text-white dark:group-hover:bg-primary">
                       {item.icon}
                     </div>
-                    <h3 className="mb-4 text-xl font-semibold text-black dark:text-white sm:text-[22px] xl:text-[26px]">
+                    <h3 className="mb-4 text-xl font-semibold text-white dark:text-white sm:text-[22px] xl:text-[26px]">
                       {item.title}
                     </h3>
                     <p className="text-base text-body">{item.description}</p>

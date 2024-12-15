@@ -30,7 +30,6 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
         console.error('Error cargando diario:', err)
       } finally {
         setIsLoading(false)
-        console.log('newspaper', newspaper)
       }
     }
 

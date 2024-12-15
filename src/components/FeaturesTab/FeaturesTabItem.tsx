@@ -9,11 +9,11 @@ const FeaturesTabItem = ({ featureTab }: { featureTab: FeatureTab }) => {
     <>
       <div className="flex items-center gap-8 lg:gap-19">
         <div className="md:w-1/2">
-          <h2 className="mb-7 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle2">
+          <h2 className="mb-7 text-3xl font-bold text-white dark:text-white xl:text-sectiontitle2">
             {title}
           </h2>
-          <p className="mb-5">{desc1}</p>
-          <p className="w-11/12">{desc2}</p>
+          <p className="mb-5 text-white">{desc1}</p>
+          <p className="w-11/12 text-white">{desc2}</p>
         </div>
         <div className="relative mx-auto hidden aspect-[562/366] max-w-[550px] md:block md:w-1/2">
           <Image src={image} alt={title} fill className="dark:hidden" />

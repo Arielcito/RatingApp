@@ -57,7 +57,7 @@ const Cta = () => {
                     <div className="inline-block px-[10px]">
                       <Link
                         href="#"
-                        className="mb-5 inline-flex items-center rounded-md bg-black py-[10px] pl-4 pr-5 text-white hover:bg-opacity-90 dark:bg-white dark:text-black dark:hover:bg-opacity-90"
+                        className="mb-5 inline-flex items-center rounded-md bg-black py-[10px] pl-4 pr-5 text-white hover:bg-opacity-90 dark:bg-white dark:text-white dark:hover:bg-opacity-90"
                       >
                         <span className="mr-[10px]">
                           <svg
