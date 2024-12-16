@@ -44,7 +44,7 @@ export const clientesComunidad: Client[] = [
     height: 32,
   },
   {
-    logo: "https://drive.google.com/uc?id=1HYRb-xea1lHF4yGOhvlmAzS_xXALqB3W&export=download",
+    logo: "https://drive.google.com/uc?id=1cO1XsliWry5gOeDD9kZ1sCSnKXkMCzOY&export=download",
     link: "#",
     width: 106,
     height: 32,
