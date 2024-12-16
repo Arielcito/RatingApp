@@ -18,22 +18,35 @@ const Clients = () => {
     const slider = sliderRef.current;
     const items = Array.from(slider.children);
     
-    for (const item of items) {
-      const clone = item.cloneNode(true);
-      slider.appendChild(clone);
+    for (let i = 0; i < 2; i++) {
+      for (const item of items) {
+        const clone = item.cloneNode(true);
+        slider.appendChild(clone);
+      }
     }
 
-    slider.animate(
+    const slideWidth = items.reduce((width, item) => width + item.clientWidth, 0);
+
+    const animation = slider.animate(
       [
         { transform: 'translateX(0)' },
-        { transform: `translateX(-${50}%)` }
+        { transform: `translateX(-${slideWidth}px)` }
       ],
       {
-        duration: 30000,
+        duration: 60000,
         iterations: Number.POSITIVE_INFINITY,
         easing: 'linear'
       }
     );
+
+    animation.onfinish = () => {
+      slider.style.transform = 'translateX(0)';
+      animation.play();
+    };
+
+    return () => {
+      animation.cancel();
+    };
   }, [shouldAnimate]);
 
   return (
