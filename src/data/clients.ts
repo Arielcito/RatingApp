@@ -83,6 +83,12 @@ export const clientesEmpresas: Client[] = [
     height: 24,
   },
   {
+    logo: "https://drive.google.com/uc?id=1MWnX3qmnGrLEHQzuBy_i90vVOvDdfhov&export=download",
+    link: "#",
+    width: 99,
+    height: 24,
+  },
+  {
     logo: "https://drive.google.com/uc?id=1qLBJQi10lX_dw5GHAvJK9OnTtau2Z-RY&export=download",
     link: "#",
     width: 89,
@@ -108,6 +114,30 @@ export const clientesEmpresas: Client[] = [
   },
   {
     logo: "https://drive.google.com/uc?id=1vrB9yWas--394C3OXBjAdBHHmXno1inS&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1cO1XsliWry5gOeDD9kZ1sCSnKXkMCzOY&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1XSxSZEIbwPJuYv3S7yq0nPzxLlMY7y9k&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1C_IjXUmJ-M13jEFBF6eLNsUIJMQRvnJF&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "https://drive.google.com/uc?id=1a-zJWrzlFKQwhBZiB0QsIAM3w6HdN2Cd&export=download",
     link: "#",
     width: 106,
     height: 32,
