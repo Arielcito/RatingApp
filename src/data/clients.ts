@@ -56,12 +56,6 @@ export const clientesComunidad: Client[] = [
     height: 32,
   },
   {
-    logo: "/images/logo/logo.png",
-    link: "#",
-    width: 106,
-    height: 32,
-  },
-  {
     logo: "https://drive.google.com/uc?id=1C_IjXUmJ-M13jEFBF6eLNsUIJMQRvnJF&export=download",
     link: "#",
     width: 106,
@@ -69,6 +63,12 @@ export const clientesComunidad: Client[] = [
   },
   {
     logo: "https://drive.google.com/uc?id=1a-zJWrzlFKQwhBZiB0QsIAM3w6HdN2Cd&export=download",
+    link: "#",
+    width: 106,
+    height: 32,
+  },
+  {
+    logo: "/images/logo/logo.png",
     link: "#",
     width: 106,
     height: 32,
