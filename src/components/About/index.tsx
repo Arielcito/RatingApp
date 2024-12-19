@@ -11,7 +11,7 @@ const About = () => {
   const [lightboxController, setLightboxController] = useState({
     toggler: false,
     sourceIndex: 0,
-    type: 'video' as 'video' | 'image'
+    type: "video" as "video" | "image",
   });
 
   // Función helper para obtener la URL del video
@@ -21,19 +21,22 @@ const About = () => {
 
   // Función helper para obtener la URL de la imagen
   const getImageUrl = (url: string) => {
-    if (url.startsWith('http')) {
+    if (url.startsWith("http")) {
       return url;
     }
     return url;
   };
 
-  const lightboxSources = castingNews.map(news => {
-    if (news.type === 'video' && news.videoUrl) {
+  const lightboxSources = castingNews.map((news) => {
+    if (news.type === "video" && news.videoUrl) {
       return (
-        <div key={news.id} className="relative w-full h-full max-w-[90vw] max-h-[90vh]">
+        <div
+          key={news.id}
+          className="relative h-full max-h-[90vh] w-full max-w-[90vw]"
+        >
           <iframe
             src={getVideoEmbedUrl(news.videoUrl)}
-            className="w-full h-full"
+            className="h-full w-full"
             allow="autoplay"
             title={news.title}
             loading="lazy"
@@ -44,7 +47,10 @@ const About = () => {
       );
     }
     return (
-      <div key={news.id} className="relative w-full h-full max-w-[90vw] max-h-[90vh]">
+      <div
+        key={news.id}
+        className="relative h-full max-h-[90vh] w-full max-w-[90vw]"
+      >
         <Image
           src={getImageUrl(news.image)}
           alt={news.title}
@@ -57,11 +63,11 @@ const About = () => {
     );
   });
 
-  const openLightbox = (index: number, type: 'video' | 'image') => {
+  const openLightbox = (index: number, type: "video" | "image") => {
     setLightboxController({
       toggler: !lightboxController.toggler,
       sourceIndex: index,
-      type
+      type,
     });
   };
 
@@ -81,10 +87,13 @@ const About = () => {
                     Quienes Somos?
                   </h2>
                   <p className="mb-[30px] text-base leading-relaxed text-body">
-                    Hola! Bienvenido a RatingApp!
-                    Somos I+D Inteligencia Digital, una Consultora Tecnologica que se especializa en servicios, dedicada a realizar mediciones de audiencias en los medios
-                    de comunicacion en Argentina y proyectada a otros mercados globales, de television, radio, publicidad exterior, streaming, Periodicos online, TGI (Target Group Index) y Agencias Publicitarias
-
+                    Hola! Bienvenido a RatingApp! Somos I+D Inteligencia
+                    Digital, una Consultora Tecnologica que se especializa en
+                    servicios, dedicada a realizar mediciones de audiencias en
+                    los medios de comunicacion en Argentina y proyectada a otros
+                    mercados globales, de television, radio, publicidad
+                    exterior, streaming, Periodicos online, TGI (Target Group
+                    Index) y Agencias Publicitarias
                   </p>
                 </div>
               </div>
@@ -98,8 +107,8 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-8 lg:gap-32.5 mt-10">
-          <motion.div
+          <div className="mt-10 flex items-center gap-8 lg:gap-32.5">
+            <motion.div
               variants={{
                 hidden: {
                   opacity: 0,
@@ -117,12 +126,12 @@ const About = () => {
               viewport={{ once: true }}
               className="animate_left relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2"
             >
-            <Image
-              src="/images/about/casting-app.jpg"
-              alt="About"
-              className="w-full h-full object-cover"
-              fill
-            />
+              <Image
+                src="/images/about/casting-app.jpg"
+                alt="About"
+                className="h-full w-full object-cover"
+                fill
+              />
             </motion.div>
             <motion.div
               variants={{
@@ -194,11 +203,11 @@ const About = () => {
           </div>
         </div>
 
-        <div className="container lg:max-w-[1120px] mt-20">
-          <h2 className="text-3xl font-bold text-black dark:text-white text-center mb-10">
-            Últimas Noticias de CastingApp
+        <div className="container mt-20 lg:max-w-[1120px]">
+          <h2 className="mb-10 text-center text-3xl font-bold text-black dark:text-white">
+            Últimas Noticias
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {castingNews.map((news, index) => (
               <motion.div
                 key={news.id}
@@ -210,19 +219,19 @@ const About = () => {
                 whileInView="visible"
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
-                className="bg-white dark:bg-blacksection rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
+                className="overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-blacksection"
               >
-                <div 
+                <div
                   className="relative h-48 cursor-pointer"
                   onClick={() => openLightbox(index, news.type)}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === "Enter" || e.key === " ") {
                       openLightbox(index, news.type);
                     }
                   }}
                 >
-                  {news.type === 'video' ? (
-                    <div className="relative w-full h-full">
+                  {news.type === "video" ? (
+                    <div className="relative h-full w-full">
                       <Image
                         src={news.image}
                         alt={news.title}
@@ -230,9 +239,9 @@ const About = () => {
                         className="object-contain"
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-primary/80 rounded-full flex items-center justify-center">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/80">
                           <svg
-                            className="w-8 h-8 text-white"
+                            className="h-8 w-8 text-white"
                             fill="currentColor"
                             viewBox="0 0 24 24"
                             aria-label="Play video"
@@ -243,17 +252,17 @@ const About = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="group relative w-full h-full">
+                    <div className="group relative h-full w-full">
                       <Image
                         src={news.image}
                         alt={news.title}
                         fill
                         className="object-contain transition-transform duration-300 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/20">
                         {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                         <svg
-                          className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          className="h-8 w-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -269,17 +278,15 @@ const About = () => {
                       </div>
                     </div>
                   )}
-                  <span className="absolute top-4 left-4 bg-meta text-white px-3 py-1 rounded-full text-sm">
+                  <span className="absolute left-4 top-4 rounded-full bg-meta px-3 py-1 text-sm text-white">
                     {news.category}
                   </span>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-black dark:text-white mb-2">
+                  <h3 className="mb-2 text-xl font-bold text-black dark:text-white">
                     {news.title}
                   </h3>
-                  <p className="text-body mb-4">
-                    {news.description}
-                  </p>
+                  <p className="mb-4 text-body">{news.description}</p>
                   <span className="text-sm text-meta">
                     {new Date(news.date).toLocaleDateString()}
                   </span>

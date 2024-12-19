@@ -12,35 +12,35 @@ export interface News {
 export const castingNews: News[] = [
   {
     id: "1",
-    title: "CEPBA y BBVA. Herramientas para potenciar tus finanzas. Sin costo",
+    title: "Pre lanzamiento Rating App 2025",
     description:
-      "Herramientas para potenciar tus finanzas. Descubri nuevas herramientas para hacer rendir tu capital. Exponen: Manuela Moralejo e Ivan Fernandez",
-    date: "2024-11-25 16:00",
+      "El 17/12/2024 se realizó en el Show Room de Anacleto 44 entre 15 y 16, La Plata, Bs As, la firma del convenio marco de cooperacióm mutua con CEPBA, Confederación económica de la provincia de Buenos Aires. Estuvieron presentes importantes autoridades entre ellos el presidente de la Universidad NAcional de La Plata, Martín Lopez Armengol, el presidente de CEPBA Dr. Guillermo Ciro, el vice presidente el Lic. Christian Wertmuller, siendo anfitrion del evento el empresario Sr. Carlos ANacleto. Se abordaron temas de incorporación de nuevas tecnologías en la gestión de eficiencia y eficacia empresarial.",
+    date: "2024-12-17 19:00",
     image:
-      "https://drive.google.com/uc?id=1gpzL0a4YezL2DMgGdA7ObE07T_vY0We_&export=download",
-    category: "Actividad Virtual",
+      "https://drive.google.com/uc?id=1XPRhaF6L2yuJ_GbHRlU2ofTN2yuhzG6e&export=download",
+    category: "",
     type: "image",
   },
   {
     id: "2",
-    title: "Becas para jóvenes talentos",
+    title: "Acompañaron a Rating App importantes autoridades",
     description:
-      "Se abre nueva convocatoria para becas de formación artística en las principales academias del país.",
-    date: "2024-03-10",
-    category: "Becas",
+      "Con la prestigiosa presencia del Presidente de la Universidad Nacional de La Plate, Dr Martín Lopez Armengol, y el Dr Mauricio Federico Erben, Investigador Principal del CONICET, entre otras autoridades, empresarios e instituciones presentes, disfrutamos de una grata velada en el brindis anual de la Confederación Económica .de la provincia de Buenos Aires, en el Show Room inteligente del Grupo Anacleto de la ciudad de La Plata",
+    date: "2024-12-17",
+    category: "",
     image:
-      "https://drive.google.com/uc?id=1KxeXkygW8chTPjN0bamhJyes2J1WRDBk&export=download",
+      "https://drive.google.com/uc?id=1tXLvvp2T68BRxO4RNg2_KaP7ny21eQd-&export=download",
     type: "image",
   },
   {
     id: "3",
-    title: "Éxito en el programa de mentorías",
+    title: "Agradecemos a los medios de comunicación presentes",
     description:
-      "Los participantes del programa de mentorías muestran resultados prometedores en sus carreras artísticas.",
-    date: "2024-03-05",
+      "En el desarrollo de la actividad contamos con la presencia de importantes medios de comunicación, TV, radios, Streaming y diarios online, que acompañaron positivamente el pre lanzamiento del ecosistema tecnológico presentado por Rating App.",
+    date: "2024-12-17",
     image:
-      "https://drive.google.com/uc?id=19t8chupuQhwhg7bcFcj_BbkqvHkNrGnA&export=download",
-    category: "Mentorías",
+      "https://drive.google.com/uc?id=1oF5VbLBP6LsWBJXqx96DL8XBhh4wsz12&export=download",
+    category: "Pre lanzamiento Rating App 2025",
     type: "image",
   },
 ];
