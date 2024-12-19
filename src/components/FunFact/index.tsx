@@ -26,14 +26,14 @@ const FunFact = () => {
             className="animate_top mx-auto mb-12.5 px-4 text-center md:w-4/5 md:px-0 lg:mb-17.5 lg:w-2/3 xl:w-1/2"
           >
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle3">
-              Métricas Confiables Avaladas por Expertos
+              Prensa
             </h2>
-            <p className="mx-auto lg:w-11/12">
-              Nuestros números respaldan nuestro compromiso con la excelencia y la calidad en la industria del entretenimiento
+            <p className="mx-auto text-white dark:text-white lg:w-11/12 xl:text-sectiontitle3">
+              Más noticias Rating App pre lanzamiento 2025
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {avaladosPorExpertos.map((metrica) => (
               <motion.div
                 key={metrica.id}
@@ -45,7 +45,7 @@ const FunFact = () => {
                 whileInView="visible"
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
-                className="bg-white dark:bg-blacksection rounded-lg overflow-hidden shadow-lg"
+                className="overflow-hidden rounded-lg bg-white shadow-lg dark:bg-blacksection"
               >
                 <div className="relative h-48">
                   <Image
@@ -54,17 +54,15 @@ const FunFact = () => {
                     fill
                     className="object-cover"
                   />
-                  <span className="absolute top-4 left-4 bg-meta text-white px-3 py-1 rounded-full text-sm">
+                  <span className="absolute left-4 top-4 rounded-full bg-meta px-3 py-1 text-sm text-white">
                     {metrica.category}
                   </span>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-black dark:text-white mb-2">
+                  <h3 className="mb-2 text-xl font-bold text-black dark:text-white">
                     {metrica.title}
                   </h3>
-                  <p className="text-body mb-4">
-                    {metrica.description}
-                  </p>
+                  <p className="mb-4 text-body">{metrica.description}</p>
                   <span className="text-sm text-meta">
                     {new Date(metrica.date).toLocaleDateString()}
                   </span>

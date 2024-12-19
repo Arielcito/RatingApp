@@ -18,32 +18,30 @@ export const avaladosPorExpertos: AvaladosPorExpertos[] = [
     },*/
   {
     id: "1",
-    title: "CEPBA y BBVA. Herramientas para potenciar tus finanzas. Sin costo",
+    title: "Team Rating App",
     description:
-      "Herramientas para potenciar tus finanzas. Descubri nuevas herramientas para hacer rendir tu capital. Exponen: Manuela Moralejo e Ivan Fernandez",
-    date: "2024-11-25 16:00",
+      "Director de Negocios Gustavo Acosta. Director IT Juan Pablo Robles",
+    date: "2024-12-17 19:00",
     image:
-      "https://drive.google.com/uc?id=1gpzL0a4YezL2DMgGdA7ObE07T_vY0We_&export=download",
-    category: "Actividad Virtual",
+      "https://drive.google.com/uc?id=1SpUeVjGK9VFuM2KdCwyrE4Us-NoyYvwV&export=download",
+    category: "",
   },
   {
     id: "2",
-    title: "CEPBA y BBVA. Herramientas para potenciar tus finanzas. Sin costo",
-    description:
-      "Herramientas para potenciar tus finanzas. Descubri nuevas herramientas para hacer rendir tu capital. Exponen: Manuela Moralejo e Ivan Fernandez",
-    date: "2024-11-25 16:00",
+    title: "Exposición Show Room 100% inteligente",
+    description: "Exposito Cdor Carlos Anacleto",
+    date: "2024-12-17 19:00",
     image:
-      "https://drive.google.com/uc?id=1gpzL0a4YezL2DMgGdA7ObE07T_vY0We_&export=download",
-    category: "Actividad Virtual",
+      "https://drive.google.com/uc?id=1zXJ3RM22NQQwp88sS-EMuFhnPXUZaBQ1&export=download",
+    category: "",
   },
   {
     id: "3",
-    title: "CEPBA y BBVA. Herramientas para potenciar tus finanzas. Sin costo",
-    description:
-      "Herramientas para potenciar tus finanzas. Descubri nuevas herramientas para hacer rendir tu capital. Exponen: Manuela Moralejo e Ivan Fernandez",
-    date: "2024-11-25 16:00",
+    title: "CEPBA Presentación Balance Anual de Gestión 2024",
+    description: "Expositor Lic Christian Wertmuller vicepresidente CEPBA",
+    date: "2024-12-17 19:00",
     image:
-      "https://drive.google.com/uc?id=1gpzL0a4YezL2DMgGdA7ObE07T_vY0We_&export=download",
-    category: "Actividad Virtual",
+      "https://drive.google.com/uc?id=1FIleMYdgCMjOwf8armZD2ADmW7lAA-l0&export=download",
+    category: "",
   },
 ];

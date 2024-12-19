@@ -43,4 +43,15 @@ export const castingNews: News[] = [
     category: "Pre lanzamiento Rating App 2025",
     type: "image",
   },
+  {
+    id: "4",
+    title: "Agradecemos a los medios de comunicación presentes",
+    description:
+      "En el desarrollo de la actividad contamos con la presencia de importantes medios de comunicación, TV, radios, Streaming y diarios online, que acompañaron positivamente el pre lanzamiento del ecosistema tecnológico presentado por Rating App.",
+    date: "2024-12-17",
+    image:
+      "https://drive.google.com/uc?id=1oF5VbLBP6LsWBJXqx96DL8XBhh4wsz12&export=download",
+    category: "Pre lanzamiento Rating App 2025",
+    type: "image",
+  },
 ];
