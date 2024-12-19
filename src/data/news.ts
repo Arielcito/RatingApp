@@ -15,7 +15,7 @@ export const castingNews: News[] = [
     title: "Pre lanzamiento Rating App 2025",
     description:
       "El 17/12/2024 se realizó en el Show Room de Anacleto 44 entre 15 y 16, La Plata, Bs As, la firma del convenio marco de cooperacióm mutua con CEPBA, Confederación económica de la provincia de Buenos Aires. Estuvieron presentes importantes autoridades entre ellos el presidente de la Universidad NAcional de La Plata, Martín Lopez Armengol, el presidente de CEPBA Dr. Guillermo Ciro, el vice presidente el Lic. Christian Wertmuller, siendo anfitrion del evento el empresario Sr. Carlos ANacleto. Se abordaron temas de incorporación de nuevas tecnologías en la gestión de eficiencia y eficacia empresarial.",
-    date: "2024-12-27 19:00",
+    date: "2024-12-17 19:00",
     image:
       "https://drive.google.com/uc?id=1XPRhaF6L2yuJ_GbHRlU2ofTN2yuhzG6e&export=download",
     category: "Pre lanzamiento Rating App 2025",
@@ -34,13 +34,13 @@ export const castingNews: News[] = [
   },
   {
     id: "3",
-    title: "Éxito en el programa de mentorías",
+    title: "Agradecemos a los medios de comunicación presentes",
     description:
-      "Los participantes del programa de mentorías muestran resultados prometedores en sus carreras artísticas.",
-    date: "2024-03-05",
+      "En el desarrollo de la actividad contamos con la presencia de importantes medios de comunicación, TV, radios, Streaming y diarios online, que acompañaron positivamente el pre lanzamiento del ecosistema tecnológico presentado por Rating App.",
+    date: "2024-12-17",
     image:
-      "https://drive.google.com/uc?id=19t8chupuQhwhg7bcFcj_BbkqvHkNrGnA&export=download",
-    category: "Mentorías",
+      "https://drive.google.com/uc?id=1oF5VbLBP6LsWBJXqx96DL8XBhh4wsz12&export=download",
+    category: "Pre lanzamiento Rating App 2025",
     type: "image",
   },
 ];
