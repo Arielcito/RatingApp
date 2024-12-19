@@ -28,7 +28,7 @@ const FunFact = () => {
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white xl:text-sectiontitle3">
               Prensa
             </h2>
-            <p className="mx-auto text-white dark:text-white lg:w-11/12 xl:text-sectiontitle3">
+            <p className="mx-auto text-white dark:text-white">
               Más noticias Rating App pre lanzamiento 2025
             </p>
           </motion.div>
