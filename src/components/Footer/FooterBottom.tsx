@@ -16,7 +16,7 @@ const FooterBottom = () => {
 
             <div className="w-full px-3 md:w-1/2 lg:w-1/3">
             <div className="flex space-x-4">
-                    <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                    <Link href="https://facebook.com/rating.aplicacion/" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
                       <FaFacebookF size={24} />
                     </Link>
                     <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
@@ -25,7 +25,7 @@ const FooterBottom = () => {
                     <Link href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
                       <FaTiktok size={24} />
                     </Link>
-                    <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
+                    <Link href="https://youtube.com/@inteligenciadigital-id" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary">
                       <FaYoutube size={24} />
                     </Link>
                   </div>
