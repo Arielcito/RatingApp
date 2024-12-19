@@ -12,12 +12,12 @@ export interface News {
 export const castingNews: News[] = [
   {
     id: "1",
-    title: "CEPBA y BBVA. Herramientas para potenciar tus finanzas. Sin costo",
+    title: "Pre lanzamiento Rating App 2025",
     description:
-      "Herramientas para potenciar tus finanzas. Descubri nuevas herramientas para hacer rendir tu capital. Exponen: Manuela Moralejo e Ivan Fernandez",
+      "El 17/12/2024 se realizó en el Show Room de Anacleto 44 entre 15 y 16, La Plata, Bs As, la firma del convenio marco de cooperacióm mutua con CEPBA, Confederación económica de la provincia de Buenos Aires. Estuvieron presentes importantes autoridades entre ellos el presidente de la Universidad NAcional de La Plata, Martín Lopez Armengol, el presidente de CEPBA Dr. Guillermo Ciro, el vice presidente el Lic. Christian Wertmuller, siendo anfitrion del evento el empresario Sr. Carlos ANacleto. Se abordaron temas de incorporación de nuevas tecnologías en la gestión de eficiencia y eficacia empresarial.",
     date: "2024-11-25 16:00",
     image:
-      "https://drive.google.com/uc?id=1gpzL0a4YezL2DMgGdA7ObE07T_vY0We_&export=download",
+      "https://drive.google.com/uc?id=1XPRhaF6L2yuJ_GbHRlU2ofTN2yuhzG6e&export=download",
     category: "Actividad Virtual",
     type: "image",
   },
