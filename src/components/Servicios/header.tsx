@@ -99,7 +99,7 @@ export function Header() {
           width={200} 
           height={200} 
           className="ml-4 cursor-pointer"
-          onClick={() => router.push('/servicios')}
+          onClick={() => router.push('/servicios/tv')}
         />
         
         <div className="flex gap-4 mx-auto">
