@@ -18,7 +18,7 @@ export const castingNews: News[] = [
     date: "2024-12-17 19:00",
     image:
       "https://drive.google.com/uc?id=1XPRhaF6L2yuJ_GbHRlU2ofTN2yuhzG6e&export=download",
-    category: "Pre lanzamiento Rating App 2025",
+    category: "",
     type: "image",
   },
   {
@@ -27,7 +27,7 @@ export const castingNews: News[] = [
     description:
       "Con la prestigiosa presencia del Presidente de la Universidad Nacional de La Plate, Dr Martín Lopez Armengol, y el Dr Mauricio Federico Erben, Investigador Principal del CONICET, entre otras autoridades, empresarios e instituciones presentes, disfrutamos de una grata velada en el brindis anual de la Confederación Económica .de la provincia de Buenos Aires, en el Show Room inteligente del Grupo Anacleto de la ciudad de La Plata",
     date: "2024-12-17",
-    category: "Pre lanzamiento Rating App 2025",
+    category: "",
     image:
       "https://drive.google.com/uc?id=1tXLvvp2T68BRxO4RNg2_KaP7ny21eQd-&export=download",
     type: "image",
