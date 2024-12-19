@@ -238,7 +238,7 @@ const About = () => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                title="Anterior"
+                aria-label="Anterior"
               >
                 <path
                   strokeLinecap="round"
@@ -295,7 +295,6 @@ const About = () => {
                                   fill="currentColor"
                                   viewBox="0 0 24 24"
                                   aria-label="Play video"
-                                  title="Reproducir video"
                                 >
                                   <path d="M8 5v14l11-7z" />
                                 </svg>
@@ -355,12 +354,13 @@ const About = () => {
               className="absolute -right-12 top-1/2 -translate-y-1/2 rounded-full bg-primary p-2 text-white hover:bg-primary/80 disabled:opacity-50"
               disabled={currentSlide === totalSlides - 1}
             >
+              {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
               <svg
                 className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                title="Siguiente"
+                aria-label="Siguiente"
               >
                 <path
                   strokeLinecap="round"
