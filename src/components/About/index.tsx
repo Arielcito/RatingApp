@@ -14,6 +14,10 @@ const About = () => {
     type: "video" as "video" | "image",
   });
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const itemsPerPage = 3;
+  const totalSlides = Math.ceil(castingNews.length / itemsPerPage);
+
   // Función helper para obtener la URL del video
   const getVideoEmbedUrl = (videoId: string) => {
     return `https://drive.google.com/file/d/${videoId}/preview`;
@@ -69,6 +73,19 @@ const About = () => {
       sourceIndex: index,
       type,
     });
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  const getVisibleNews = () => {
+    const start = currentSlide * itemsPerPage;
+    return castingNews.slice(start, start + itemsPerPage);
   };
 
   return (
@@ -207,92 +224,169 @@ const About = () => {
           <h2 className="mb-10 text-center text-3xl font-bold text-black dark:text-white">
             Últimas Noticias
           </h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {castingNews.map((news, index) => (
-              <motion.div
-                key={news.id}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-                initial="hidden"
-                whileInView="visible"
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-blacksection"
+          
+          <div className="relative">
+            {/* Botón Anterior */}
+            <button
+              type="button"
+              onClick={prevSlide}
+              className="absolute -left-12 top-1/2 -translate-y-1/2 rounded-full bg-primary p-2 text-white hover:bg-primary/80 disabled:opacity-50"
+              disabled={currentSlide === 0}
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                title="Anterior"
               >
-                <div
-                  className="relative h-48 cursor-pointer"
-                  onClick={() => openLightbox(index, news.type)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      openLightbox(index, news.type);
-                    }
-                  }}
-                >
-                  {news.type === "video" ? (
-                    <div className="relative h-full w-full">
-                      <Image
-                        src={news.image}
-                        alt={news.title}
-                        fill
-                        className="object-contain"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/80">
-                          <svg
-                            className="h-8 w-8 text-white"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            aria-label="Play video"
-                          >
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Contenedor del Carrusel */}
+            <div className="overflow-hidden">
+              <div
+                className="flex transition-transform duration-300 ease-in-out"
+                style={{
+                  transform: `translateX(-${currentSlide * 100}%)`,
+                }}
+              >
+                <div className="grid min-w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  {getVisibleNews().map((news, index) => (
+                    <motion.div
+                      key={news.id}
+                      variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0 },
+                      }}
+                      initial="hidden"
+                      whileInView="visible"
+                      transition={{ duration: 0.5 }}
+                      viewport={{ once: true }}
+                      className="overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-blacksection"
+                    >
+                      <div
+                        className="relative h-48 cursor-pointer"
+                        onClick={() => openLightbox(index, news.type)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            openLightbox(index, news.type);
+                          }
+                        }}
+                      >
+                        {news.type === "video" ? (
+                          <div className="relative h-full w-full">
+                            <Image
+                              src={news.image}
+                              alt={news.title}
+                              fill
+                              className="object-contain"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/80">
+                                <svg
+                                  className="h-8 w-8 text-white"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                  aria-label="Play video"
+                                  title="Reproducir video"
+                                >
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="group relative h-full w-full">
+                            <Image
+                              src={news.image}
+                              alt={news.title}
+                              fill
+                              className="object-contain transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/20">
+                              {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
+                              <svg
+                                className="h-8 w-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-label="Expand image"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        )}
+                        <span className="absolute left-4 top-4 rounded-full bg-meta px-3 py-1 text-sm text-white">
+                          {news.category}
+                        </span>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="group relative h-full w-full">
-                      <Image
-                        src={news.image}
-                        alt={news.title}
-                        fill
-                        className="object-contain transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/20">
-                        {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-                        <svg
-                          className="h-8 w-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          aria-label="Expand image"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
-                          />
-                        </svg>
+                      <div className="p-6">
+                        <h3 className="mb-2 text-xl font-bold text-black dark:text-white">
+                          {news.title}
+                        </h3>
+                        <p className="mb-4 text-body">{news.description}</p>
+                        <span className="text-sm text-meta">
+                          {new Date(news.date).toLocaleDateString()}
+                        </span>
                       </div>
-                    </div>
-                  )}
-                  <span className="absolute left-4 top-4 rounded-full bg-meta px-3 py-1 text-sm text-white">
-                    {news.category}
-                  </span>
+                    </motion.div>
+                  ))}
                 </div>
-                <div className="p-6">
-                  <h3 className="mb-2 text-xl font-bold text-black dark:text-white">
-                    {news.title}
-                  </h3>
-                  <p className="mb-4 text-body">{news.description}</p>
-                  <span className="text-sm text-meta">
-                    {new Date(news.date).toLocaleDateString()}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
+              </div>
+            </div>
+
+            {/* Botón Siguiente */}
+            <button
+              type="button"
+              onClick={nextSlide}
+              className="absolute -right-12 top-1/2 -translate-y-1/2 rounded-full bg-primary p-2 text-white hover:bg-primary/80 disabled:opacity-50"
+              disabled={currentSlide === totalSlides - 1}
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                title="Siguiente"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            {/* Indicadores de página */}
+            <div className="mt-6 flex justify-center gap-2">
+              {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+                <button
+                  type="button"
+                  key={`slide-indicator-${slideIndex}`}
+                  onClick={() => setCurrentSlide(slideIndex)}
+                  className={`h-2 w-2 rounded-full transition-all ${
+                    currentSlide === slideIndex
+                      ? "w-6 bg-primary"
+                      : "bg-gray-300 dark:bg-gray-600"
+                  }`}
+                  aria-label={`Ir a slide ${slideIndex + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
