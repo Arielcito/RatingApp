@@ -1,12 +1,20 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Gift, Clock } from 'lucide-react'
+import { Gift, Clock, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+
+// Agregar estos imports para el modal
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 interface Campaign {
   id: number
@@ -38,20 +46,25 @@ function formatTimeLeft(endDate: string): string {
 interface RewardCardProps {
   campaign: Campaign
   isMain?: boolean
+  onClick: () => void
 }
 
-function RewardCard({ campaign, isMain = false }: RewardCardProps) {
+function RewardCard({ campaign, isMain = false, onClick }: RewardCardProps) {
   const isCaducado = campaign.id < 0
 
   return (
-    <Card className={`
-      relative overflow-hidden
-      bg-white dark:bg-blacksection
-      border border-stroke dark:border-strokedark
-      hover:shadow-solid-3 transition-shadow
-      ${isMain ? 'col-span-full' : ''}
-      ${isCaducado ? 'opacity-75' : ''}
-    `}>
+    <Card 
+      onClick={onClick}
+      className={`
+        relative overflow-hidden
+        bg-white dark:bg-blacksection
+        border border-stroke dark:border-strokedark
+        hover:shadow-solid-3 transition-shadow
+        ${isMain ? 'col-span-full' : ''}
+        ${isCaducado ? 'opacity-75' : ''}
+        cursor-pointer
+      `}
+    >
       <div className="relative h-48 md:h-64">
         <Image
           src={getAdvertisingImageURL(campaign.image_url)}
@@ -108,10 +121,79 @@ function RewardCard({ campaign, isMain = false }: RewardCardProps) {
   )
 }
 
+function CampaignModal({ campaign, isOpen, onClose }: { 
+  campaign: Campaign | null, 
+  isOpen: boolean, 
+  onClose: () => void 
+}) {
+  if (!campaign) return null
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="
+        sm:max-w-[800px]
+        bg-white dark:bg-blacksection
+        border border-stroke dark:border-strokedark
+      ">
+        <DialogHeader>
+          <div className="flex justify-between items-start">
+            <DialogTitle className="text-2xl font-bold text-black dark:text-white">
+              {campaign.title}
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              className="h-8 w-8 p-0 text-body dark:text-white/70 hover:text-black dark:hover:text-white"
+              onClick={onClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </DialogHeader>
+
+        <div className="grid gap-6">
+          <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <Image
+              src={getAdvertisingImageURL(campaign.image_url)}
+              alt={campaign.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Clock className="h-5 w-5 text-meta" />
+              <span className="text-lg text-meta font-medium">
+                {formatTimeLeft(campaign.to_date)}
+              </span>
+            </div>
+
+            <p className="text-lg text-body dark:text-white/70">
+              {campaign.description}
+            </p>
+
+            <div className="flex items-center justify-between">
+              <Badge variant="secondary" className="text-lg bg-meta/10 text-meta">
+                {campaign.award_description}
+              </Badge>
+              <Button 
+                className="bg-gradient-custom text-white hover:opacity-90"
+              >
+                Participar
+              </Button>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 export function ActiveRewardsComponent() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null)
 
   useEffect(() => {
     const fetchCampaigns = async () => {
@@ -144,12 +226,21 @@ export function ActiveRewardsComponent() {
       
       <ScrollArea className="h-[calc(100vh-200px)]">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {mainCampaign && <RewardCard campaign={mainCampaign} isMain={true} />}
           {otherCampaigns.map((campaign) => (
-            <RewardCard key={campaign.id} campaign={campaign} />
+            <RewardCard 
+              key={campaign.id} 
+              campaign={campaign}
+              onClick={() => setSelectedCampaign(campaign)}
+            />
           ))}
         </div>
       </ScrollArea>
+
+      <CampaignModal
+        campaign={selectedCampaign}
+        isOpen={selectedCampaign !== null}
+        onClose={() => setSelectedCampaign(null)}
+      />
     </div>
   )
 }
