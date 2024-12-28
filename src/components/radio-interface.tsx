@@ -11,6 +11,8 @@ import { AdvertisingBanner } from '@/components/advertising-banner'
 import type { Campaign } from '@/types/campaign'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { Tooltip } from "@/components/ui/tooltip"
 
 interface RadioInterfaceProps {
   channels: Channel[]
@@ -25,6 +27,8 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [iframeError, setIframeError] = useState(false)
+
+  const VOLUME_STEP = 5
 
   useEffect(() => {
     if (audioRef.current) {
@@ -85,6 +89,19 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
       toast.error(errorMessage)
       setError(errorMessage)
       setIsLoading(false)
+      return
+    }
+    
+    // Verificar CORS
+    try {
+      const response = await fetch(sourceUrl, { method: 'HEAD' })
+      if (!response.ok) {
+        throw new Error('CORS error')
+      }
+    } catch (error) {
+      console.error('CORS error:', error)
+      // Abrir en nueva pestaña si hay error CORS
+      window.open(sourceUrl, '_blank')
       return
     }
     
@@ -152,107 +169,137 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
     }
   }
 
+  useHotkeys('space', (e) => {
+    e.preventDefault()
+    togglePlay()
+  }, [togglePlay])
+
+  useHotkeys('arrowup', (e) => {
+    e.preventDefault()
+    setVolume(prev => Math.min(prev + VOLUME_STEP, 100))
+  }, [])
+
+  useHotkeys('arrowdown', (e) => {
+    e.preventDefault() 
+    setVolume(prev => Math.max(prev - VOLUME_STEP, 0))
+  }, [])
+
+  useHotkeys('arrowleft', (e) => {
+    e.preventDefault()
+    handlePreviousStation()
+  }, [handlePreviousStation])
+
+  useHotkeys('arrowright', (e) => {
+    e.preventDefault()
+    handleNextStation()
+  }, [handleNextStation])
+
   return (
     <div className="min-h-screen text-white">
       <div className="flex h-[calc(100vh-73px)]">
         <main className="flex-1 overflow-auto">
-          {currentStation.isIPTV ? (
-            <div>
-              <audio
-                ref={audioRef}
-              src={currentStation.streamingUrl || ''}
-              preload="none"
-            >
-              <track kind="captions" />
-            </audio>
-            <motion.div 
-            className="h-[400px] bg-gray-900 relative flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.div 
-              className="text-center flex flex-col items-center"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <Image
-                  src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
-                  alt={currentStation.name}
-                  width={80}
-                  height={80}
-                  className="object-cover rounded-lg"
-                  priority={false}
-                  quality={75}
-                />
-              </motion.div>
-              <h2 className="text-2xl font-bold mb-1">{currentStation.name}</h2>
-              <p className="text-lg text-gray-400 mb-1">
-                {currentStation.fmFrequency && `FM ${currentStation.fmFrequency}`}
-                {currentStation.localidad && ` - ${currentStation.localidad}`}
-              </p>
-              <motion.div 
-                className="flex items-center justify-center gap-4 mt-2"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
+          {/* Contenedor del reproductor */}
+          <div className="h-[400px] bg-gray-900 relative">
+            {currentStation.isIPTV ? (
+              <div className="h-full flex items-center justify-center">
+                <audio
+                  ref={audioRef}
+                  src={currentStation.streamingUrl || ''}
+                  preload="none"
+                >
+                  <track kind="captions" />
+                </audio>
+                <motion.div 
+                  className="text-center"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <Image
+                      src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
+                      alt={currentStation.name}
+                      width={80}
+                      height={80}
+                      className="object-cover rounded-lg"
+                      priority={false}
+                      quality={75}
+                    />
+                  </motion.div>
+                  <h2 className="text-2xl font-bold mb-1">{currentStation.name}</h2>
+                  <p className="text-lg text-gray-400 mb-1">
+                    {currentStation.fmFrequency && `FM ${currentStation.fmFrequency}`}
+                    {currentStation.localidad && ` - ${currentStation.localidad}`}
+                  </p>
+                </motion.div>
+              </div>
+            ) : (
+              <iframe
+                title={currentStation.name}
+                src={currentStation.radioWebURL}
+                className="w-full h-full border-0"
+                allowFullScreen
+                onError={handleIframeError}
+              />
+            )}
+          </div>
+
+          {/* Controles siempre visibles */}
+          <div className="bg-gray-900 p-4 border-t border-gray-800">
+            <div className="flex items-center justify-center gap-4">
+              <Tooltip content="Anterior (←)">
                 <Button 
                   variant="ghost" 
-                  size="icon" 
+                  size="icon"
                   onClick={handlePreviousStation}
                   disabled={getFilteredChannels().length <= 1}
                 >
                   <SkipBack className="h-6 w-6" />
-                  <span className="sr-only">Anterior</span>
                 </Button>
+              </Tooltip>
+
+              <Tooltip content={isPlaying ? 'Pausar (Espacio)' : 'Reproducir (Espacio)'}>
                 <Button 
                   variant="default" 
                   size="icon" 
-                  className="h-16 w-16" 
+                  className="h-16 w-16"
                   onClick={togglePlay}
+                  disabled={!currentStation.streamingUrl && !currentStation.radioWebURL}
                 >
                   {isPlaying ? <Pause className="h-8 w-8" /> : <PlayCircle className="h-8 w-8" />}
-                  <span className="sr-only">{isPlaying ? 'Pausar' : 'Reproducir'}</span>
                 </Button>
+              </Tooltip>
+
+              <Tooltip content="Siguiente (→)">
                 <Button 
                   variant="ghost" 
-                  size="icon" 
+                  size="icon"
                   onClick={handleNextStation}
                   disabled={getFilteredChannels().length <= 1}
                 >
                   <SkipForward className="h-6 w-6" />
-                  <span className="sr-only">Siguiente</span>
                 </Button>
-              </motion.div>
-              <div className="flex items-center justify-center gap-4 mt-2 w-64 mx-auto">
-                <Volume2 className="h-5 w-5" />
-                <Slider
-                  value={[volume]}
-                  onValueChange={(newVolume) => setVolume(newVolume[0])}
-                  max={100}
-                  step={1}
-                  className="flex-1"
-                />
-              </div>
-            </motion.div>
-              </motion.div>
+              </Tooltip>
             </div>
-          ) : (
-            <iframe
-              title={currentStation.name}
-              src={currentStation.radioWebURL}
-              className="w-full h-[400px] border-0"
-              allowFullScreen
-              onError={handleIframeError}
-            />
-          )}
-          
+
+            <div className="flex items-center justify-center gap-4 mt-4 w-64 mx-auto">
+              <Tooltip content="Volumen (↑/↓)">
+                <Volume2 className="h-5 w-5" />
+              </Tooltip>
+              <Slider
+                value={[volume]}
+                onValueChange={(newVolume) => setVolume(newVolume[0])}
+                max={100}
+                step={VOLUME_STEP}
+                className="flex-1"
+                disabled={!currentStation.streamingUrl && !currentStation.radioWebURL}
+              />
+            </div>
+          </div>
+
           {/* Advertising Banner */}
           <AdvertisingBanner />
 

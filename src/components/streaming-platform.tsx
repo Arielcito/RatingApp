@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { ChevronRight, MoreVertical } from 'lucide-react'
+import { ChevronRight, MoreVertical, PlayCircle, Pause, SkipForward, SkipBack, Volume2 } from 'lucide-react'
 import type { Channel } from '@/types/channel';
 import type { Campaign } from '@/types/campaign';
 import Hls from 'hls.js'
@@ -11,6 +11,9 @@ import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { Tooltip } from "@/components/ui/tooltip"
+import { Slider } from "@/components/ui/slider"
 
 interface StreamingPlatformProps {
   channels: Channel[];
@@ -22,6 +25,9 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [iframeError, setIframeError] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [volume, setVolume] = useState(50)
+  const VOLUME_STEP = 5
 
   const getFilteredChannels = () => {
     const provincia = searchParams.get('provincia')
@@ -50,41 +56,50 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
   
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
-      console.log('isVideoReady', isVideoReady)
       if (!isVideoReady) return;
       
       const video = videoRef.current;
       if (!video) return;
-      console.log('video', video)
+
       const filteredChannels = getFilteredChannels()
       if (filteredChannels.length === 0) return
 
       const currentChannelData = filteredChannels[currentChannel]
-      console.log('currentChannelData', currentChannelData)
       if (currentChannelData.isIPTV) {
-
-        console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
+        setIsPlaying(false)
         const hls = new Hls();
         if (Hls.isSupported()) {
           hls.loadSource(currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || '');
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            video.play().catch(error => {
-              console.error('Error al reproducir:', error);
-            });
+            video.volume = volume / 100;
+            if (isPlaying) {
+              video.play().catch(error => {
+                console.error('Error al reproducir:', error);
+                setIsPlaying(false);
+              });
+            }
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
           video.src = currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || currentChannelData?.siteUrl || '';
+          video.volume = volume / 100;
+          if (isPlaying) {
+            video.play().catch(error => {
+              console.error('Error al reproducir:', error);
+              setIsPlaying(false);
+            });
+          }
         }
 
         return () => {
+          video.pause();
           hls.destroy();
         };
       }
-    }, [currentChannel, channels, searchParams, isVideoReady]);
+    }, [currentChannel, channels, searchParams, isVideoReady, isPlaying, volume]);
 
   const handleChannelChange = (index: number) => {
+    setIsPlaying(false);
     setCurrentChannel(index);
     const videoContainer = document.querySelector('.aspect-video');
     if (videoContainer) {
@@ -110,6 +125,57 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
     }
   };
 
+  const togglePlay = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (isPlaying) {
+      video.pause()
+    } else {
+      video.play()
+    }
+    setIsPlaying(!isPlaying)
+  }
+
+  useHotkeys('space', (e) => {
+    if (!getFilteredChannels()[currentChannel]?.isIPTV) return
+    e.preventDefault()
+    togglePlay()
+  }, [togglePlay])
+
+  useHotkeys('arrowup', (e) => {
+    if (!getFilteredChannels()[currentChannel]?.isIPTV) return
+    e.preventDefault()
+    const video = videoRef.current
+    if (!video) return
+    const newVolume = Math.min(video.volume + VOLUME_STEP/100, 1)
+    video.volume = newVolume
+    setVolume(newVolume * 100)
+  }, [])
+
+  useHotkeys('arrowdown', (e) => {
+    if (!getFilteredChannels()[currentChannel]?.isIPTV) return
+    e.preventDefault()
+    const video = videoRef.current
+    if (!video) return
+    const newVolume = Math.max(video.volume - VOLUME_STEP/100, 0)
+    video.volume = newVolume
+    setVolume(newVolume * 100)
+  }, [])
+
+  useHotkeys('arrowleft', (e) => {
+    e.preventDefault()
+    const filteredChannels = getFilteredChannels()
+    setCurrentChannel(prev => 
+      prev === 0 ? filteredChannels.length - 1 : prev - 1
+    )
+  }, [])
+
+  useHotkeys('arrowright', (e) => {
+    e.preventDefault()
+    handleNextChannel()
+  }, [handleNextChannel])
+
   return (
     <div className="bg-black text-white">
       <div className="flex">
@@ -119,16 +185,10 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
               <video 
                 ref={videoRef}
                 className="w-full h-full"
-                controls
+                controls={false}
                 onLoadedMetadata={() => setIsVideoReady(true)}
               >
-                <track 
-                  kind="captions" 
-                  srcLang="en" 
-                  src="/path/to/captions.vtt" 
-                  label="English captions"
-                  default
-                />
+                <track kind="captions" />
               </video>
             ) : (
               <iframe
@@ -138,6 +198,67 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
                 allowFullScreen
               />
             )}
+          </div>
+
+          {/* Controles de reproducción */}
+          <div className="bg-gray-900 p-4">
+            <div className="flex items-center justify-center gap-4">
+              <Tooltip content="Anterior (←)">
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => {
+                    const filteredChannels = getFilteredChannels()
+                    setCurrentChannel(prev => 
+                      prev === 0 ? filteredChannels.length - 1 : prev - 1
+                    )
+                  }}
+                >
+                  <SkipBack className="h-6 w-6" />
+                </Button>
+              </Tooltip>
+
+              <Tooltip content={isPlaying ? 'Pausar (Espacio)' : 'Reproducir (Espacio)'}>
+                <Button 
+                  variant="default" 
+                  size="icon" 
+                  className="h-16 w-16"
+                  onClick={togglePlay}
+                  disabled={!getFilteredChannels()[currentChannel]?.isIPTV}
+                >
+                  {isPlaying ? <Pause className="h-8 w-8" /> : <PlayCircle className="h-8 w-8" />}
+                </Button>
+              </Tooltip>
+
+              <Tooltip content="Siguiente (→)">
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={handleNextChannel}
+                >
+                  <SkipForward className="h-6 w-6" />
+                </Button>
+              </Tooltip>
+            </div>
+
+            <div className="flex items-center justify-center gap-4 mt-4 w-64 mx-auto">
+              <Tooltip content="Volumen (↑/↓)">
+                <Volume2 className="h-5 w-5" />
+              </Tooltip>
+              <Slider
+                value={[volume]}
+                onValueChange={(newVolume) => {
+                  const video = videoRef.current
+                  if (!video) return
+                  video.volume = newVolume[0] / 100
+                  setVolume(newVolume[0])
+                }}
+                max={100}
+                step={VOLUME_STEP}
+                className="flex-1"
+                disabled={!getFilteredChannels()[currentChannel]?.isIPTV}
+              />
+            </div>
           </div>
 
           {/* Advertising Banner */}
