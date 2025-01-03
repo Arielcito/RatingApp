@@ -29,7 +29,7 @@ export const avaladosPorExpertos: AvaladosPorExpertos[] = [
   {
     id: "2",
     title: "Exposición Show Room 100% inteligente",
-    description: "Exposito Cdor Carlos Anacleto",
+    description: "Expositor Cdor Carlos Anacleto",
     date: "2024-12-17 19:00",
     image:
       "https://drive.google.com/uc?id=1zXJ3RM22NQQwp88sS-EMuFhnPXUZaBQ1&export=download",
