@@ -16,7 +16,7 @@ const postData = `{
   body
 }`;
 
-export const postQuery = groq`*[_type == "post"] ${postData}`;
+export const postQuery = groq`*[_type == "post"] | order(publishedAt desc) ${postData}`;
 
 export const postQueryBySlug = groq`*[_type == "post" && slug.current == $slug][0] ${postData}`;
 

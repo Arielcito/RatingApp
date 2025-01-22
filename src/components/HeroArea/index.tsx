@@ -4,18 +4,36 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import FsLightbox from "fslightbox-react";
+import { heroImages } from "@/data/hero-images";
 
 const HeroArea = () => {
   const [toggler, setToggler] = useState(false);
   const [currentWord, setCurrentWord] = useState(0);
+  const [currentImage, setCurrentImage] = useState(0);
   const words = [" Streaming", " TV", " Radio", "Diario online"];
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const wordInterval = setInterval(() => {
       setCurrentWord((prev) => (prev + 1) % words.length);
     }, 3000);
-    return () => clearInterval(interval);
+    
+    const imageInterval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    
+    return () => {
+      clearInterval(wordInterval);
+      clearInterval(imageInterval);
+    };
   }, [words.length]);
+
+  const nextImage = () => {
+    setCurrentImage((prev) => (prev + 1) % heroImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImage((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
 
   return (
     <>
@@ -164,13 +182,41 @@ const HeroArea = () => {
                 className="wow fadeInUp relative z-10 mx-auto flex w-full h-full lg:mr-0"
                 data-wow-delay=".3s"
               >
-                <Image
-                  width={1000}
-                  height={1000}
-                  src={"/images/hero/hero-phone.png"}
-                  alt="hero image"
-                  className="mx-auto w-full max-w-[300px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-full"
-                />
+                <button 
+                  onClick={prevImage}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full"
+                  aria-label="Imagen anterior"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                  </svg>
+                </button>
+                
+                <div className="relative w-full h-[500px] flex items-center justify-center">
+                  {heroImages.map((image, index) => (
+                    <Image
+                      key={image.id}
+                      width={1000}
+                      height={1000}
+                      src={image.src}
+                      alt={image.alt}
+                      className={`mx-auto w-full max-w-[300px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-full absolute transition-opacity duration-500 ${
+                        index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
+                      }`}
+                      priority={index === 0}
+                    />
+                  ))}
+                </div>
+
+                <button 
+                  onClick={nextImage}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full"
+                  aria-label="Siguiente imagen"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>

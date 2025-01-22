@@ -18,7 +18,9 @@ const VideoPlayer = ({ video }: { video: Video }) => (
 
 const Blog = async () => {
   const posts = await getPosts();
-  console.log(posts);
+  posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+  console.log("posts",posts);
   return (
     <section
       className="flex flex-col items-center pb-[60px] pt-[110px]"
