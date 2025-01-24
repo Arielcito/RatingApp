@@ -6,12 +6,18 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation';
 import { useSubscriber } from '@/app/context/SubscriberContext';
+import { API_URLS } from '@/utils/api-urls';
+
+type SigninFormData = {
+  email: string;
+  passwd: string;
+};
 
 const EnterpriseSignin = () => {
   const router = useRouter();
   const { setSubscriber } = useSubscriber();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SigninFormData>({
     email: '',
     passwd: ''
   });
@@ -20,18 +26,24 @@ const EnterpriseSignin = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/login', {
+      const response = await fetch(API_URLS.loginEnterprise, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          email: formData.email || null,
+          passwd: formData.passwd
+        }),
       });
 
       const data = await response.json();
 
-      if (data) {
-        setSubscriber(data);
+      if (data?.token && data?.subscriber) {
+        // Guardar el token
+        localStorage.setItem('token', data.token);
+        // Guardar los datos del subscriber
+        setSubscriber(data.subscriber);
         toast.success('Inicio de sesión exitoso');
         router.push('/enterprise/dashboard');
       } else {
@@ -62,7 +74,7 @@ const EnterpriseSignin = () => {
               </label>
               <input
                 id="email"
-                type="email"
+                type="text"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full rounded-lg border border-stroke bg-dark px-5 py-3 text-white focus:border-primary"

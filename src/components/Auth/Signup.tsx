@@ -8,10 +8,29 @@ import validateEmail from "@/app/libs/validate";
 import { useRouter } from 'next/navigation';
 import type { Subscriber } from '@/types/subscriber';
 import Image from "next/image";
+import { encryptPassword } from '@/utils/encryption';
+import { API_URLS } from '@/utils/api-urls';
+import { generateDeviceCode } from '@/utils/device-code';
+import { useSubscriber } from '@/app/context/SubscriberContext';
+
+type SignupFormData = {
+  name: string;
+  birthDate: string;
+  gender: string;
+  created: string;
+  email: string;
+  document: string;
+  passwd: string;
+  telefono: string;
+  deviceCode: string;
+};
+
 const Signup = () => {
   const router = useRouter();
+  const { setSubscriber } = useSubscriber();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<Omit<Subscriber, 'id' | 'captcha'>>({
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [formData, setFormData] = useState<SignupFormData>({
     name: '',
     birthDate: '',
     gender: '',
@@ -20,21 +39,66 @@ const Signup = () => {
     document: '',
     passwd: '',
     telefono: '',
+    deviceCode: ''
   });
+
+  const handleLogin = async (email: string, password: string) => {
+    setLoadingMessage('Iniciando sesión...');
+    try {
+      const encryptedPassword = encryptPassword(password);
+      const loginData = {
+        email: email,
+        passwd: encryptedPassword,
+        deviceCode: generateDeviceCode()
+      };
+
+      const response = await fetch(API_URLS.login, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await response.json();
+
+      if (data?.token && data?.subscriber) {
+        localStorage.setItem('token', data.token);
+        setSubscriber(data.subscriber);
+        toast.success('¡Bienvenido a RatingApp!');
+        router.push('/servicios/tv');
+      } else {
+        throw new Error('Error al iniciar sesión automáticamente');
+      }
+    } catch (error) {
+      console.error('Error en el login automático:', error);
+      toast.error('Registro exitoso, pero hubo un error al iniciar sesión');
+      router.push('/auth/signin');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setLoadingMessage('Registrando usuario...');
 
     try {
-      const formattedData = {
-        ...formData,
-        birthDate: `${formData.birthDate}T00:00:00Z`,
+      const encryptedPassword = encryptPassword(formData.passwd);
+      const formattedData: Subscriber = {
         id: null,
-        captcha: null,
+        name: formData.name || null,
+        birthDate: formData.birthDate ? new Date(formData.birthDate).toISOString() : null,
+        gender: formData.gender || null,
+        created: new Date().toISOString(),
+        email: formData.email || null,
+        document: formData.document || null,
+        passwd: encryptedPassword,
+        telefono: formData.telefono || null,
+        deviceCode: generateDeviceCode(),
+        captcha: null
       };
 
-      const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/add', {
+      const response = await fetch(API_URLS.register, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,14 +110,14 @@ const Signup = () => {
 
       if (data) {
         toast.success('Registro exitoso');
-        router.push('/auth/signin');
+        // Iniciar sesión automáticamente
+        await handleLogin(formData.email, formData.passwd);
       } else {
         toast.error('Error al registrar usuario');
       }
     } catch (error) {
       toast.error('Error en el registro');
       console.error('Error:', error);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -67,6 +131,15 @@ const Signup = () => {
             Crear Cuenta
           </h2>
           
+          {isLoading && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-gray-800">{loadingMessage}</p>
+              </div>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6 w-full">
             <div>
               <label htmlFor="name" className="mb-2 block text-sm text-white">

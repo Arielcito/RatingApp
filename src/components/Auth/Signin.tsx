@@ -9,12 +9,20 @@ import validateEmail from "@/app/libs/validate";
 import { useRouter } from 'next/navigation';
 import { useSubscriber } from '@/app/context/SubscriberContext';
 import Cookies from 'js-cookie';
+import { encryptPassword } from '@/utils/encryption';
+import { API_URLS } from '@/utils/api-urls';
+import { generateDeviceCode } from '@/utils/device-code';
+
+type SigninFormData = {
+  email: string;
+  passwd: string;
+};
 
 const Signin = () => {
   const router = useRouter();
   const { setSubscriber } = useSubscriber();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SigninFormData>({
     email: '',
     passwd: ''
   });
@@ -23,18 +31,29 @@ const Signin = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/login', {
+      const encryptedPassword = encryptPassword(formData.passwd);
+      
+      const loginData = {
+        email: formData.email || null,
+        passwd: encryptedPassword,
+        deviceCode: generateDeviceCode()
+      };
+
+      const response = await fetch(API_URLS.login, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(loginData),
       });
 
       const data = await response.json();
 
-      if (data) {
-        setSubscriber(data);
+      if (data?.token && data?.subscriber) {
+        // Guardar el token
+        localStorage.setItem('token', data.token);
+        // Guardar los datos del subscriber
+        setSubscriber(data.subscriber);
         toast.success('Inicio de sesión exitoso');
         router.push('/servicios/tv');
       } else {
