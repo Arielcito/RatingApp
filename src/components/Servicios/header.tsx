@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Search, Tv, Radio, PlaySquare, Newspaper, UserCircle2, Trophy } from "lucide-react";
 import { Input } from "../ui/input";
 import type { Channel } from "@/types/channel";
+import api from '@/lib/axios';
 
 interface SearchResult {
   id: number;
@@ -43,13 +44,11 @@ export function Header() {
 
     setIsSearching(true);
     try {
-      const response = await fetch('https://ratingapp.net.ar:18000/ratingSignals/list');
-      if (!response.ok) throw new Error('Failed to fetch data');
-      
-      const data = await response.json();
+      const response = await api.get('/ratingSignals/list');
+      if (!response.data) throw new Error('Failed to fetch data');
       
       // Filter the data based on search term
-      const filtered = data.filter((item: Channel) => 
+      const filtered = response.data.filter((item: Channel) => 
         item.name.toLowerCase().includes(term.toLowerCase())
       );
 

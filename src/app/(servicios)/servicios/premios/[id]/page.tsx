@@ -3,14 +3,13 @@ import Image from 'next/image'
 import { Badge } from "@/components/ui/badge"
 import { Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import api from '@/lib/axios'
 
 async function getCampaign(id: string) {
   try {
-    const response = await fetch(`https://ratingapp.net.ar:18000/campaigns/${id}`, {
-      cache: 'no-store'
-    })
-    if (!response.ok) throw new Error('Error al cargar la campaña')
-    return response.json()
+    const response = await api.get(`/campaigns/${id}`)
+    if (!response.data) throw new Error('Error al cargar la campaña')
+    return response.data
   } catch (error) {
     return null
   }

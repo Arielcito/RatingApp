@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Gift, Clock, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import api from '@/lib/axios'
 
 // Agregar estos imports para el modal
 import {
@@ -198,10 +199,9 @@ export function ActiveRewardsComponent() {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await fetch('https://ratingapp.net.ar:18000/campaigns/listActive')
-        if (!response.ok) throw new Error('Error al cargar las campañas')
-        const data: Campaign[] = await response.json()
-        setCampaigns(data)
+        const response = await api.get('/campaigns/listActive')
+        if (!response.data) throw new Error('Error al cargar las campañas')
+        setCampaigns(response.data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido')
       } finally {

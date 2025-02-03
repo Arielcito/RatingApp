@@ -15,12 +15,24 @@ export function useLocations() {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch('https://ratingapp.net.ar:18000/ratingSignals/list')
-        if (!response.ok) throw new Error('Error al cargar ubicaciones')
+        console.log('Iniciando fetch de ubicaciones...')
+        const token = localStorage.getItem('token')
+        console.log('Token presente:', !!token)
         
+        const response = await fetch('https://ratingapp.net.ar:18000/ratingSignals/list', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        console.log('Respuesta del servidor:', response.status)
+        
+        if (!response.ok) throw new Error('Error al cargar ubicaciones')
         const channels: Channel[] = await response.json()
         
         // Extraer ubicaciones únicas
+        console.log('Procesando', channels.length, 'canales')
         const uniqueLocations = channels.reduce((acc: Location[], channel) => {
           const locationExists = acc.some(
             loc => 
@@ -48,10 +60,16 @@ export function useLocations() {
           return a.provincia.localeCompare(b.provincia)
         })
 
+        console.log('Ubicaciones únicas encontradas:', sortedLocations.length)
         setLocations(sortedLocations)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido')
-        console.error('Error cargando ubicaciones:', err)
+        const errorMessage = err instanceof Error ? err.message : 'Error desconocido'
+        console.error('Error detallado:', {
+          message: errorMessage,
+          error: err,
+          token: !!localStorage.getItem('token')
+        })
+        setError(errorMessage)
       } finally {
         setIsLoading(false)
       }

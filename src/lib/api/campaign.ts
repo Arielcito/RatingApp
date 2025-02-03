@@ -1,15 +1,14 @@
 import type { Campaign } from '@/types/campaign'
+import api from '@/lib/axios'
 
 export async function getActiveCampaigns(): Promise<Campaign[]> {
-  const response = await fetch('https://ratingapp.net.ar:18000/campaigns/listActive', {
-    next: { revalidate: 300 } // Cache for 5 minutes
-  })
+  const response = await api.get('/campaigns/listActive')
   
-  if (!response.ok) {
+  if (!response.data) {
     throw new Error('Failed to fetch campaigns')
   }
 
-  return response.json()
+  return response.data
 }
 
 export function getAdvertisingImageURL(resourceName: string): string {

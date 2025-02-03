@@ -27,6 +27,7 @@ import type { Subscriber } from '@/types/subscriber'
 import type { Channel } from '@/types/channel'
 import { useSubscriber } from '@/app/context/SubscriberContext'
 import Image from 'next/image'
+import api from '@/lib/axios'
 
 const profileFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -47,14 +48,9 @@ export function ProfileForm() {
     resolver: zodResolver(profileFormSchema),
     defaultValues: async () => {
       try {
-        const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/getSubscriber', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: subscriber?.id })
-        })
-        
-        if (!response.ok) throw new Error('Error fetching profile')
-        const data: Subscriber = await response.json()
+        const response = await api.post('/subscriptors/getSubscriber', { id: subscriber?.id })
+        if (!response.data) throw new Error('Error fetching profile')
+        const data: Subscriber = response.data
         
         const formattedDate = data.birthDate ? 
           new Date(data.birthDate).toISOString().split('T')[0] : ''
@@ -94,19 +90,11 @@ export function ProfileForm() {
         captcha: null
       }
 
-      const response = await fetch('https://ratingapp.net.ar:18000/subscriptors/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
+      const response = await api.post('/subscriptors/add', payload)
+      if (!response.data) throw new Error('Error al actualizar perfil')
 
-      if (!response.ok) throw new Error('Error al actualizar perfil')
-
-      const updatedData = await response.json()
-      if (updatedData) {
-        toast.success('Perfil actualizado correctamente')
-        router.refresh()
-      }
+      toast.success('Perfil actualizado correctamente')
+      router.refresh()
     } catch (error) {
       toast.error('Error al actualizar el perfil')
       console.error(error)
