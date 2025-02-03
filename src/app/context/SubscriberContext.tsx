@@ -6,11 +6,13 @@ import Cookies from 'js-cookie';
 interface SubscriberContextType {
   subscriber: Subscriber | null;
   setSubscriber: (subscriber: Subscriber | null) => void;
+  logout: () => void;
 }
 
 const SubscriberContext = createContext<SubscriberContextType>({
   subscriber: null,
   setSubscriber: () => {},
+  logout: () => {},
 });
 
 export const SubscriberProvider = ({ children }: { children: React.ReactNode }) => {
@@ -57,9 +59,13 @@ export const SubscriberProvider = ({ children }: { children: React.ReactNode }) 
   if (isLoading) {
     return null; // O un componente de loading
   }
+  const handleLogout = () => {
+    Cookies.remove('subscriber');
+    setSubscriber(null);
+  };
 
   return (
-    <SubscriberContext.Provider value={{ subscriber, setSubscriber: handleSetSubscriber }}>
+    <SubscriberContext.Provider value={{ subscriber, setSubscriber: handleSetSubscriber, logout: handleLogout }}>
       {children}
     </SubscriberContext.Provider>
   );
