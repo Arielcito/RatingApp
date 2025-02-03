@@ -1,12 +1,13 @@
-export interface Subscriber {
-  id: string | null;
-  name: string;
-  birthDate: string;
-  gender: string;
-  created: string;
-  email: string;
-  document: string;
-  passwd: string;
+export type Subscriber = {
+  id: number | null;
+  name: string | null;
+  birthDate: string | null;
+  gender: string | null;
+  created: string | null;
+  email: string | null;
+  document: string | null;
+  passwd: string | null;
+  telefono: string | null;
+  deviceCode: string | null;
   captcha: string | null;
-  telefono: string;
-} 
+}; 

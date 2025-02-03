@@ -26,6 +26,7 @@ import { toast } from 'react-hot-toast'
 import type { Subscriber } from '@/types/subscriber'
 import type { Channel } from '@/types/channel'
 import { useSubscriber } from '@/app/context/SubscriberContext'
+import Image from 'next/image'
 
 const profileFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -115,109 +116,83 @@ export function ProfileForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nombre</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <div className="min-h-screen ">
+      <div className="relative pt-8 px-4">
+        <button type="button" className="absolute top-4 left-4 text-white" aria-label="Volver">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        
+        <div className="flex flex-col items-center">
+          <div className="relative w-24 h-24 mb-4">
+            <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
+              <Image
+                src="/placeholder-avatar.jpg"
+                alt="Foto de perfil"
+                width={96}
+                height={96}
+                className="object-cover"
+              />
+            </div>
+            <button type="button" className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-lg" aria-label="Cambiar foto de perfil">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-8">¡Hola {form.getValues().name || 'Usuario'}!</h1>
+        </div>
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="bg-white rounded-t-3xl px-4 py-6 space-y-2">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              {[
+                { label: 'Mis datos', icon: '📋', onClick: () => {} },
+                { label: 'Mi Participación', icon: '🏆', onClick: () => {} },
+                { label: 'Sugerencias', icon: '💡', onClick: () => {} },
+                { label: 'Notificaciones', icon: '🔔', badge: '1', onClick: () => {} },
+                { label: 'Membresía', icon: '👑', status: 'Oro', onClick: () => {} },
+                { label: 'Términos y condiciones', icon: '📜', onClick: () => {} }
+              ].map((item) => (
+                <button
+                  type="button"
+                  key={item.label}
+                  className="w-full bg-blue-50 hover:bg-blue-100 p-4 rounded-xl flex items-center justify-between"
+                  onClick={item.onClick}
+                >
+                  <div className="flex items-center space-x-3">
+                    <span className="text-2xl">{item.icon}</span>
+                    <span className="text-gray-700">{item.label}</span>
+                  </div>
+                  {item.badge && (
+                    <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-sm">
+                      {item.badge}
+                    </span>
+                  )}
+                  {item.status && (
+                    <span className="text-yellow-600 font-medium">
+                      {item.status}
+                    </span>
+                  )}
+                </button>
+              ))}
 
-        <FormField
-          control={form.control}
-          name="birthDate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Fecha de Nacimiento</FormLabel>
-              <FormControl>
-                <Input {...field} type="date" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="gender"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Género</FormLabel>
-              <Select 
-                onValueChange={field.onChange} 
-                value={field.value}
-                defaultValue={field.value}
+              <button
+                type="button"
+                className="w-full mt-6 p-4 text-red-600 font-medium"
+                onClick={(e) => {
+                  e.preventDefault()
+                  // Implementar lógica de cierre de sesión
+                }}
               >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="M">Masculino</SelectItem>
-                  <SelectItem value="F">Femenino</SelectItem>
-                  <SelectItem value="O">Otro</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="telefono"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Teléfono</FormLabel>
-              <FormControl>
-                <Input {...field} type="tel" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="document"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Documento</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Actualizando...' : 'Actualizar Perfil'}
-        </Button>
-      </form>
-    </Form>
+                Cerrar Sesión
+              </button>
+            </form>
+          </Form>
+        </div>
+      </div>
+    </div>
   )
 } 

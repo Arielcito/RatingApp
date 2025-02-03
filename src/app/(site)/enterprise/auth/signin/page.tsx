@@ -1,24 +1,19 @@
 "use client";
 import { motion } from "framer-motion";
-import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import validateEmail from "@/app/libs/validate";
 import { useRouter } from 'next/navigation';
 import { useSubscriber } from '@/app/context/SubscriberContext';
-import Cookies from 'js-cookie';
-import { encryptPassword } from '@/utils/encryption';
 import { API_URLS } from '@/utils/api-urls';
-import { generateDeviceCode } from '@/utils/device-code';
 
 type SigninFormData = {
   email: string;
   passwd: string;
 };
 
-const Signin = () => {
+const EnterpriseSignin = () => {
   const router = useRouter();
   const { setSubscriber } = useSubscriber();
   const [isLoading, setIsLoading] = useState(false);
@@ -31,20 +26,15 @@ const Signin = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const encryptedPassword = encryptPassword(formData.passwd);
-      
-      const loginData = {
-        email: formData.email || null,
-        passwd: encryptedPassword,
-        deviceCode: generateDeviceCode()
-      };
-
-      const response = await fetch(API_URLS.login, {
+      const response = await fetch(API_URLS.loginEnterprise, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(loginData),
+        body: JSON.stringify({
+          email: formData.email || null,
+          passwd: formData.passwd
+        }),
       });
 
       const data = await response.json();
@@ -55,7 +45,7 @@ const Signin = () => {
         // Guardar los datos del subscriber
         setSubscriber(data.subscriber);
         toast.success('Inicio de sesión exitoso');
-        router.push('/servicios/tv');
+        router.push('/enterprise/dashboard');
       } else {
         console.log('❌ Error: No se recibieron datos del servidor');
         toast.error('Credenciales inválidas');
@@ -74,17 +64,17 @@ const Signin = () => {
         <div className="mx-auto max-w-[500px] rounded-lg bg-blacksection p-6 shadow-card-dark flex flex-col items-center justify-center flex-grow">
           <Image src="/images/logo/logo.png" alt="Logo" width={200} height={200} className="mb-8" priority/>
           <h2 className="mb-8 text-2xl font-bold text-white">
-            Iniciar Sesión
+            Portal Empresarial - Iniciar Sesión
           </h2>
           
           <form onSubmit={handleSubmit} className="w-full">
             <div className="mb-6">
               <label htmlFor="email" className="mb-2 block text-sm text-white">
-                Email
+                Email Corporativo
               </label>
               <input
                 id="email"
-                type="email"
+                type="text"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full rounded-lg border border-stroke bg-dark px-5 py-3 text-white focus:border-primary"
@@ -116,9 +106,9 @@ const Signin = () => {
           </form>
 
           <p className="mt-6 text-center text-sm text-body">
-            ¿No tienes una cuenta?{' '}
-            <Link href="/auth/signup" className="text-primary hover:text-primary-hover">
-              Regístrate
+            ¿Necesita ayuda?{' '}
+            <Link href="/enterprise#contact" className="text-primary hover:text-primary-hover">
+              Contáctenos
             </Link>
           </p>
         </div>
@@ -127,4 +117,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default EnterpriseSignin; 
