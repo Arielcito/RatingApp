@@ -19,4 +19,22 @@ export const encryptPassword = (password: string): string => {
     console.error('Error encriptando contraseña:', e);
     return password;
   }
+};
+
+export const decryptPassword = (encryptedPassword: string): string => {
+  try {
+    const key = CryptoJS.enc.Utf8.parse(ENCRYPTION_KEY);
+    const iv = CryptoJS.enc.Utf8.parse(ENCRYPTION_IV);
+    
+    const decrypted = CryptoJS.AES.decrypt(encryptedPassword, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    });
+    
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  } catch (e) {
+    console.error('Error desencriptando contraseña:', e);
+    return encryptedPassword;
+  }
 }; 
