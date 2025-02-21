@@ -9,5 +9,10 @@ export const heroImages: HeroImage[] = [
     id: 1,
     src: "/images/hero/hero-phone.png",
     alt: "RatingApp en teléfono móvil"
+  },
+  {
+    id: 2,
+    src: "/images/hero/hero-phone.png",
+    alt: "RatingApp en teléfono móvil"
   }
 ]; 

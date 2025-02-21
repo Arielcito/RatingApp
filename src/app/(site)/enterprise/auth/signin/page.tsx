@@ -39,11 +39,11 @@ const EnterpriseSignin = () => {
 
       const data = await response.json();
 
-      if (data?.token && data?.subscriber) {
+      if (data?.token && data?.user) {
         // Guardar el token
         localStorage.setItem('token', data.token);
         // Guardar los datos del subscriber
-        setSubscriber(data.subscriber);
+        setSubscriber(data.user);
         toast.success('Inicio de sesión exitoso');
         router.push('/enterprise/dashboard');
       } else {
