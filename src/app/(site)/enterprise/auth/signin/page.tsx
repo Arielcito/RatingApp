@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation';
 import { useSubscriber } from '@/app/context/SubscriberContext';
 import { API_URLS } from '@/utils/api-urls';
+import { encryptPassword } from '@/utils/encryption';
+import { generateDeviceCode } from '@/utils/device-code';
 
 type SigninFormData = {
   email: string;
@@ -26,15 +28,19 @@ const EnterpriseSignin = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
+      const encryptedPassword = encryptPassword(formData.passwd);
+      
+      const loginData = {
+        email: formData.email || null,
+        passwd: encryptedPassword
+      };
+
       const response = await fetch(API_URLS.loginEnterprise, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: formData.email || null,
-          passwd: formData.passwd
-        }),
+        body: JSON.stringify(loginData),
       });
 
       const data = await response.json();
