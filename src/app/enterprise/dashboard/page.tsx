@@ -19,11 +19,11 @@ export default function DashboardPage() {
       
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Vistas Totales</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">{mockStats.totalViews}</p>
+              <p className="text-sm font-medium text-gray-400">Vistas Totales</p>
+              <p className="text-2xl font-semibold text-white">{mockStats.totalViews}</p>
             </div>
             <div className="p-3 bg-green-100 rounded-full">
               <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,11 +34,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Usuarios Activos</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">{mockStats.activeUsers}</p>
+              <p className="text-sm font-medium text-gray-400">Usuarios Activos</p>
+              <p className="text-2xl font-semibold text-white">{mockStats.activeUsers}</p>
             </div>
             <div className="p-3 bg-blue-100 rounded-full">
               <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,11 +48,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Tiempo Promedio (min)</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">{mockStats.avgTimeSpent}</p>
+              <p className="text-sm font-medium text-gray-400">Tiempo Promedio (min)</p>
+              <p className="text-2xl font-semibold text-white">{mockStats.avgTimeSpent}</p>
             </div>
             <div className="p-3 bg-yellow-100 rounded-full">
               <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,11 +62,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Tasa de Conversión (%)</p>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-white">{mockStats.conversionRate}</p>
+              <p className="text-sm font-medium text-gray-400">Tasa de Conversión (%)</p>
+              <p className="text-2xl font-semibold text-white">{mockStats.conversionRate}</p>
             </div>
             <div className="p-3 bg-purple-100 rounded-full">
               <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,8 +78,8 @@ export default function DashboardPage() {
       </div>
 
       {/* Grafana Dashboard */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
-        <h2 className="text-xl font-semibold mb-4 dark:text-white">Métricas en Tiempo Real</h2>
+      <div className="bg-gray-800 rounded-lg shadow-sm p-4">
+        <h2 className="text-xl font-semibold mb-4 text-white">Métricas en Tiempo Real</h2>
         <div className="relative" style={{ height: '600px' }}>
           <iframe
             src="http://172.105.159.250:3000/d/ee3682lduyo00b/mi-tablero?orgId=1&refresh=5s"
@@ -87,7 +87,7 @@ export default function DashboardPage() {
             onLoad={() => setIsGrafanaLoaded(true)}
           />
           {!isGrafanaLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 rounded-lg">
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-900 rounded-lg">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
           )}

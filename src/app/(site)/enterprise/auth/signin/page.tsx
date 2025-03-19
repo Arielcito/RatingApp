@@ -32,7 +32,7 @@ const EnterpriseSignin = () => {
       
       const loginData = {
         email: formData.email || null,
-        passwd: encryptedPassword
+        passwd: formData.passwd
       };
 
       const response = await fetch(API_URLS.loginEnterprise, {
