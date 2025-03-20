@@ -59,14 +59,45 @@ function EmptyState() {
   );
 }
 
+function findDashboardUrl(items: DashboardItem[], targetId: string): string | null {
+  console.log('Searching for dashboardUrl with targetId:', targetId);
+  console.log('Items to search:', JSON.stringify(items, null, 2));
+  
+  for (const item of items) {
+    console.log('Checking item:', item.id, item.name);
+    if (item.id?.toString() === targetId) {
+      console.log('Found matching item:', item);
+      return item.dashboardUrl || null;
+    }
+    if (item.children?.length) {
+      console.log('Checking children of item:', item.id);
+      const found = findDashboardUrl(item.children, targetId);
+      if (found) {
+        console.log('Found dashboardUrl in children:', found);
+        return found;
+      }
+    }
+  }
+  console.log('No dashboardUrl found for targetId:', targetId);
+  return null;
+}
+
 function DashboardContent({ params }: { params: { id: string } }) {
   const [isDashboardLoaded, setIsDashboardLoaded] = useState(false);
+  const [iframeError, setIframeError] = useState(false);
+
   const { data: dashboardItems, isLoading, error } = useQuery({
     queryKey: ['dashboard'],
     queryFn: fetchDashboard,
   });
 
-  const currentDashboard = dashboardItems?.find(item => item.id?.toString() === params.id);
+  useEffect(() => {
+    console.log('State changed - isDashboardLoaded:', isDashboardLoaded);
+    console.log('State changed - iframeError:', iframeError);
+  }, [isDashboardLoaded, iframeError]);
+
+  const dashboardUrl = dashboardItems ? findDashboardUrl(dashboardItems, params.id) : null;
+  console.log('Found dashboardUrl:', dashboardUrl);
 
   if (isLoading) {
     return (
@@ -76,30 +107,57 @@ function DashboardContent({ params }: { params: { id: string } }) {
     );
   }
 
-  if (error || !currentDashboard) {
+  if (error || !dashboardUrl) {
     return <EmptyState />;
   }
 
-  console.log("currentDashboard", currentDashboard);
+  const currentDashboard = dashboardItems?.find(item => {
+    if (item.id?.toString() === params.id) return true;
+    return item.children?.some(child => child.id?.toString() === params.id);
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">{currentDashboard.name}</h1>
-        {currentDashboard.tooltip && (
+        <h1 className="text-2xl font-bold text-white">{currentDashboard?.name}</h1>
+        {currentDashboard?.tooltip && (
           <p className="text-sm text-gray-400">{currentDashboard.tooltip}</p>
         )}
       </div>
 
-      {currentDashboard.dashboardUrl && (
+      {dashboardUrl && (
         <div className="bg-gray-800 rounded-lg shadow-sm p-4">
           <div className="relative" style={{ height: 'calc(100vh - 200px)' }}>
-            <iframe
-              src={currentDashboard.dashboardUrl}
-              className="w-full h-full rounded-lg"
-              onLoad={() => setIsDashboardLoaded(true)}
-              title={`Dashboard - ${currentDashboard.name}`}
-            />
-            {!isDashboardLoaded && (
+            {iframeError ? (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-900 rounded-lg">
+                <div className="text-center">
+                  <p className="text-red-500 mb-4">Error al cargar el dashboard</p>
+                  <a 
+                    href={dashboardUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80"
+                  >
+                    Abrir en nueva pestaña
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <iframe
+                src={dashboardUrl}
+                className="w-full h-full rounded-lg"
+                onLoad={() => {
+                  console.log('iframe loaded');
+                  setIsDashboardLoaded(true);
+                }}
+                onError={() => {
+                  console.log('iframe error');
+                  setIframeError(true);
+                }}
+                title={`Dashboard - ${currentDashboard?.name}`}
+              />
+            )}
+            {!isDashboardLoaded && !iframeError && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-900 rounded-lg">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
               </div>
