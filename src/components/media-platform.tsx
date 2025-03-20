@@ -23,7 +23,6 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   const searchParams = useSearchParams()
   const [currentChannel, setCurrentChannel] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [iframeError, setIframeError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState(50)
   const VOLUME_STEP = 5
@@ -107,14 +106,6 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     )
   }
 
-  const handleIframeError = () => {
-    setIframeError(true);
-    const channelUrl = getFilteredChannels()[currentChannel]?.tvWebURL;
-    if (channelUrl) {
-      window.open(channelUrl, '_blank');
-    }
-  };
-
   const togglePlay = () => {
     const video = videoRef.current
     if (!video) return
@@ -171,30 +162,8 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     <div className="bg-black text-white">
       <div className="flex">
         <main className="flex-1">
-          <div className="aspect-video bg-gray-900 relative">
-            {getFilteredChannels()[currentChannel]?.isIPTV ? (
-              <video 
-                ref={videoRef}
-                className="w-full h-full"
-                controls={false}
-                onLoadedMetadata={() => setIsVideoReady(true)}
-              >
-                <track kind="captions" />
-              </video>
-            ) : (
-              <iframe
-                title={`Canal ${getFilteredChannels()[currentChannel]?.name}`}
-                src={getFilteredChannels()[currentChannel]?.tvWebURL}
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                onError={handleIframeError}
-              />
-            )}
-          </div>
-
           {/* Controles de reproducción */}
-          <div className="bg-gray-900 p-4">
+          <div className="bg-gray-900 p-4 mb-4">
             <div className="flex items-center justify-center gap-4">
               <Tooltip content="Anterior (←)">
                 <Button 
@@ -252,6 +221,27 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
                 disabled={!getFilteredChannels()[currentChannel]?.isIPTV}
               />
             </div>
+          </div>
+
+          <div className="aspect-video bg-gray-900 relative">
+            {getFilteredChannels()[currentChannel]?.isIPTV ? (
+              <video 
+                ref={videoRef}
+                className="w-full h-full"
+                controls={false}
+                onLoadedMetadata={() => setIsVideoReady(true)}
+              >
+                <track kind="captions" />
+              </video>
+            ) : (
+              <iframe
+                title={`Canal ${getFilteredChannels()[currentChannel]?.name}`}
+                src={getFilteredChannels()[currentChannel]?.tvWebURL}
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            )}
           </div>
 
           {/* Advertising Banner */}

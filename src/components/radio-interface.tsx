@@ -26,7 +26,6 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [iframeError, setIframeError] = useState(false)
 
   const VOLUME_STEP = 5
 
@@ -75,9 +74,6 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   }
 
   const handleStationChange = async (station: Channel) => {
-    // Scroll to top smoothly
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    
     setIsLoading(true)
     setError(null)
     setIsPlaying(false)
@@ -89,19 +85,6 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
       toast.error(errorMessage)
       setError(errorMessage)
       setIsLoading(false)
-      return
-    }
-    
-    // Verificar CORS
-    try {
-      const response = await fetch(sourceUrl, { method: 'HEAD' })
-      if (!response.ok) {
-        throw new Error('CORS error')
-      }
-    } catch (error) {
-      console.error('CORS error:', error)
-      // Abrir en nueva pestaña si hay error CORS
-      window.open(sourceUrl, '_blank')
       return
     }
     
@@ -160,15 +143,6 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
     handleStationChange(filteredChannels[previousIndex])
   }
 
-  // Modificar el componente de audio para mostrar iframe o audio según isIPTV
-  const handleIframeError = () => {
-    setIframeError(true)
-    const radioUrl = currentStation?.radioWebURL
-    if (radioUrl) {
-      window.open(radioUrl, '_blank')
-    }
-  }
-
   useHotkeys('space', (e) => {
     e.preventDefault()
     togglePlay()
@@ -198,57 +172,8 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
     <div className="min-h-screen text-white">
       <div className="flex h-[calc(100vh-73px)]">
         <main className="flex-1 overflow-auto">
-          {/* Contenedor del reproductor */}
-          <div className="h-[400px] bg-gray-900 relative">
-            {currentStation.isIPTV ? (
-              <div className="h-full flex items-center justify-center">
-                <audio
-                  ref={audioRef}
-                  src={currentStation.streamingUrl || ''}
-                  preload="none"
-                >
-                  <track kind="captions" />
-                </audio>
-                <motion.div 
-                  className="text-center"
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <Image
-                      src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
-                      alt={currentStation.name}
-                      width={80}
-                      height={80}
-                      className="object-cover rounded-lg"
-                      priority={false}
-                      quality={75}
-                    />
-                  </motion.div>
-                  <h2 className="text-2xl font-bold mb-1">{currentStation.name}</h2>
-                  <p className="text-lg text-gray-400 mb-1">
-                    {currentStation.fmFrequency && `FM ${currentStation.fmFrequency}`}
-                    {currentStation.localidad && ` - ${currentStation.localidad}`}
-                  </p>
-                </motion.div>
-              </div>
-            ) : (
-              <iframe
-                title={currentStation.name}
-                src={currentStation.radioWebURL}
-                className="w-full h-full border-0"
-                allowFullScreen
-                onError={handleIframeError}
-              />
-            )}
-          </div>
-
           {/* Controles siempre visibles */}
-          <div className="bg-gray-900 p-4 border-t border-gray-800">
+          <div className="bg-gray-900 p-4 mb-4">
             <div className="flex items-center justify-center gap-4">
               <Tooltip content="Anterior (←)">
                 <Button 
@@ -298,6 +223,54 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                 disabled={!currentStation.streamingUrl && !currentStation.radioWebURL}
               />
             </div>
+          </div>
+
+          {/* Contenedor del reproductor */}
+          <div className="h-[400px] bg-gray-900 relative">
+            {currentStation.isIPTV ? (
+              <div className="h-full flex items-center justify-center">
+                <audio
+                  ref={audioRef}
+                  src={currentStation.streamingUrl || ''}
+                  preload="none"
+                >
+                  <track kind="captions" />
+                </audio>
+                <motion.div 
+                  className="text-center"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <Image
+                      src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
+                      alt={currentStation.name}
+                      width={80}
+                      height={80}
+                      className="object-cover rounded-lg"
+                      priority={false}
+                      quality={75}
+                    />
+                  </motion.div>
+                  <h2 className="text-2xl font-bold mb-1">{currentStation.name}</h2>
+                  <p className="text-lg text-gray-400 mb-1">
+                    {currentStation.fmFrequency && `FM ${currentStation.fmFrequency}`}
+                    {currentStation.localidad && ` - ${currentStation.localidad}`}
+                  </p>
+                </motion.div>
+              </div>
+            ) : (
+              <iframe
+                title={currentStation.name}
+                src={currentStation.radioWebURL}
+                className="w-full h-full border-0"
+                allowFullScreen
+              />
+            )}
           </div>
 
           {/* Advertising Banner */}
