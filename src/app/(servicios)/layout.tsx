@@ -20,7 +20,7 @@ export default function ServiciosRootLayout({
   }
 
   return (
-    <>
+    <div className="overflow-hidden">
       <ThemeProvider
         attribute="class"
           defaultTheme="dark"
@@ -28,16 +28,16 @@ export default function ServiciosRootLayout({
           forcedTheme="dark"
         >
           <ToasterContext />
-          <div className="min-h-screen bg-background dark:bg-blacksection">
+          <div className="min-h-screen bg-background dark:bg-blacksection overflow-hidden">
             <Header />
             <div className="flex h-[calc(100vh-4rem)]">
               <Sidebar />
-              <main className="flex-1 overflow-auto p-8">
+              <main className="flex-1 p-8 ">
                 {children}
               </main>
             </div>
         </div>
       </ThemeProvider>
-    </>
+    </div>
   );
 } 
