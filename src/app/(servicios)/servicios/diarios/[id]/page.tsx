@@ -122,7 +122,7 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
 
       <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden">
         <iframe 
-          src={newspaper.url || '#'} 
+          src={newspaper.onlineNewsUrl || '#'} 
           className="w-full h-full border-0"
           title={newspaper.name}
         />

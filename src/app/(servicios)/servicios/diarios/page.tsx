@@ -79,9 +79,9 @@ export default function DiariosPage() {
             onClick={() => handleNewspaperClick(newspaper)}
           >
             <div className="relative h-48 w-full">
-              {newspaper.logo ? (
+              {newspaper.iconUrl ? (
                 <Image
-                  src={getResourceURL(newspaper.logo)}
+                  src={getResourceURL(newspaper.iconUrl)}
                   alt={newspaper.name}
                   fill
                   className="object-contain p-4"
