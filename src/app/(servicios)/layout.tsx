@@ -32,7 +32,7 @@ export default function ServiciosRootLayout({
             <Header />
             <div className="flex h-[calc(100vh-4rem)]">
               <Sidebar />
-              <main className="flex-1 p-8 ">
+              <main className="flex-1 p-8 overflow-y-auto">
                 {children}
               </main>
             </div>
