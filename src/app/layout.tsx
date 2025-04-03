@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="dark" suppressHydrationWarning>
-      <body className="overflow-hidden">
+      <body className="">
           <AuthProvider>
             <SubscriberProvider>
               <ToasterContext />
