@@ -9,9 +9,10 @@ import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { Button } from "@/components/ui/button"
+import { ServiceSkeleton } from '@/components/Servicios/service-skeleton'
 
 export default function DiarioViewerPage({ params }: { params: { id: string } }) {
-  const { subscriber } = useSubscriber()
+  const { subscriber, isLoading: isSubscriberLoading } = useSubscriber()
   const [newspaper, setNewspaper] = useState<Channel | null>(null)
   const [allNewspapers, setAllNewspapers] = useState<Channel[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -45,64 +46,90 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
     setNewspaper(allNewspapers[nextIndex])
   }
 
-  const handlePreviousNewspaper = () => {
-    const previousIndex = currentIndex === 0 ? allNewspapers.length - 1 : currentIndex - 1
-    setCurrentIndex(previousIndex)
-    setNewspaper(allNewspapers[previousIndex])
+  const handlePrevNewspaper = () => {
+    const prevIndex = (currentIndex - 1 + allNewspapers.length) % allNewspapers.length
+    setCurrentIndex(prevIndex)
+    setNewspaper(allNewspapers[prevIndex])
   }
 
-  useHotkeys('arrowleft', (e) => {
-    e.preventDefault()
-    handlePreviousNewspaper()
-  }, [handlePreviousNewspaper])
+  // Set up keyboard shortcuts
+  useHotkeys('left', () => handlePrevNewspaper(), [allNewspapers])
+  useHotkeys('right', () => handleNextNewspaper(), [allNewspapers])
 
-  useHotkeys('arrowright', (e) => {
-    e.preventDefault()
-    handleNextNewspaper()
-  }, [handleNextNewspaper])
+  // Show skeleton while subscriber is loading or data is loading
+  if (isSubscriberLoading || isLoading) {
+    return <ServiceSkeleton />;
+  }
 
-  if (!subscriber) return null
-  if (isLoading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"/>
-    </div>
-  )
-  if (error) return <div className="text-red-500 text-center p-4">Error: {error}</div>
-  if (!newspaper) return <div className="text-center p-4">Diario no encontrado</div>
+  // Handle errors
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 space-y-4">
+        <div className="text-red-500 text-xl font-semibold">Error</div>
+        <div className="text-gray-400">{error}</div>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600 transition-colors"
+        >
+          Reintentar
+        </button>
+      </div>
+    );
+  }
+
+  // If no subscriber, the layout will handle the redirect
+  if (!subscriber) return null;
+
+  // If no newspaper found
+  if (!newspaper) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 space-y-4">
+        <div className="text-yellow-500 text-xl font-semibold">Diario no encontrado</div>
+        <div className="text-gray-400">El diario que buscas no existe o no está disponible.</div>
+        <Button 
+          onClick={() => window.location.href = '/servicios/diarios'}
+          className="bg-yellow-500 text-black hover:bg-yellow-600"
+        >
+          Volver a Diarios
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto p-4 min-h-screen flex flex-col">
-      <div className="mt-4">
-        <AdvertisingBanner />
+    <div className="flex flex-col h-full">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-bold text-white">{newspaper.name}</h1>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="icon"
+            onClick={handlePrevNewspaper}
+            className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="outline" 
+            size="icon"
+            onClick={handleNextNewspaper}
+            className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
-      <div className="flex items-center justify-between mb-4">
-        <Button
-          variant="ghost"
-          onClick={handlePreviousNewspaper}
-          className="text-white"
-        >
-          <ChevronLeft className="h-4 w-4 mr-2" />
-          Anterior
-        </Button>
-        <h1 className="text-2xl font-bold text-white">{newspaper.name}</h1>
-        <Button
-          variant="ghost"
-          onClick={handleNextNewspaper}
-          className="text-white"
-        >
-          Siguiente
-          <ChevronRight className="h-4 w-4 ml-2" />
-        </Button>
-      </div>
-      
-      <div className="flex-1 bg-white rounded-lg overflow-hidden shadow-lg">
-        <iframe
-          src={newspaper.onlineNewsUrl || newspaper.siteUrl || ''}
-          className="w-full h-full min-h-[calc(100vh-200px)]"
-          style={{ border: 'none' }}
+      <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden">
+        <iframe 
+          src={newspaper.url || '#'} 
+          className="w-full h-full border-0"
           title={newspaper.name}
         />
+      </div>
+
+      <div className="mt-4">
+        <AdvertisingBanner />
       </div>
     </div>
   )

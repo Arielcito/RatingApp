@@ -33,8 +33,21 @@ export function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isError, setIsError] = useState(false);
   
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  // Add error boundary to prevent component from crashing
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      console.error('Error in Header component:', event.error);
+      setIsError(true);
+      event.preventDefault();
+    };
+
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
 
   const handleSearch = useCallback(async (term: string) => {
     if (!term) {
@@ -76,18 +89,70 @@ export function Header() {
   };
 
   const handleLogout = () => {
-    setSubscriber(null);
-    router.push("/");
+    try {
+      setSubscriber(null);
+      router.push("/");
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Fallback to window.location if router fails
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
+    }
   };
 
   const handleTabChange = (tab: string) => {
-    router.push(`/servicios/${tab}`);
+    try {
+      router.push(`/servicios/${tab}`);
+    } catch (error) {
+      console.error('Error changing tab:', error);
+      // Fallback to window.location if router fails
+      if (typeof window !== 'undefined') {
+        window.location.href = `/servicios/${tab}`;
+      }
+    }
   };
 
   // Función para determinar si una ruta está activa
   const isActiveRoute = (route: string) => {
     return pathname === `/servicios/${route}`;
   };
+
+  // If there's an error, show a simplified header
+  if (isError) {
+    return (
+      <header className="border-b border-gray-800">
+        <div className="flex items-center gap-4 p-4">
+          <Image 
+            src="/images/logo/logo.png" 
+            alt="MediaStream" 
+            width={200} 
+            height={200} 
+            className="ml-4 cursor-pointer"
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.location.href = '/servicios/tv';
+              }
+            }}
+          />
+          <div className="ml-auto">
+            <Button 
+              variant="secondary" 
+              className="gap-2"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.location.href = '/';
+                }
+              }}
+            >
+              <UserCircle2 className="h-4 w-4" />
+              Iniciar Sesión
+            </Button>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="border-b border-gray-800">
@@ -204,7 +269,15 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button variant="secondary" className="gap-2">
+            <Button 
+              variant="secondary" 
+              className="gap-2"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.location.href = '/';
+                }
+              }}
+            >
               <UserCircle2 className="h-4 w-4" />
               Iniciar Sesión
             </Button>

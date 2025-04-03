@@ -7,9 +7,10 @@ import { getActiveCampaigns } from '@/lib/api/campaign';
 import type { Channel } from '@/types/channel';
 import type { Campaign } from '@/types/campaign';
 import { StreamingPlatform } from '@/components/streaming-platform';
+import { ServiceSkeleton } from '@/components/Servicios/service-skeleton';
 
 export default function StreamingPage() {
-  const { subscriber } = useSubscriber();
+  const { subscriber, isLoading: isSubscriberLoading } = useSubscriber();
   const [channels, setChannels] = useState<Channel[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,13 +36,29 @@ export default function StreamingPage() {
     loadData();
   }, []);
 
+  // Show skeleton while subscriber is loading or data is loading
+  if (isSubscriberLoading || isLoading) {
+    return <ServiceSkeleton />;
+  }
+
+  // Handle errors
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 space-y-4">
+        <div className="text-red-500 text-xl font-semibold">Error</div>
+        <div className="text-gray-400">{error}</div>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600 transition-colors"
+        >
+          Reintentar
+        </button>
+      </div>
+    );
+  }
+
+  // If no subscriber, the layout will handle the redirect
   if (!subscriber) return null;
-  if (isLoading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"/>
-    </div>
-  );
-  if (error) return <div className="text-red-500 text-center p-4">Error: {error}</div>;
 
   return <StreamingPlatform channels={channels} />;
 } 

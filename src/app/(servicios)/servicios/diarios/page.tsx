@@ -10,21 +10,22 @@ import { motion } from "framer-motion";
 import Image from 'next/image';
 import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { ServiceSkeleton } from '@/components/Servicios/service-skeleton';
 
 export default function DiariosPage() {
-  const { subscriber } = useSubscriber();
+  const { subscriber, isLoading: isSubscriberLoading } = useSubscriber();
   const [newspapers, setNewspapers] = useState<Channel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const newsChannels = await getOnlineNewsChannels()
-        console.log('Diarios disponibles:', newsChannels)
-        setNewspapers(newsChannels)
+        const newsChannels = await getOnlineNewsChannels();
+        console.log('Diarios disponibles:', newsChannels);
+        setNewspapers(newsChannels);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido');
         console.error('Error cargando datos:', err);
@@ -37,66 +38,68 @@ export default function DiariosPage() {
   }, []);
 
   const handleNewspaperClick = (newspaper: Channel) => {
-    router.push(`/servicios/diarios/${newspaper.id}`)
+    router.push(`/servicios/diarios/${newspaper.id}`);
+  };
+
+  // Show skeleton while subscriber is loading or data is loading
+  if (isSubscriberLoading || isLoading) {
+    return <ServiceSkeleton />;
   }
 
+  // Handle errors
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 space-y-4">
+        <div className="text-red-500 text-xl font-semibold">Error</div>
+        <div className="text-gray-400">{error}</div>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600 transition-colors"
+        >
+          Reintentar
+        </button>
+      </div>
+    );
+  }
+
+  // If no subscriber, the layout will handle the redirect
   if (!subscriber) return null;
-  if (isLoading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"/>
-    </div>
-  );
-  if (error) return <div className="text-red-500 text-center p-4">Error: {error}</div>;
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8 text-center text-white">Diarios Digitales</h1>
+    <div className="space-y-8">
+      <h1 className="text-2xl font-bold text-white">Diarios Online</h1>
       
-      {/* Newspaper Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {newspapers.map((newspaper, index) => (
+        {newspapers.map((newspaper) => (
           <motion.div
             key={newspaper.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            whileHover={{ scale: 1.05 }}
-            className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer"
+            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => handleNewspaperClick(newspaper)}
           >
-            <div className="block h-full">
-              <div className="relative h-48">
+            <div className="relative h-48 w-full">
+              {newspaper.logo ? (
                 <Image
-                  src={newspaper.iconUrl ? getResourceURL(newspaper.iconUrl) : '/newspaper-placeholder.png'}
+                  src={getResourceURL(newspaper.logo)}
                   alt={newspaper.name}
                   fill
-                  className="object-cover"
+                  className="object-contain p-4"
                 />
-              </div>
-              <div className="p-6">
-                <h2 className="text-xl font-bold mb-2">{newspaper.name}</h2>
-                <p className="text-gray-600 mb-4">{newspaper.description || 'Diario digital'}</p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <span>{newspaper.localidad}</span>
-                  <span className="mx-2">•</span>
-                  <span>{newspaper.provincia}</span>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-700">
+                  <span className="text-gray-400">{newspaper.name}</span>
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="mt-4 bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors"
-                >
-                  Leer ahora
-                </motion.button>
-              </div>
+              )}
+            </div>
+            <div className="p-4">
+              <h2 className="text-xl font-semibold text-white">{newspaper.name}</h2>
+              {newspaper.description && (
+                <p className="text-gray-400 mt-2 line-clamp-2">{newspaper.description}</p>
+              )}
             </div>
           </motion.div>
         ))}
-      </div>
-
-      {/* Advertising Banner */}
-      <div className="mt-8">
-        <AdvertisingBanner />
       </div>
     </div>
   );
