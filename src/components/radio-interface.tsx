@@ -169,9 +169,9 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   }, [handleNextStation])
 
   return (
-    <div className="min-h-screen text-white">
-      <div className="flex h-[calc(100vh-73px)]">
-        <main className="flex-1 overflow-auto">
+    <div className=" text-white">
+      <div className="flex">
+        <main className="flex-1">
           {/* Controles siempre visibles */}
           <div className="bg-gray-900 p-4 mb-4">
             <div className="flex items-center justify-center gap-4">
