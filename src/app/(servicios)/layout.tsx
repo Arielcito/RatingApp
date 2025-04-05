@@ -52,9 +52,11 @@ export default function ServiciosRootLayout({
           forcedTheme="dark"
         >
           <ToasterContext />
-          <div className="min-h-screen bg-background dark:bg-blacksection">
-            <Header />
-            <div className="flex h-[calc(100vh-4rem)]">
+          <div className="min-h-screen bg-background dark:bg-blacksection flex flex-col">
+            <div className="sticky top-0 z-10 bg-background dark:bg-blacksection">
+              <Header />
+            </div>
+            <div className="flex flex-1 h-[calc(100vh-4rem)]">
               <Sidebar />
               <main className="flex-1 p-8 overflow-y-auto">
                 {children}

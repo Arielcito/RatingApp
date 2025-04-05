@@ -92,10 +92,12 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     setCurrentChannel(index);
     const videoContainer = document.querySelector('.aspect-video');
     if (videoContainer) {
-      videoContainer.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+      setTimeout(() => {
+        videoContainer.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'nearest'
+        });
+      }, 100);
     }
   };
 
