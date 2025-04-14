@@ -14,6 +14,7 @@ import { useSearchParams } from 'next/navigation'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Tooltip } from "@/components/ui/tooltip"
 import { NavigationControls } from '@/components/navigation-controls'
+import { ChannelList } from '@/components/channel-list'
 
 interface RadioInterfaceProps {
   channels: Channel[]
@@ -233,60 +234,13 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
 
           {/* Station Guide */}
           <div className="p-4">
-            <div className="grid gap-4">
-              <AnimatePresence>
-                {getFilteredChannels().map((station, index) => (
-                  <motion.div
-                    key={station.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Card className="bg-gray-900">
-                        <CardHeader className="flex flex-row items-center gap-4">
-                          <Image
-                            src={station.iconUrl ? getResourceURL(station.iconUrl) : ''}
-                            alt={station.name}
-                            width={100}
-                            height={100}
-                            className="object-cover rounded-lg"
-                            priority={false}
-                            quality={75}
-                          />
-                          <div className="flex-1">
-                            <CardTitle>{station.name}</CardTitle>
-                            <CardDescription>
-                              {station.fmFrequency ? `FM ${station.fmFrequency}` : 'Radio Online'}
-                            </CardDescription>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <div className='mr-4'>
-                              <p className="font-semibold">{station.localidad}</p>
-                              {station.description && (
-                                <p className="text-sm text-gray-400">{station.description}</p>
-                              )}
-                            </div>
-                            <Button 
-                              size="sm" 
-                              className="bg-purple-600 hover:bg-purple-700" 
-                              onClick={() => handleStationChange(station)}
-                              disabled={!station.streamingUrl && !station.radioWebURL}
-                            >
-                              {currentStation.id === station.id && isPlaying ? 'REPRODUCIENDO' : 'ESCUCHAR'}
-                            </Button>
-                          </div>
-                        </CardHeader>
-                      </Card>
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
+            <ChannelList
+              channels={getFilteredChannels()}
+              currentChannel={currentStation}
+              onChannelSelect={handleStationChange}
+              isPlaying={isPlaying}
+              actionText="ESCUCHAR"
+            />
           </div>
         </main>
       </div>

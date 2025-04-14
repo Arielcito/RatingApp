@@ -23,7 +23,7 @@ export function ChannelList({
   actionText = 'VER AHORA'
 }: ChannelListProps) {
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <AnimatePresence mode="popLayout">
         {channels.map((channel, index) => (
           <motion.div
@@ -33,17 +33,17 @@ export function ChannelList({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
-            className="flex gap-4 bg-gray-900 rounded-lg overflow-hidden"
+            className="flex flex-col bg-gray-900 rounded-lg overflow-hidden"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <div className="relative w-48 h-28">
+            <div className="relative w-full aspect-video">
               <Image
                 src={channel.iconUrl ? getResourceURL(channel.iconUrl) : ''}
                 alt={channel.name}
                 fill
                 className="object-cover rounded-lg"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 priority={false}
                 quality={75}
               />
@@ -57,7 +57,7 @@ export function ChannelList({
                   <MoreVertical className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-sm text-gray-400 mt-2">{channel.description}</p>
+              <p className="text-sm text-gray-400 mt-2 line-clamp-2">{channel.description}</p>
               <div className="flex justify-between items-center mt-2">
                 <span className="text-sm text-gray-400">{channel.pais}</span>
                 <motion.button 
