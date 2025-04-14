@@ -14,6 +14,8 @@ import { useSearchParams } from 'next/navigation'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Tooltip } from "@/components/ui/tooltip"
 import { Slider } from "@/components/ui/slider"
+import { NavigationControls } from '@/components/navigation-controls'
+import { ChannelList } from '@/components/channel-list'
 
 interface StreamingPlatformProps {
   channels: Channel[];
@@ -180,6 +182,17 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
     <div className="bg-black text-white">
       <div className="flex">
         <main className="flex-1">
+          <NavigationControls 
+            onPrevious={() => {
+              const filteredChannels = getFilteredChannels()
+              setCurrentChannel(prev => 
+                prev === 0 ? filteredChannels.length - 1 : prev - 1
+              )
+            }}
+            onNext={handleNextChannel}
+            currentChannel={getFilteredChannels()[currentChannel]}
+          />
+
           <div className="aspect-video bg-gray-900 relative">
             {getFilteredChannels()[currentChannel]?.isIPTV ? (
               <video 
@@ -198,67 +211,6 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
                 allowFullScreen
               />
             )}
-          </div>
-
-          {/* Controles de reproducción */}
-          <div className="bg-gray-900 p-4">
-            <div className="flex items-center justify-center gap-4">
-              <Tooltip content="Anterior (←)">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  onClick={() => {
-                    const filteredChannels = getFilteredChannels()
-                    setCurrentChannel(prev => 
-                      prev === 0 ? filteredChannels.length - 1 : prev - 1
-                    )
-                  }}
-                >
-                  <SkipBack className="h-6 w-6" />
-                </Button>
-              </Tooltip>
-
-              <Tooltip content={isPlaying ? 'Pausar (Espacio)' : 'Reproducir (Espacio)'}>
-                <Button 
-                  variant="default" 
-                  size="icon" 
-                  className="h-16 w-16"
-                  onClick={togglePlay}
-                  disabled={!getFilteredChannels()[currentChannel]?.isIPTV}
-                >
-                  {isPlaying ? <Pause className="h-8 w-8" /> : <PlayCircle className="h-8 w-8" />}
-                </Button>
-              </Tooltip>
-
-              <Tooltip content="Siguiente (→)">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  onClick={handleNextChannel}
-                >
-                  <SkipForward className="h-6 w-6" />
-                </Button>
-              </Tooltip>
-            </div>
-
-            <div className="flex items-center justify-center gap-4 mt-4 w-64 mx-auto">
-              <Tooltip content="Volumen (↑/↓)">
-                <Volume2 className="h-5 w-5" />
-              </Tooltip>
-              <Slider
-                value={[volume]}
-                onValueChange={(newVolume) => {
-                  const video = videoRef.current
-                  if (!video) return
-                  video.volume = newVolume[0] / 100
-                  setVolume(newVolume[0])
-                }}
-                max={100}
-                step={VOLUME_STEP}
-                className="flex-1"
-                disabled={!getFilteredChannels()[currentChannel]?.isIPTV}
-              />
-            </div>
           </div>
 
           {/* Advertising Banner */}
@@ -290,57 +242,15 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
               </div>
             </div>
 
-            <div className="grid gap-4">
-              <AnimatePresence mode="popLayout">
-                {getFilteredChannels().map((channel, index) => (
-                  <motion.div
-                    key={channel.id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex gap-4 bg-gray-900 rounded-lg overflow-hidden"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="relative w-48 h-28">
-                      <Image
-                        src={channel.iconUrl ? getResourceURL(channel.iconUrl) : ''}
-                        alt={channel.name}
-                        fill
-                        className="object-cover rounded-lg"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        priority={false}
-                        quality={75}
-                      />
-                    </div>
-                    <div className="flex-1 p-4">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-bold">{channel.name}</h3>
-                        </div>
-                        <Button variant="ghost" size="icon">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </div>
-                      <p className="text-sm text-gray-400 mt-2">{channel.description}</p>
-                      <div className="flex justify-between items-center mt-2">
-                        <span className="text-sm text-gray-400">{channel.pais}</span>
-                        <motion.button 
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded text-sm"
-                          onClick={() => handleChannelChange(index)}
-                        >
-                          VER AHORA
-                        </motion.button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
+            <ChannelList
+              channels={getFilteredChannels()}
+              currentChannel={getFilteredChannels()[currentChannel]}
+              onChannelSelect={(channel) => {
+                const index = getFilteredChannels().findIndex(c => c.id === channel.id)
+                handleChannelChange(index)
+              }}
+              isPlaying={isPlaying}
+            />
           </motion.div>
         </main>
       </div>

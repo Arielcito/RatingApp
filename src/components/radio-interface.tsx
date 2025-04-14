@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Tooltip } from "@/components/ui/tooltip"
+import { NavigationControls } from '@/components/navigation-controls'
 
 interface RadioInterfaceProps {
   channels: Channel[]
@@ -169,61 +170,15 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   }, [handleNextStation])
 
   return (
-    <div className=" text-white">
+    <div className="text-white">
       <div className="flex">
         <main className="flex-1">
-          {/* Controles siempre visibles */}
-          <div className="bg-gray-900 p-4 mb-4">
-            <div className="flex items-center justify-center gap-4">
-              <Tooltip content="Anterior (←)">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  onClick={handlePreviousStation}
-                  disabled={getFilteredChannels().length <= 1}
-                >
-                  <SkipBack className="h-6 w-6" />
-                </Button>
-              </Tooltip>
-
-              <Tooltip content={isPlaying ? 'Pausar (Espacio)' : 'Reproducir (Espacio)'}>
-                <Button 
-                  variant="default" 
-                  size="icon" 
-                  className="h-16 w-16"
-                  onClick={togglePlay}
-                  disabled={!currentStation.streamingUrl && !currentStation.radioWebURL}
-                >
-                  {isPlaying ? <Pause className="h-8 w-8" /> : <PlayCircle className="h-8 w-8" />}
-                </Button>
-              </Tooltip>
-
-              <Tooltip content="Siguiente (→)">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  onClick={handleNextStation}
-                  disabled={getFilteredChannels().length <= 1}
-                >
-                  <SkipForward className="h-6 w-6" />
-                </Button>
-              </Tooltip>
-            </div>
-
-            <div className="flex items-center justify-center gap-4 mt-4 w-64 mx-auto">
-              <Tooltip content="Volumen (↑/↓)">
-                <Volume2 className="h-5 w-5" />
-              </Tooltip>
-              <Slider
-                value={[volume]}
-                onValueChange={(newVolume) => setVolume(newVolume[0])}
-                max={100}
-                step={VOLUME_STEP}
-                className="flex-1"
-                disabled={!currentStation.streamingUrl && !currentStation.radioWebURL}
-              />
-            </div>
-          </div>
+          <NavigationControls
+            onPrevious={handlePreviousStation}
+            onNext={handleNextStation}
+            currentChannel={currentStation}
+            disabled={getFilteredChannels().length <= 1}
+          />
 
           {/* Contenedor del reproductor */}
           <div className="h-[400px] bg-gray-900 relative">

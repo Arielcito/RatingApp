@@ -10,6 +10,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { Button } from "@/components/ui/button"
 import { ServiceSkeleton } from '@/components/Servicios/service-skeleton'
+import { NavigationControls } from '@/components/navigation-controls'
 
 export default function DiarioViewerPage({ params }: { params: { id: string } }) {
   const { subscriber, isLoading: isSubscriberLoading } = useSubscriber()
@@ -98,27 +99,11 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-white">{newspaper.name}</h1>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            size="icon"
-            onClick={handlePrevNewspaper}
-            className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button 
-            variant="outline" 
-            size="icon"
-            onClick={handleNextNewspaper}
-            className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <NavigationControls
+        onPrevious={handlePrevNewspaper}
+        onNext={handleNextNewspaper}
+        currentChannel={newspaper}
+      />
 
       <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden">
         <iframe 

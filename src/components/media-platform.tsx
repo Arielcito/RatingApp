@@ -14,6 +14,7 @@ import { useSearchParams } from 'next/navigation'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Tooltip } from "@/components/ui/tooltip"
 import { Slider } from "@/components/ui/slider"
+import { NavigationControls } from '@/components/navigation-controls'
 
 interface MediaPlatformProps {
   channels: Channel[];
@@ -164,66 +165,16 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     <div className="bg-black text-white">
       <div className="flex">
         <main className="flex-1">
-          {/* Controles de reproducción */}
-          <div className="bg-gray-900 p-4 mb-4">
-            <div className="flex items-center justify-center gap-4">
-              <Tooltip content="Anterior (←)">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  onClick={() => {
-                    const filteredChannels = getFilteredChannels()
-                    setCurrentChannel(prev => 
-                      prev === 0 ? filteredChannels.length - 1 : prev - 1
-                    )
-                  }}
-                >
-                  <SkipBack className="h-6 w-6" />
-                </Button>
-              </Tooltip>
-
-              <Tooltip content={isPlaying ? 'Pausar (Espacio)' : 'Reproducir (Espacio)'}>
-                <Button 
-                  variant="default" 
-                  size="icon" 
-                  className="h-16 w-16"
-                  onClick={togglePlay}
-                  disabled={!getFilteredChannels()[currentChannel]?.isIPTV}
-                >
-                  {isPlaying ? <Pause className="h-8 w-8" /> : <PlayCircle className="h-8 w-8" />}
-                </Button>
-              </Tooltip>
-
-              <Tooltip content="Siguiente (→)">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  onClick={handleNextChannel}
-                >
-                  <SkipForward className="h-6 w-6" />
-                </Button>
-              </Tooltip>
-            </div>
-
-            <div className="flex items-center justify-center gap-4 mt-4 w-64 mx-auto">
-              <Tooltip content="Volumen (↑/↓)">
-                <Volume2 className="h-5 w-5" />
-              </Tooltip>
-              <Slider
-                value={[volume]}
-                onValueChange={(newVolume) => {
-                  const video = videoRef.current
-                  if (!video) return
-                  video.volume = newVolume[0] / 100
-                  setVolume(newVolume[0])
-                }}
-                max={100}
-                step={VOLUME_STEP}
-                className="flex-1"
-                disabled={!getFilteredChannels()[currentChannel]?.isIPTV}
-              />
-            </div>
-          </div>
+          <NavigationControls
+            onPrevious={() => {
+              const filteredChannels = getFilteredChannels()
+              setCurrentChannel(prev => 
+                prev === 0 ? filteredChannels.length - 1 : prev - 1
+              )
+            }}
+            onNext={handleNextChannel}
+            currentChannel={getFilteredChannels()[currentChannel]}
+          />
 
           <div className="aspect-video bg-gray-900 relative">
             {getFilteredChannels()[currentChannel]?.isIPTV ? (
