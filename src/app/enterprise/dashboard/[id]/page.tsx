@@ -60,25 +60,25 @@ function EmptyState() {
 }
 
 function findDashboardUrl(items: DashboardItem[], targetId: string): string | null {
-  console.log('Searching for dashboardUrl with targetId:', targetId);
-  console.log('Items to search:', JSON.stringify(items, null, 2));
+  console.log('🔍 Searching for dashboardUrl with targetId:', targetId);
+  console.log('📦 Items to search:', JSON.stringify(items, null, 2));
   
   for (const item of items) {
-    console.log('Checking item:', item.id, item.name);
+    console.log('🔎 Checking item:', item.id, item.name, 'URL:', item.dashboardUrl);
     if (item.id?.toString() === targetId) {
-      console.log('Found matching item:', item);
+      console.log('✅ Found matching item:', item);
       return item.dashboardUrl || null;
     }
     if (item.children?.length) {
-      console.log('Checking children of item:', item.id);
+      console.log('👶 Checking children of item:', item.id);
       const found = findDashboardUrl(item.children, targetId);
       if (found) {
-        console.log('Found dashboardUrl in children:', found);
+        console.log('✅ Found dashboardUrl in children:', found);
         return found;
       }
     }
   }
-  console.log('No dashboardUrl found for targetId:', targetId);
+  console.log('❌ No dashboardUrl found for targetId:', targetId);
   return null;
 }
 
@@ -92,12 +92,14 @@ function DashboardContent({ params }: { params: { id: string } }) {
   });
 
   useEffect(() => {
-    console.log('State changed - isDashboardLoaded:', isDashboardLoaded);
-    console.log('State changed - iframeError:', iframeError);
+    console.log('🔄 State changed - isDashboardLoaded:', isDashboardLoaded);
+    console.log('🔄 State changed - iframeError:', iframeError);
   }, [isDashboardLoaded, iframeError]);
 
   const dashboardUrl = dashboardItems ? findDashboardUrl(dashboardItems, params.id) : null;
-  console.log('Found dashboardUrl:', dashboardUrl);
+  console.log('🎯 Found dashboardUrl:', dashboardUrl);
+  console.log('🎯 Current params.id:', params.id);
+  console.log('🎯 Dashboard items:', dashboardItems);
 
   if (isLoading) {
     return (
@@ -108,6 +110,7 @@ function DashboardContent({ params }: { params: { id: string } }) {
   }
 
   if (error || !dashboardUrl) {
+    console.log('❌ Error or no dashboardUrl:', { error, dashboardUrl });
     return <EmptyState />;
   }
 
@@ -116,13 +119,34 @@ function DashboardContent({ params }: { params: { id: string } }) {
     return item.children?.some(child => child.id?.toString() === params.id);
   });
 
+  const currentDashboardName = dashboardItems?.reduce((name, item) => {
+    if (item.id?.toString() === params.id) return item.name || '';
+    const child = item.children?.find(child => child.id?.toString() === params.id);
+    return child ? child.name || '' : name;
+  }, '');
+
+  console.log('📊 Current dashboard:', currentDashboard);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">{currentDashboard?.name}</h1>
-        {currentDashboard?.tooltip && (
-          <p className="text-sm text-gray-400">{currentDashboard.tooltip}</p>
-        )}
+        <h1 className="text-2xl font-bold text-white">{currentDashboardName}</h1>
+        <div className="flex items-center gap-4">
+          {currentDashboardName && (
+            <p className="text-sm text-gray-400">{currentDashboardName}</p>
+          )}
+          {dashboardUrl && (
+            <button
+              onClick={() => window.open(dashboardUrl, '_blank', 'noopener,noreferrer')}
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              Abrir en nueva ventana
+            </button>
+          )}
+        </div>
       </div>
 
       {dashboardUrl && (
@@ -132,14 +156,12 @@ function DashboardContent({ params }: { params: { id: string } }) {
               <div className="absolute inset-0 flex items-center justify-center bg-gray-900 rounded-lg">
                 <div className="text-center">
                   <p className="text-red-500 mb-4">Error al cargar el dashboard</p>
-                  <a 
-                    href={dashboardUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                  <button 
+                    onClick={() => window.open(dashboardUrl, '_blank', 'noopener,noreferrer')}
                     className="text-primary hover:text-primary/80"
                   >
                     Abrir en nueva pestaña
-                  </a>
+                  </button>
                 </div>
               </div>
             ) : (

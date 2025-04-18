@@ -10,4 +10,7 @@ export type Subscriber = {
   telefono: string | null;
   deviceCode: string | null;
   captcha: string | null;
+  description?: string | null;
+  serviceType?: string | null;
+  serviceUrl?: string | null;
 }; 

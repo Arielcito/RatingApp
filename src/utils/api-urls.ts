@@ -5,4 +5,5 @@ export const API_URLS = {
   register: `${BACKEND_URL}/subscriptors/add`,
   loginEnterprise: `${BACKEND_URL}/users/login`,
   dashboard: `${BACKEND_URL}/dashboard/get`,
+  updateSubscriber: `${BACKEND_URL}/users/update`,
 }; 
