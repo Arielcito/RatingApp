@@ -7,6 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Tv, Radio, Laptop, Newspaper, ChevronLeft, MapPin } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLocations } from "@/hooks/use-locations";
+import type { Channel } from "@/types/channel";
 import {
   Select,
   SelectContent,
@@ -15,15 +16,34 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const categories = [
-  { id: 'destacado', name: 'Destacado', icon: Tv, path: '/servicios/tv' },
-  { id: 'musica', name: 'Música', icon: Radio, path: '/servicios/radio' },
-  { id: 'noticias', name: 'Noticias', icon: Newspaper, path: '/servicios/diarios' },
-  { id: 'deportes', name: 'Deportes', icon: Tv, path: '/servicios/tv' },
-  { id: 'cultura', name: 'Cultura', icon: Tv, path: '/servicios/tv' },
-  { id: 'podcasts', name: 'Podcasts', icon: Tv, path: '/servicios/tv' }
-]
-export function Sidebar() {
+interface SidebarProps {
+  channels: Channel[];
+}
+
+const getCategories = (channels: Channel[]) => {
+  const uniqueCategories = [...new Set(channels.map(channel => channel.category))].filter(Boolean);
+  
+  return uniqueCategories.map(category => {
+    const iconMap: Record<string, any> = {
+      'tv': Tv,
+      'radio': Radio,
+      'streaming': Laptop,
+      'noticias': Newspaper,
+      'deportes': Tv,
+      'cultura': Tv,
+      'podcasts': Tv
+    };
+
+    return {
+      id: category.toLowerCase(),
+      name: category,
+      icon: iconMap[category.toLowerCase()] || Tv,
+      path: `/servicios/${category.toLowerCase()}`
+    };
+  });
+};
+
+export function Sidebar({ channels }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
@@ -31,6 +51,8 @@ export function Sidebar() {
   const { locations, isLoading: locationsLoading } = useLocations();
   const [selectedProvincia, setSelectedProvincia] = useState<string | null>(null);
   const [selectedLocalidad, setSelectedLocalidad] = useState<string | null>(null);
+
+  const categories = getCategories(channels);
 
   useEffect(() => {
     const handleResize = () => {

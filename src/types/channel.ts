@@ -17,4 +17,5 @@ export interface Channel {
     streaming: boolean;
     radioWebURL: string;
     fmFrequency: string;
+    category: string;
 }
