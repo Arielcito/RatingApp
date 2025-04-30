@@ -67,21 +67,56 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
 
     const currentChannelData = filteredChannels[currentChannel]
     console.log('currentChannelData', currentChannelData)
-    if (currentChannelData.isIPTV) {
-
+    if (currentChannelData.isIPTV || (currentChannelData.tvWebURL && currentChannelData.tvWebURL.includes('.m3u8'))) {
       console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
-      const hls = new Hls();
+      const hls = new Hls({
+        debug: true,
+        enableWorker: true,
+        lowLatencyMode: true
+      });
+      
       if (Hls.isSupported()) {
-        hls.loadSource(currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || '');
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        try {
+          hls.loadSource(currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || '');
+          hls.attachMedia(video);
+          
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            console.log('Manifest parsed, attempting to play');
+            video.play().catch(error => {
+              console.error('Error al reproducir:', error);
+            });
+          });
+
+          hls.on(Hls.Events.ERROR, (event, data) => {
+            console.error('HLS Error:', data);
+            if (data.fatal) {
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  console.error('Network error, trying to recover');
+                  hls.startLoad();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  console.error('Media error, trying to recover');
+                  hls.recoverMediaError();
+                  break;
+                default:
+                  console.error('Fatal error, cannot recover');
+                  hls.destroy();
+                  break;
+              }
+            }
+          });
+        } catch (error) {
+          console.error('Error setting up HLS:', error);
+        }
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        console.log('Using native HLS support');
+        video.src = currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || currentChannelData?.siteUrl || '';
+        video.addEventListener('loadedmetadata', () => {
           video.play().catch(error => {
             console.error('Error al reproducir:', error);
           });
         });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
-        video.src = currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || currentChannelData?.siteUrl || '';
       }
 
       return () => {

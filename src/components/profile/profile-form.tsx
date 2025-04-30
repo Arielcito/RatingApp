@@ -43,7 +43,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 export function ProfileForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const { subscriber } = useSubscriber()
+  const { subscriber, setSubscriber } = useSubscriber()
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: async () => {
@@ -103,10 +103,20 @@ export function ProfileForm() {
     }
   }
 
+  const handleLogout = () => {
+    setSubscriber(null)
+    router.push('/auth/signin')
+  }
+
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       <div className="relative pt-8 px-4">
-        <button type="button" className="absolute top-4 left-4 text-white" aria-label="Volver">
+        <button 
+          type="button" 
+          className="absolute top-4 left-4 text-white" 
+          aria-label="Volver"
+          onClick={() => router.back()}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -116,11 +126,12 @@ export function ProfileForm() {
           <div className="relative w-24 h-24 mb-4">
             <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
               <Image
-                src="/placeholder-avatar.jpg"
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&fit=crop&auto=format"
                 alt="Foto de perfil"
                 width={96}
                 height={96}
                 className="object-cover"
+                priority
               />
             </div>
             <button type="button" className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-lg" aria-label="Cambiar foto de perfil">
@@ -136,44 +147,107 @@ export function ProfileForm() {
         <div className="bg-white rounded-t-3xl px-4 py-6 space-y-2">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {[
-                { label: 'Mis datos', icon: '📋', onClick: () => {} },
-                { label: 'Mi Participación', icon: '🏆', onClick: () => {} },
-                { label: 'Sugerencias', icon: '💡', onClick: () => {} },
-                { label: 'Notificaciones', icon: '🔔', badge: '1', onClick: () => {} },
-                { label: 'Membresía', icon: '👑', status: 'Oro', onClick: () => {} },
-                { label: 'Términos y condiciones', icon: '📜', onClick: () => {} }
-              ].map((item) => (
-                <button
-                  type="button"
-                  key={item.label}
-                  className="w-full bg-blue-50 hover:bg-blue-100 p-4 rounded-xl flex items-center justify-between"
-                  onClick={item.onClick}
-                >
-                  <div className="flex items-center space-x-3">
-                    <span className="text-2xl">{item.icon}</span>
-                    <span className="text-gray-700">{item.label}</span>
-                  </div>
-                  {item.badge && (
-                    <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-sm">
-                      {item.badge}
-                    </span>
-                  )}
-                  {item.status && (
-                    <span className="text-yellow-600 font-medium">
-                      {item.status}
-                    </span>
-                  )}
-                </button>
-              ))}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombre</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tu nombre" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="tu@email.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="birthDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fecha de Nacimiento</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Género</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona tu género" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="M">Masculino</SelectItem>
+                        <SelectItem value="F">Femenino</SelectItem>
+                        <SelectItem value="O">Otro</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="telefono"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Teléfono</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tu teléfono" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="document"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Documento</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tu documento" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Guardando...' : 'Guardar Cambios'}
+              </Button>
 
               <button
                 type="button"
                 className="w-full mt-6 p-4 text-red-600 font-medium"
-                onClick={(e) => {
-                  e.preventDefault()
-                  // Implementar lógica de cierre de sesión
-                }}
+                onClick={handleLogout}
               >
                 Cerrar Sesión
               </button>

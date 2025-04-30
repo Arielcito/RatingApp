@@ -6,8 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getResourceURL(resourceName?: string) {
-  if (resourceName) {
-    return `http://ratingapp.net.ar:8000/res/${resourceName}`;
+  if (!resourceName) return '';
+  
+  if (resourceName.startsWith('http')) {
+    return resourceName;
   }
-  return 'http://ratingapp.net.ar:8000/res/';
+  
+  return `http://ratingapp.net.ar:8000/res/${resourceName}`;
 }

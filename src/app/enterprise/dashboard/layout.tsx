@@ -1,7 +1,7 @@
 "use client";
 
 import { useSubscriber } from '@/app/context/SubscriberContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Sidebar from '@/components/enterprise/sidebar';
@@ -18,6 +18,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { subscriber, setSubscriber } = useSubscriber();
 
   useEffect(() => {
@@ -90,8 +91,8 @@ export default function DashboardLayout({
         </header>
         
         <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          <main className="flex-1 overflow-y-auto p-8 text-gray-200">
+          {!pathname.includes('/settings') && <Sidebar />}
+          <main className={`flex-1 overflow-y-auto p-8 text-gray-200 ${pathname.includes('/settings') ? 'w-full' : ''}`}>
             {children}
           </main>
         </div>

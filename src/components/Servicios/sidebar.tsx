@@ -119,7 +119,7 @@ export function Sidebar({ channels }: SidebarProps) {
   return (
     <aside className={cn(
       "w-64 border-r border-gray-800 transition-all duration-200",
-      !isOpen && "w-20"
+      !isOpen && "w-16"
     )}>
       <ScrollArea className="h-full">
         <div className="p-4">
@@ -134,8 +134,9 @@ export function Sidebar({ channels }: SidebarProps) {
               !isOpen && "rotate-180"
             )} />
           </Button>
-{/* Filtros de ubicación */}
-{isOpen && (
+
+          {/* Filtros de ubicación - Solo visible cuando está expandido */}
+          {isOpen && (
             <div className="mt-6 space-y-4">
               <div className="flex items-center gap-2 text-white mb-2">
                 <MapPin className="h-5 w-5" />
@@ -176,40 +177,46 @@ export function Sidebar({ channels }: SidebarProps) {
                   ))}
                 </SelectContent>
               </Select>
-              
             </div>
           )}
-          {isOpen && (
-            <h2 className="text-white text-lg font-bold mb-2 ">Categorías</h2>
-          )}
-              {/* Categorías */}
-              {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant="ghost"
-              className={`w-full justify-start mb-1 ${
-                selectedCategory === category.id ? 'bg-yellow-500 text-black hover:bg-yellow-600' : 'text-white'
-              }`}
-              onClick={() => onCategoryChange(category)}
-              title={category.name}
-            >
-              <category.icon className={cn(
-                "h-5 w-5",
-                isOpen && "mr-2"
-              )} />
-              {isOpen && category.name}
-            </Button>
-          ))}
 
-          <div className="pt-2">
-            <Button 
-              variant="outline" 
-              className="w-full text-muted-foreground hover:text-primary"
-              onClick={handleClearFilters}
-            >
-              Limpiar filtros
-            </Button>
+          {/* Categorías */}
+          <div className={cn("space-y-1", isOpen && "mt-6")}>
+            {isOpen && (
+              <h2 className="text-white text-lg font-bold mb-2">Categorías</h2>
+            )}
+            {categories.map((category) => (
+              <Button
+                key={category.id}
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start mb-1",
+                  selectedCategory === category.id 
+                    ? 'bg-yellow-500 text-black hover:bg-yellow-600' 
+                    : 'text-white',
+                  !isOpen && "justify-center p-2"
+                )}
+                onClick={() => onCategoryChange(category)}
+                title={category.name}
+              >
+                <category.icon className="h-5 w-5" />
+                {isOpen && <span className="ml-2">{category.name}</span>}
+              </Button>
+            ))}
           </div>
+
+          {/* Botón de limpiar filtros - Solo visible cuando está expandido */}
+          {isOpen && (
+            <div className="pt-2">
+              <Button 
+                variant="outline" 
+                className="w-full text-muted-foreground hover:text-primary"
+                onClick={handleClearFilters}
+              >
+                Limpiar filtros
+              </Button>
+            </div>
+          )}
         </div>
       </ScrollArea>
     </aside>

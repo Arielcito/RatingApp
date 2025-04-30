@@ -13,4 +13,6 @@ export type Subscriber = {
   description?: string | null;
   serviceType?: string | null;
   serviceUrl?: string | null;
+  image?: string | null;
+  role?: string | null;
 }; 
