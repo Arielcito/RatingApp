@@ -127,15 +127,6 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
 
   const handleChannelChange = (index: number) => {
     setCurrentChannel(index);
-    const videoContainer = document.querySelector('.aspect-video');
-    if (videoContainer) {
-      setTimeout(() => {
-        videoContainer.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'nearest'
-        });
-      }, 100);
-    }
   };
 
   const handleNextChannel = () => {
