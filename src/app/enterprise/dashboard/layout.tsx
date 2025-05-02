@@ -92,7 +92,7 @@ export default function DashboardLayout({
         
         <div className="flex flex-1 overflow-hidden">
           {!pathname.includes('/settings') && <Sidebar />}
-          <main className={`flex-1 overflow-y-auto p-8 text-gray-200 ${pathname.includes('/settings') ? 'w-full' : ''}`}>
+          <main className={`flex-1 p-8 text-gray-200 ${pathname.includes('/settings') ? 'w-full' : ''}`}>
             {children}
           </main>
         </div>

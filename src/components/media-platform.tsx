@@ -24,6 +24,7 @@ interface MediaPlatformProps {
 export function MediaPlatform({ channels }: MediaPlatformProps) {
   const searchParams = useSearchParams()
   const [currentChannel, setCurrentChannel] = useState(0);
+  const [displayLimit, setDisplayLimit] = useState(20);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState(50)
@@ -254,7 +255,7 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             </div>
 
             <ChannelList
-              channels={getFilteredChannels()}
+              channels={getFilteredChannels().slice(0, displayLimit)}
               currentChannel={getFilteredChannels()[currentChannel]}
               onChannelSelect={(channel) => {
                 const index = getFilteredChannels().findIndex(c => c.id === channel.id)
@@ -262,6 +263,19 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
               }}
               isPlaying={isPlaying}
             />
+
+            {getFilteredChannels().length > displayLimit && (
+              <div className="flex justify-center mt-4">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={() => setDisplayLimit(prev => prev + 20)}
+                >
+                  Ver más canales
+                </Button>
+              </div>
+            )}
           </motion.div>
         </main>
       </div>

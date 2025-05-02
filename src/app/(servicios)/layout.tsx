@@ -81,7 +81,7 @@ export default function ServiciosRootLayout({
             </div>
             <div className="flex flex-1 h-[calc(100vh-4rem)]">
               <Sidebar channels={channels} />
-              <main className="flex-1 p-8 overflow-y-auto">
+              <main className="flex-1 p-8">
                 {children}
               </main>
             </div>

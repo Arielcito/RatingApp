@@ -28,6 +28,17 @@ import type { Channel } from '@/types/channel'
 import { useSubscriber } from '@/app/context/SubscriberContext'
 import Image from 'next/image'
 import api from '@/lib/axios'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const profileFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -43,6 +54,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 export function ProfileForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const { subscriber, setSubscriber } = useSubscriber()
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -106,6 +118,23 @@ export function ProfileForm() {
   const handleLogout = () => {
     setSubscriber(null)
     router.push('/auth/signin')
+  }
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true)
+    try {
+      const response = await api.post('/subscriptors/delete', { id: subscriber?.id })
+      if (!response.data) throw new Error('Error al eliminar cuenta')
+      
+      toast.success('Cuenta eliminada correctamente')
+      setSubscriber(null)
+      router.push('/auth/signin')
+    } catch (error) {
+      toast.error('Error al eliminar la cuenta')
+      console.error(error)
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   return (
@@ -243,6 +272,35 @@ export function ProfileForm() {
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? 'Guardando...' : 'Guardar Cambios'}
               </Button>
+
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    className="w-full mt-4"
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? 'Eliminando...' : 'Eliminar Cuenta'}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Esta acción no se puede deshacer. Se eliminará permanentemente tu cuenta y todos sus datos asociados.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeleteAccount}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      Eliminar
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
 
               <button
                 type="button"
