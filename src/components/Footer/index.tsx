@@ -29,6 +29,10 @@ const footerNavData: FooterMenu[] = [
         label: "Blog",
         route: "/blog",
       },
+      {
+        label: "Términos y Condiciones",
+        route: "/terminos-y-condiciones",
+      },
     ],
   },
 ];

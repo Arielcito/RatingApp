@@ -142,12 +142,21 @@ export function EnterpriseProfileForm() {
           <div className="bg-gray-800 p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">Soporte</h2>
             <p className="text-gray-300 mb-4">¿Necesitas ayuda? Contáctanos por WhatsApp</p>
-            <Button
-              onClick={() => window.open('https://wa.me/1234567890', '_blank')}
-              className="bg-green-600 hover:bg-green-700"
-            >
-              Abrir Chat de Soporte
-            </Button>
+            <div className="space-y-4">
+              <Button
+                onClick={() => window.open('https://wa.me/1234567890', '_blank')}
+                className="bg-green-600 hover:bg-green-700 w-full"
+              >
+                Abrir Chat de Soporte
+              </Button>
+              <Button
+                onClick={() => window.open('https://www.ratingapp.com.ar/terminos-y-condiciones', '_blank')}
+                variant="outline"
+                className="w-full"
+              >
+                Términos y Condiciones
+              </Button>
+            </div>
           </div>
 
           {/* Gestión de Usuarios (solo para admin) */}
