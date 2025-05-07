@@ -111,10 +111,6 @@ const TermsAndConditionsPage = () => {
           en las presentes condiciones.
         </p>
         <p className="mb-6 text-gray-700 dark:text-gray-300">
-          Almacenará los mismos únicamente con la finalidad y alcance previstos
-          en las presentes condiciones.
-        </p>
-        <p className="mb-6 text-gray-700 dark:text-gray-300">
           3.2. El Sistema RATING APP puede elaborar y transmitir a terceros
           datos estadísticos y generales acerca del comportamiento del usuario
           como audiencia de tv, radio, streaming, periódicos on line,
