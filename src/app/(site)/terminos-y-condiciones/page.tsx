@@ -14,7 +14,7 @@ const TermsAndConditionsPage = () => {
         Términos y Condiciones de RatingApp
       </h1>
       
-      <div className="max-w-3xl mx-auto  dark:bg-gray-800 p-8 rounded-lg shadow-md">
+      <div className="max-w-3xl mx-auxto  dark:bg-gray-800 p-8 rounded-lg shadow-md">
         <p className="mb-6 text-gray-700 dark:text-gray-300">
           Última actualización: {new Date().toLocaleDateString()}
         </p>
