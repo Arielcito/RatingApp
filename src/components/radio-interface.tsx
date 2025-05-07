@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { PlayCircle, Pause, SkipForward, SkipBack, Volume2, MoreVertical } from 'lucide-react'
+import { PlayCircle, Pause, SkipForward, SkipBack, Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react'
 import type { Channel } from '@/types/channel'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
@@ -28,6 +28,8 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const VOLUME_STEP = 5
 
@@ -170,6 +172,29 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
     handleNextStation()
   }, [handleNextStation])
 
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return
+
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen()
+      setIsFullscreen(true)
+    } else {
+      document.exitFullscreen()
+      setIsFullscreen(false)
+    }
+  }
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+    }
+  }, [])
+
   return (
     <div className="text-white">
       <div className="flex">
@@ -182,7 +207,7 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
           />
 
           {/* Contenedor del reproductor */}
-          <div className="h-[400px] bg-gray-900 relative">
+          <div ref={containerRef} className="h-[400px] bg-gray-900 relative">
             {currentStation.isIPTV ? (
               <div className="h-full flex items-center justify-center">
                 <audio
@@ -227,6 +252,73 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                 allowFullScreen
               />
             )}
+
+            {/* Controls Bar */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+              <div className="flex items-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:text-white/80"
+                  onClick={togglePlay}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-6 w-6" />
+                  ) : (
+                    <PlayCircle className="h-6 w-6" />
+                  )}
+                </Button>
+
+                <div className="flex items-center gap-2 flex-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:text-white/80"
+                    onClick={() => {
+                      if (audioRef.current) {
+                        audioRef.current.muted = !audioRef.current.muted
+                        if (audioRef.current.muted) {
+                          setVolume(0)
+                        } else {
+                          setVolume(audioRef.current.volume * 100)
+                        }
+                      }
+                    }}
+                  >
+                    {volume === 0 ? (
+                      <VolumeX className="h-5 w-5" />
+                    ) : (
+                      <Volume2 className="h-5 w-5" />
+                    )}
+                  </Button>
+                  <Slider
+                    value={[volume]}
+                    onValueChange={(value) => {
+                      setVolume(value[0])
+                      if (audioRef.current) {
+                        audioRef.current.volume = value[0] / 100
+                      }
+                    }}
+                    max={100}
+                    step={1}
+                    className="w-24"
+                  />
+                </div>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:text-white/80"
+                  onClick={toggleFullscreen}
+                >
+                  {isFullscreen ? (
+                    <Minimize2 className="h-5 w-5" />
+                  ) : (
+                    <Maximize2 className="h-5 w-5" />
+                  )}
+                </Button>
+              </div>
+            </div>
           </div>
 
           {/* Advertising Banner */}

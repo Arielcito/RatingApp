@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { ChevronRight, MoreVertical, PlayCircle, Pause, SkipForward, SkipBack, Volume2 } from 'lucide-react'
+import { ChevronRight, MoreVertical, PlayCircle, Pause, SkipForward, SkipBack, Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react'
 import type { Channel } from '@/types/channel';
 import type { Campaign } from '@/types/campaign';
 import Hls from 'hls.js'
@@ -30,6 +30,8 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   const [volume, setVolume] = useState(50)
   const VOLUME_STEP = 5
   const [isVideoReady, setIsVideoReady] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const videoContainerRef = useRef<HTMLDivElement>(null)
 
   const getFilteredChannels = () => {
     const provincia = searchParams.get('provincia')
@@ -196,6 +198,48 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     handleNextChannel()
   }, [handleNextChannel])
 
+  const handleVolumeChange = (value: number[]) => {
+    const video = videoRef.current
+    if (!video) return
+    const newVolume = value[0] / 100
+    video.volume = newVolume
+    setVolume(value[0])
+  }
+
+  const toggleMute = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.muted = !video.muted
+    if (video.muted) {
+      setVolume(0)
+    } else {
+      setVolume(video.volume * 100)
+    }
+  }
+
+  const toggleFullscreen = () => {
+    if (!videoContainerRef.current) return
+
+    if (!document.fullscreenElement) {
+      videoContainerRef.current.requestFullscreen()
+      setIsFullscreen(true)
+    } else {
+      document.exitFullscreen()
+      setIsFullscreen(false)
+    }
+  }
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+    }
+  }, [])
+
   return (
     <div className="bg-black text-white">
       <div className="flex">
@@ -211,16 +255,70 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
             currentChannel={getFilteredChannels()[currentChannel]}
           />
 
-          <div className="aspect-video bg-gray-900 relative">
+          <div ref={videoContainerRef} className="aspect-video bg-gray-900 relative">
             {getFilteredChannels()[currentChannel]?.isIPTV ? (
-              <video 
-                ref={videoRef}
-                className="w-full h-full"
-                controls={false}
-                onLoadedMetadata={() => setIsVideoReady(true)}
-              >
-                <track kind="captions" />
-              </video>
+              <>
+                <video 
+                  ref={videoRef}
+                  className="w-full h-full"
+                  controls={false}
+                  onLoadedMetadata={() => setIsVideoReady(true)}
+                >
+                  <track kind="captions" />
+                </video>
+                
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                  <div className="flex items-center gap-4">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-white hover:text-white/80"
+                      onClick={togglePlay}
+                    >
+                      {isPlaying ? (
+                        <Pause className="h-6 w-6" />
+                      ) : (
+                        <PlayCircle className="h-6 w-6" />
+                      )}
+                    </Button>
+
+                    <div className="flex items-center gap-2 flex-1">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-white hover:text-white/80"
+                        onClick={toggleMute}
+                      >
+                        {volume === 0 ? (
+                          <VolumeX className="h-5 w-5" />
+                        ) : (
+                          <Volume2 className="h-5 w-5" />
+                        )}
+                      </Button>
+                      <Slider
+                        value={[volume]}
+                        onValueChange={handleVolumeChange}
+                        max={100}
+                        step={1}
+                        className="w-24"
+                      />
+                    </div>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-white hover:text-white/80"
+                      onClick={toggleFullscreen}
+                    >
+                      {isFullscreen ? (
+                        <Minimize2 className="h-5 w-5" />
+                      ) : (
+                        <Maximize2 className="h-5 w-5" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </>
             ) : (
               <iframe
                 title={`Canal ${getFilteredChannels()[currentChannel]?.name}`}
