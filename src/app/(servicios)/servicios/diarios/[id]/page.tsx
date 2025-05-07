@@ -98,14 +98,14 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-[calc(100vh-4rem)]">
       <NavigationControls
         onPrevious={handlePrevNewspaper}
         onNext={handleNextNewspaper}
         currentChannel={newspaper}
       />
 
-      <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden">
+      <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden min-h-[80vh]">
         <iframe 
           src={newspaper.onlineNewsUrl || '#'} 
           className="w-full h-full border-0"
