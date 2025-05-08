@@ -23,6 +23,7 @@ type SignupFormData = {
   passwd: string;
   telefono: string;
   deviceCode: string;
+  acceptTerms: boolean;
 };
 
 const Signup = () => {
@@ -39,7 +40,8 @@ const Signup = () => {
     document: '',
     passwd: '',
     telefono: '',
-    deviceCode: ''
+    deviceCode: '',
+    acceptTerms: false
   });
 
   const handleLogin = async (email: string, password: string) => {
@@ -79,6 +81,12 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.acceptTerms) {
+      toast.error('Debes aceptar los términos y condiciones para continuar');
+      return;
+    }
+
     setIsLoading(true);
     setLoadingMessage('Registrando usuario...');
 
@@ -241,6 +249,27 @@ const Signup = () => {
                 className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 text-white"
                 required
               />
+            </div>
+
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="terms"
+                  type="checkbox"
+                  checked={formData.acceptTerms}
+                  onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
+                  className="w-4 h-4 border border-stroke rounded bg-transparent focus:ring-2 focus:ring-primary"
+                  required
+                />
+              </div>
+              <div className="ml-3 text-sm">
+                <label htmlFor="terms" className="text-white">
+                  Acepto los{' '}
+                  <Link href="/terminos-y-condiciones" className="text-primary hover:text-primary-hover" target="_blank">
+                    términos y condiciones
+                  </Link>
+                </label>
+              </div>
             </div>
 
             <button
