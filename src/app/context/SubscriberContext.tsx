@@ -28,9 +28,7 @@ export const SubscriberProvider = ({ children }: { children: React.ReactNode }) 
       const subscriberFromCookie = Cookies.get('subscriber');
       if (subscriberFromCookie) {
         try {
-          console.log('🍪 Cookie encontrada:', subscriberFromCookie);
           const parsedSubscriber = JSON.parse(subscriberFromCookie);
-          console.log('✅ Cookie parseada correctamente:', parsedSubscriber);
           setSubscriber(parsedSubscriber);
         } catch (error) {
           console.error('❌ Error al parsear la cookie:', error);

@@ -17,7 +17,7 @@ export const castingNews: News[] = [
       "El 17/12/2024 se realizó en el Show Room del Grupo Anacleto, 44 entre 15 y 16, La Plata, Bs As, la firma del convenio marco de cooperación mutua con CEPBA, Confederación Económica de la Provincia de Buenos Aires. Estuvieron presentes importantes autoridades entre ellos el Presidente de la Universidad Nacional de La Plata, Dr Martín Lopez Armengol, el Presidente de CEPBA Dr Guillermo Ciro, el Vicepresidente el Lic. Christian Wertmuller, siendo anfitrión del evento el empresario Cdor Carlos Anacleto. Se abordaron temas de incorporación de nuevas tecnologías en la gestión de eficiencia y eficacia empresarial.",
     date: "2024-12-17 19:00",
     image:
-      "https://drive.google.com/uc?id=1XPRhaF6L2yuJ_GbHRlU2ofTN2yuhzG6e&export=download",
+      "https://drive.google.com/uc?id=1XPRhaF6L2yuJ_GbHRlU2ofTN2yuhzG6e",
     category: "",
     type: "image",
   },

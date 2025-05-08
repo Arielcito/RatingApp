@@ -1,7 +1,6 @@
 "use client";
 
 import { useSubscriber } from '@/app/context/SubscriberContext';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -21,7 +20,7 @@ export default function Header() {
           <div className="flex-shrink-0">
             <Link href="/enterprise/dashboard">
               <div className="flex items-center">
-                <Image
+                <img
                   src="/logo.png"
                   alt="Logo"
                   width={40}

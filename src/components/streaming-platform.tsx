@@ -6,10 +6,9 @@ import { ChevronRight, MoreVertical, PlayCircle, Pause, SkipForward, SkipBack, V
 import type { Channel } from '@/types/channel';
 import type { Campaign } from '@/types/campaign';
 import Hls from 'hls.js'
-import Image from 'next/image';
 import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Tooltip } from "@/components/ui/tooltip"

@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import Sidebar from '@/components/enterprise/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import Image from 'next/image';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
@@ -42,7 +41,7 @@ export default function DashboardLayout({
         <header className="w-full bg-gray-800 shadow-sm z-10">
           <div className="flex items-center justify-between px-8 py-4">
             <div className="flex items-center gap-8">
-              <Image 
+              <img 
                 src="/images/logo/logo.png" 
                 alt="Logo" 
                 width={150} 

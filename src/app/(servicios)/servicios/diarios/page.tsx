@@ -7,7 +7,6 @@ import { getActiveCampaigns } from '@/lib/api/campaign';
 import type { Channel } from '@/types/channel';
 import type { Campaign } from '@/types/campaign';
 import { motion } from "framer-motion";
-import Image from 'next/image';
 import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
 import { useRouter } from 'next/navigation';
@@ -80,10 +79,9 @@ export default function DiariosPage() {
           >
             <div className="relative h-48 w-full">
               {newspaper.iconUrl ? (
-                <Image
+                <img
                   src={getResourceURL(newspaper.iconUrl)}
                   alt={newspaper.name}
-                  fill
                   className="object-contain p-4"
                 />
               ) : (
