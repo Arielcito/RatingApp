@@ -265,7 +265,7 @@ const Signup = () => {
               <div className="ml-3 text-sm">
                 <label htmlFor="terms" className="text-white">
                   Acepto los{' '}
-                  <Link href="/terminos-y-condiciones" className="text-primary hover:text-primary-hover" target="_blank">
+                  <Link href="/terminos-y-condiciones" className="text-primary hover:text-primary-hover underline" target="_blank">
                     términos y condiciones
                   </Link>
                 </label>
@@ -274,7 +274,7 @@ const Signup = () => {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || !formData.acceptTerms}
               className="w-full rounded-lg bg-gradient-custom px-5 py-3 text-white transition hover:opacity-90 disabled:opacity-50"
             >
               {isLoading ? 'Registrando...' : 'Crear cuenta'}
