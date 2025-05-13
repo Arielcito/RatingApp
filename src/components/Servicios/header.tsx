@@ -17,6 +17,7 @@ import { Search, Tv, Radio, PlaySquare, Newspaper, UserCircle2, Trophy } from "l
 import { Input } from "../ui/input";
 import type { Channel } from "@/types/channel";
 import api from '@/lib/axios';
+import { Badge } from "@/components/ui/badge";
 
 interface SearchResult {
   id: number;
@@ -34,6 +35,7 @@ export function Header() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [activeRewardsCount, setActiveRewardsCount] = useState(0);
   
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -47,6 +49,21 @@ export function Header() {
 
     window.addEventListener('error', handleError);
     return () => window.removeEventListener('error', handleError);
+  }, []);
+
+  useEffect(() => {
+    const fetchActiveRewards = async () => {
+      try {
+        const response = await api.get('/campaigns/listActive');
+        if (response.data) {
+          setActiveRewardsCount(response.data.length);
+        }
+      } catch (error) {
+        console.error('Error fetching active rewards:', error);
+      }
+    };
+
+    fetchActiveRewards();
   }, []);
 
   const handleSearch = useCallback(async (term: string) => {
@@ -201,9 +218,22 @@ export function Header() {
           </Button>
           <Button 
             variant={isActiveRoute('premios') ? "default" : "ghost"}
-            className={`text-white ${isActiveRoute('premios') ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
+            className={`text-white relative ${isActiveRoute('premios') ? 'bg-yellow-500 hover:bg-yellow-600' : ''}`}
             onClick={() => handleTabChange('premios')}
           >
+            {activeRewardsCount > 0 && (
+              <Badge 
+                variant="destructive" 
+                className="absolute -top-2 -right-2 h-5 min-w-5 flex items-center justify-center px-1
+                  bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500
+                  animate-[pulse_3s_ease-in-out_infinite]
+                  shadow-[0_0_10px_rgba(255,0,255,0.5)]
+                  hover:shadow-[0_0_15px_rgba(255,0,255,0.7)]
+                  transition-all duration-300"
+              >
+                {activeRewardsCount}
+              </Badge>
+            )}
             <Trophy className="mr-2 h-4 w-4" />
             Premios
           </Button>

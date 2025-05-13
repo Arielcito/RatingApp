@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter, usePathname } from "next/navigation";
-import { Tv, Radio, Laptop, Newspaper, ChevronLeft, MapPin } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Tv, Radio, Laptop, Newspaper, ChevronLeft, MapPin, Trophy } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
 import { useLocations } from "@/hooks/use-locations";
 import type { Channel } from "@/types/channel";
 import {
@@ -15,9 +15,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useEmblaCarousel from "embla-carousel-react";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import api from '@/lib/axios';
 
 interface SidebarProps {
   channels: Channel[];
+}
+
+interface Campaign {
+  id: number;
+  title: string;
+  description: string;
+  from_date: string;
+  to_date: string;
+  award_description: string;
+  image_url: string;
+  created: string;
+  winner: string;
+  active: boolean;
+}
+
+function getAdvertisingImageURL(resourceName: string) {
+  return `http://ratingapp.net.ar:8000/advertising/${resourceName}`.trim();
 }
 
 const getCategories = (channels: Channel[]) => {
@@ -43,6 +64,47 @@ const getCategories = (channels: Channel[]) => {
   });
 };
 
+function CountdownTimer({ endDate }: { endDate: string }) {
+  const [timeLeft, setTimeLeft] = useState('');
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const end = new Date(endDate).getTime();
+      const now = new Date().getTime();
+      const difference = end - now;
+
+      if (difference <= 0) {
+        return 'Finalizado';
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+      if (days > 0) {
+        return `${days}d ${hours}h`;
+      } else if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+      } else {
+        return `${minutes}m`;
+      }
+    };
+
+    setTimeLeft(calculateTimeLeft());
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(timer);
+  }, [endDate]);
+
+  return (
+    <div className="absolute top-2 right-2 bg-black/70 px-1.5 py-0.5 rounded text-[10px] text-white">
+      {timeLeft}
+    </div>
+  );
+}
+
 export function Sidebar({ channels }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
@@ -51,8 +113,26 @@ export function Sidebar({ channels }: SidebarProps) {
   const { locations, isLoading: locationsLoading } = useLocations();
   const [selectedProvincia, setSelectedProvincia] = useState<string | null>(null);
   const [selectedLocalidad, setSelectedLocalidad] = useState<string | null>(null);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
   const categories = getCategories(channels);
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const response = await api.get('/campaigns/listActive');
+        if (!response.data) throw new Error('Error al cargar las campañas');
+        setCampaigns(response.data.slice(0, 3)); // Only show first 3 campaigns
+      } catch (err) {
+        console.error('Error loading campaigns:', err);
+      }
+    };
+
+    fetchCampaigns();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -116,6 +196,21 @@ export function Sidebar({ channels }: SidebarProps) {
     router.push('/servicios/tv');
   };
 
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
   return (
     <aside className={cn(
       "w-64 border-r border-gray-800 transition-all duration-200",
@@ -137,7 +232,7 @@ export function Sidebar({ channels }: SidebarProps) {
 
           {/* Filtros de ubicación - Solo visible cuando está expandido */}
           {isOpen && (
-            <div className="mt-6 space-y-4">
+            <div className="space-y-4">
               <div className="flex items-center gap-2 text-white mb-2">
                 <MapPin className="h-5 w-5" />
                 <span>Filtrar por ubicación</span>
@@ -215,6 +310,61 @@ export function Sidebar({ channels }: SidebarProps) {
               >
                 Limpiar filtros
               </Button>
+            </div>
+          )}
+
+          {/* Awards Carousel - Only visible when expanded */}
+          {isOpen && campaigns.length > 0 && (
+            <div className="mt-6">
+              <div className="flex items-center gap-2 text-white mb-2">
+                <Trophy className="h-5 w-5 text-yellow-500" />
+                <span>Premios Activos</span>
+              </div>
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
+                  {campaigns.map((campaign) => (
+                    <div 
+                      key={campaign.id} 
+                      className="flex-[0_0_100%] min-w-0 p-1 cursor-pointer"
+                      onClick={() => router.push('/servicios/premios')}
+                    >
+                      <Card 
+                        className="bg-gray-800 border-gray-700 hover:bg-gray-700 transition-colors"
+                      >
+                        <CardContent className="p-2">
+                          <div className="relative h-24 mb-1.5 rounded-md overflow-hidden">
+                            <Image
+                              src={getAdvertisingImageURL(campaign.image_url)}
+                              alt={campaign.title}
+                              fill
+                              className="object-cover"
+                            />
+                            <CountdownTimer endDate={campaign.to_date} />
+                          </div>
+                          <h3 className="text-xs font-medium text-white mb-0.5 line-clamp-1">
+                            {campaign.title}
+                          </h3>
+                          <p className="text-[10px] text-gray-400 line-clamp-2">
+                            {campaign.description}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex justify-center gap-1 mt-2">
+                {scrollSnaps.map((_, index) => (
+                  <button
+                    key={index}
+                    className={cn(
+                      "w-2 h-2 rounded-full transition-all",
+                      selectedIndex === index ? "bg-yellow-500" : "bg-gray-600"
+                    )}
+                    onClick={() => emblaApi?.scrollTo(index)}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>
