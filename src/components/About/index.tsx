@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Graphics from "@/components/About/Graphics";
 import { motion } from "framer-motion";
@@ -25,54 +25,50 @@ const About = () => {
 
   // Función helper para obtener la URL de la imagen
   const getImageUrl = (url: string) => {
-    if (url.startsWith("http")) {
-      return url;
+    console.log('Getting image URL for:', url);
+    if (url.startsWith("https://drive.google.com/uc")) {
+      // Extraer el ID del archivo de Google Drive
+      const fileId = url.match(/id=([^&]+)/)?.[1];
+      if (fileId) {
+        // Convertir a URL directa de visualización
+        const directUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+        console.log('Converted to direct URL:', directUrl);
+        return directUrl;
+      }
     }
     return url;
   };
 
   const lightboxSources = castingNews.map((news) => {
+    console.log('Processing news item:', { id: news.id, type: news.type, image: news.image });
     if (news.type === "video" && news.videoUrl) {
-      return (
-        <div
-          key={news.id}
-          className="relative h-full max-h-[90vh] w-full max-w-[90vw]"
-        >
-          <iframe
-            src={getVideoEmbedUrl(news.videoUrl)}
-            className="h-full w-full"
-            allow="autoplay"
-            title={news.title}
-            loading="lazy"
-            referrerPolicy="no-referrer"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-presentation"
-          />
-        </div>
-      );
+      const videoUrl = getVideoEmbedUrl(news.videoUrl);
+      console.log('Video URL generated:', videoUrl);
+      return videoUrl;
     }
-    return (
-      <div
-        key={news.id}
-        className="relative h-full max-h-[90vh] w-full max-w-[90vw]"
-      >
-        <Image
-          src={getImageUrl(news.image)}
-          alt={news.title}
-          fill
-          className="object-contain"
-          sizes="90vw"
-          priority={false}
-        />
-      </div>
-    );
+    const imageUrl = getImageUrl(news.image);
+    console.log('Image URL generated:', imageUrl);
+    return imageUrl;
   });
 
   const openLightbox = (index: number, type: "video" | "image") => {
-    setLightboxController({
-      toggler: !lightboxController.toggler,
-      sourceIndex: index,
-      type,
-    });
+    console.log('Opening lightbox:', { index, type });
+    console.log('Current sources:', lightboxSources);
+    
+    // Reset the lightbox state first
+    setLightboxController(prev => ({
+      ...prev,
+      toggler: false
+    }));
+
+    // Then set the new state after a small delay
+    setTimeout(() => {
+      setLightboxController({
+        toggler: true,
+        sourceIndex: index,
+        type,
+      });
+    }, 50);
   };
 
   const nextSlide = () => {
@@ -87,6 +83,10 @@ const About = () => {
     const start = currentSlide * itemsPerPage;
     return castingNews.slice(start, start + itemsPerPage);
   };
+
+  useEffect(() => {
+    console.log('Lightbox state changed:', lightboxController);
+  }, [lightboxController]);
 
   return (
     <>
@@ -391,10 +391,20 @@ const About = () => {
         </div>
 
         <FsLightbox
+          key={`lightbox-${lightboxController.sourceIndex}`}
           toggler={lightboxController.toggler}
           sources={lightboxSources}
           sourceIndex={lightboxController.sourceIndex}
           type={lightboxController.type}
+          loadOnlyCurrentSource={true}
+          slideDistance={0.1}
+          onClose={() => {
+            console.log('Lightbox closed');
+            setLightboxController(prev => ({
+              ...prev,
+              toggler: false
+            }));
+          }}
         />
 
         <Graphics />
