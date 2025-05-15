@@ -113,8 +113,8 @@ export function UserManagement() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-solid-7">
-        <h2 className="text-xl font-semibold text-dark mb-4">
+      <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200">
+        <h2 className="text-xl font-semibold text-black mb-4">
           {editingUser ? 'Editar Usuario' : 'Nuevo Usuario'}
         </h2>
 
@@ -128,7 +128,7 @@ export function UserManagement() {
                   <FormItem>
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} className="text-black" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -142,7 +142,7 @@ export function UserManagement() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} type="email" />
+                      <Input {...field} type="email" className="text-black" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -156,7 +156,7 @@ export function UserManagement() {
                   <FormItem>
                     <FormLabel>Contraseña</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <Input {...field} type="password" className="text-black" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -173,6 +173,7 @@ export function UserManagement() {
                       <Input 
                         {...field} 
                         type="number"
+                        className="text-black"
                         onChange={e => field.onChange(parseInt(e.target.value))}
                       />
                     </FormControl>
@@ -185,7 +186,7 @@ export function UserManagement() {
             <div className="flex gap-4">
               <Button 
                 type="submit" 
-                className="bg-gradient-custom text-white hover:opacity-90"
+                className="bg-blue-600 text-white hover:bg-blue-700"
                 disabled={isLoading}
               >
                 {isLoading ? 'Guardando...' : editingUser ? 'Actualizar' : 'Crear'}
@@ -207,8 +208,8 @@ export function UserManagement() {
         </Form>
       </div>
 
-      <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-solid-7">
-        <h2 className="text-xl font-semibold text-dark mb-4">Lista de Usuarios</h2>
+      <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200">
+        <h2 className="text-xl font-semibold text-black mb-4">Lista de Usuarios</h2>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -222,8 +223,8 @@ export function UserManagement() {
             <TableBody>
               {users.map((user) => (
                 <TableRow key={user.id}>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
+                  <TableCell className="text-black">{user.name}</TableCell>
+                  <TableCell className="text-black">{user.email}</TableCell>
                   <TableCell>
                     <Switch
                       checked={user.enabled}

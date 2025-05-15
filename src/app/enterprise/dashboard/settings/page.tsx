@@ -134,7 +134,14 @@ export default function SettingsPage() {
           />
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-4">
+          <button
+            type="button"
+            onClick={() => router.push('/enterprise/dashboard/users')}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Gestión de Usuarios
+          </button>
           <button
             type="submit"
             disabled={isLoading}
