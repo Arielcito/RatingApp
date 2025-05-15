@@ -174,8 +174,16 @@ export function ProfileForm() {
               </svg>
             </button>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">¡Hola {form.getValues().name || 'Usuario'}!</h1>
-          <p className="text-white/80 text-sm mb-8">Gestiona tu información personal y preferencias</p>
+          <div className="flex flex-col items-center gap-2">
+            <h1 className="text-3xl font-bold text-white mb-2">¡Hola {form.getValues().name || 'Usuario'}!</h1>
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm font-medium rounded-full shadow-solid-5">
+                Admin
+              </span>
+              <span className="text-white/80 text-sm">(Modo Desarrollo)</span>
+            </div>
+            <p className="text-white/80 text-sm mb-8">Gestiona tu información personal y preferencias</p>
+          </div>
         </div>
 
         <div className="bg-white/95 backdrop-blur-sm rounded-3xl px-6 py-8 space-y-6 shadow-solid-7">
@@ -316,6 +324,17 @@ export function ProfileForm() {
                       Guardando...
                     </div>
                   ) : 'Guardar Cambios'}
+                </Button>
+
+                <Button
+                  type="button"
+                  className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-all duration-300 transform hover:scale-[1.02] shadow-solid-7 h-12"
+                  onClick={() => router.push('/servicios/users')}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                  Gestión de Usuarios
                 </Button>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
