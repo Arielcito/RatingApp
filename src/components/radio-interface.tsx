@@ -105,6 +105,15 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
         setIsLoading(false)
       }
     }
+
+    // Scroll to top when changing stations
+    const radioContainer = document.querySelector('.h-\\[400px\\]')
+    if (radioContainer) {
+      radioContainer.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
   }
 
   // Add this function to filter channels based on location

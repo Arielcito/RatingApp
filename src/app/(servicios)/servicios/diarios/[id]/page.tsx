@@ -11,6 +11,7 @@ import { useHotkeys } from "react-hotkeys-hook"
 import { Button } from "@/components/ui/button"
 import { ServiceSkeleton } from '@/components/Servicios/service-skeleton'
 import { NavigationControls } from '@/components/navigation-controls'
+import { ChannelList } from '@/components/channel-list'
 
 export default function DiarioViewerPage({ params }: { params: { id: string } }) {
   const { subscriber, isLoading: isSubscriberLoading } = useSubscriber()
@@ -19,6 +20,7 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [displayLimit, setDisplayLimit] = useState(20)
 
   useEffect(() => {
     const loadData = async () => {
@@ -51,6 +53,14 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
     const prevIndex = (currentIndex - 1 + allNewspapers.length) % allNewspapers.length
     setCurrentIndex(prevIndex)
     setNewspaper(allNewspapers[prevIndex])
+  }
+
+  const handleNewspaperSelect = (selectedNewspaper: Channel) => {
+    const index = allNewspapers.findIndex(n => n.id === selectedNewspaper.id)
+    setCurrentIndex(index)
+    setNewspaper(selectedNewspaper)
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // Set up keyboard shortcuts
@@ -116,6 +126,51 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
       <div className="mt-4">
         <AdvertisingBanner />
       </div>
+
+      {/* Newspaper List */}
+      <motion.div 
+        className="p-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-gray-400">
+            Diario actual: {newspaper.name}
+          </div>
+          <div className="flex items-center gap-2">
+            <span>Siguiente</span>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-white"
+              onClick={handleNextNewspaper}
+            >
+              Siguiente <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
+        <ChannelList
+          channels={allNewspapers.slice(0, displayLimit)}
+          currentChannel={newspaper}
+          onChannelSelect={handleNewspaperSelect}
+          isPlaying={false}
+        />
+
+        {allNewspapers.length > displayLimit && (
+          <div className="flex justify-center mt-4">
+            <Button
+              variant="default"
+              size="sm"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={() => setDisplayLimit(prev => prev + 20)}
+            >
+              Ver más diarios
+            </Button>
+          </div>
+        )}
+      </motion.div>
     </div>
   )
 } 

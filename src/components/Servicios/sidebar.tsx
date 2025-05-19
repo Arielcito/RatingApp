@@ -211,6 +211,17 @@ export function Sidebar({ channels }: SidebarProps) {
     };
   }, [emblaApi, onSelect]);
 
+  // Add auto-scroll functionality
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const autoplay = setInterval(() => {
+      emblaApi.scrollNext();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(autoplay);
+  }, [emblaApi]);
+
   return (
     <aside className={cn(
       "w-64 border-r border-gray-800 transition-all duration-200",

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import FooterBottom from "@/components/Footer/FooterBottom";
 import { FooterMenu } from "@/types/footerMenu";
 import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa';
+import { onScroll } from "@/utils/scrollActive";
 
 const footerNavData: FooterMenu[] = [
   {
@@ -38,9 +39,18 @@ const footerNavData: FooterMenu[] = [
 ];
 
 const Footer = () => {
+  useEffect(() => {
+    // Add scroll event listener for anchor links
+    window.addEventListener("scroll", onScroll);
+    
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
   return (
     <>
-      <footer>
+      <footer className="relative">
         <div className="bg-[#F8FAFB] pb-[46px] pt-[95px] dark:bg-[#15182A]">
           <div className="container max-w-[1390px]">
             <div className="-mx-4 flex flex-wrap">
@@ -53,7 +63,7 @@ const Footer = () => {
                       src={"/images/logo/logo.png"}
                       alt="Logo"
                       priority
-                      className="block max-w-full "
+                      className="block max-w-full"
                       style={{ width: "auto", height: "auto" }}
                     />
                   </Link>
@@ -78,46 +88,41 @@ const Footer = () => {
               </div>
 
               <div className="w-full px-4 lg:w-4/12 xl:w-4/12">
-                <div className="-mx-4 flex flex-wrap">
-                  {footerNavData.map((group, groupIndex) => (
-                    <div
-                      key={groupIndex}
-                      className="w-full px-4"
-                    >
-                      <div className="mb-11">
-                        <h3 className="mb-8 text-[22px] font-medium text-black dark:text-white">
-                          {group.title}
-                        </h3>
-
-                        <ul className="flex flex-col flex-wrap ">
-                          {group.navItems &&
-                            group.navItems.map((item, index) => (
-                              <li key={index} className="flex flex-col space-y-2">
-                                <Link
-                                  href={item.route}
-                                  className="inline-block text-base text-body hover:text-primary"
-                                >
-                                  {item.label}
-                                </Link>
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {footerNavData.map((group, groupIndex) => (
+                  <div key={groupIndex}>
+                    <h3 className="mb-8 text-[22px] font-medium text-black dark:text-white">
+                      {group.title}
+                    </h3>
+                    <nav>
+                      <ul className="space-y-3">
+                        {group.navItems?.map((item, index) => (
+                          <li key={index} className="menu-item w-full text-left lg:w-auto">
+                            <Link
+                              href={item.route}
+                              className={`inline-flex w-full items-center text-base font-medium text-body hover:text-primary dark:text-white dark:hover:text-primary ${
+                                item.route.startsWith('/#') ? 'ud-menu-scroll' : ''
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                  </div>
+                ))}
               </div>
 
               <div className="w-full px-4 lg:w-4/12 xl:w-4/12">
-                <h3 className="text-xl font-bold mb-4">Descarga nuestra app y comenza a ganar</h3>
+                <h3 className="text-xl font-bold mb-4 text-black dark:text-white">Descarga nuestra app y comenza a ganar</h3>
                 <Image
                   src="/images/qr-ratingapp.png"
                   alt="Código QR para descargar RatingApp"
                   width={100}
                   height={100}
                   className="mr-auto"
-                  />
-                </div>
+                />
+              </div>
             </div>
           </div>
         </div>
