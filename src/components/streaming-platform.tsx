@@ -23,6 +23,7 @@ interface StreamingPlatformProps {
 export function StreamingPlatform({ channels }: StreamingPlatformProps) {
   const searchParams = useSearchParams()
   const [currentChannel, setCurrentChannel] = useState(0);
+  const [displayLimit, setDisplayLimit] = useState(20);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [iframeError, setIframeError] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -242,7 +243,7 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
             </div>
 
             <ChannelList
-              channels={getFilteredChannels()}
+              channels={getFilteredChannels().slice(0, displayLimit)}
               currentChannel={getFilteredChannels()[currentChannel]}
               onChannelSelect={(channel) => {
                 const index = getFilteredChannels().findIndex(c => c.id === channel.id)
@@ -250,6 +251,19 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
               }}
               isPlaying={isPlaying}
             />
+
+            {getFilteredChannels().length > displayLimit && (
+              <div className="flex justify-center mt-4">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={() => setDisplayLimit(prev => prev + 20)}
+                >
+                  Ver más canales
+                </Button>
+              </div>
+            )}
           </motion.div>
         </main>
       </div>

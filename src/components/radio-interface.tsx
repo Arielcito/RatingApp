@@ -25,6 +25,7 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentStation, setCurrentStation] = useState(channels[0])
   const [volume, setVolume] = useState(50)
+  const [displayLimit, setDisplayLimit] = useState(20)
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -336,12 +337,25 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
           {/* Station Guide */}
           <div className="p-4">
             <ChannelList
-              channels={getFilteredChannels()}
+              channels={getFilteredChannels().slice(0, displayLimit)}
               currentChannel={currentStation}
               onChannelSelect={handleStationChange}
               isPlaying={isPlaying}
               actionText="ESCUCHAR"
             />
+
+            {getFilteredChannels().length > displayLimit && (
+              <div className="flex justify-center mt-4">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={() => setDisplayLimit(prev => prev + 20)}
+                >
+                  Ver más canales
+                </Button>
+              </div>
+            )}
           </div>
         </main>
       </div>

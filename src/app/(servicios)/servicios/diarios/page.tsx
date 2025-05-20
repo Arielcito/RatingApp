@@ -17,6 +17,7 @@ export default function DiariosPage() {
   const [newspapers, setNewspapers] = useState<Channel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [displayLimit, setDisplayLimit] = useState(6);
   const router = useRouter();
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function DiariosPage() {
       <h1 className="text-2xl font-bold text-white">Diarios Online</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {newspapers.map((newspaper) => (
+        {newspapers.slice(0, displayLimit).map((newspaper) => (
           <motion.div
             key={newspaper.id}
             className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
@@ -99,6 +100,17 @@ export default function DiariosPage() {
           </motion.div>
         ))}
       </div>
+
+      {newspapers.length > displayLimit && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setDisplayLimit(prev => prev + 6)}
+            className="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          >
+            Ver más diarios
+          </button>
+        </div>
+      )}
     </div>
   );
 } 
