@@ -76,7 +76,7 @@ export default function SettingsPage() {
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="name" className="block text-sm font-medium text-black mb-2">
             Nombre
           </label>
           <input
@@ -84,26 +84,26 @@ export default function SettingsPage() {
             id="name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="description" className="block text-sm font-medium text-black mb-2">
             Descripción
           </label>
           <textarea
             id="description"
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary"
             rows={4}
           />
         </div>
 
         <div>
-          <label htmlFor="serviceType" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="serviceType" className="block text-sm font-medium text-black mb-2">
             Tipo de Servicio
           </label>
           <select
@@ -121,7 +121,7 @@ export default function SettingsPage() {
         </div>
 
         <div>
-          <label htmlFor="serviceUrl" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="serviceUrl" className="block text-sm font-medium text-black mb-2">
             URL del Servicio
           </label>
           <input
@@ -129,7 +129,7 @@ export default function SettingsPage() {
             id="serviceUrl"
             value={formData.serviceUrl}
             onChange={(e) => setFormData({ ...formData, serviceUrl: e.target.value })}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="https://ejemplo.com"
           />
         </div>
