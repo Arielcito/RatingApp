@@ -116,7 +116,7 @@ const Footer = () => {
               <div className="w-full px-4 lg:w-4/12 xl:w-4/12">
                 <h3 className="text-xl font-bold mb-4 text-black dark:text-white">Descarga nuestra app y comenza a ganar</h3>
                 <Image
-                  src="/images/qr-ratingapp.png"
+                  src="/images/qr-ratingapp.jpeg"
                   alt="Código QR para descargar RatingApp"
                   width={100}
                   height={100}
