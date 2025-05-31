@@ -96,10 +96,10 @@ const Footer = () => {
                     <nav>
                       <ul className="space-y-3">
                         {group.navItems?.map((item, index) => (
-                          <li key={index} className="menu-item w-full text-left lg:w-auto">
+                          <li key={index} className="menu-item  text-center">
                             <Link
                               href={item.route}
-                              className={`inline-flex w-full items-center text-base font-medium text-body hover:text-primary dark:text-white dark:hover:text-primary ${
+                              className={`inline-block text-base font-medium text-body hover:text-primary dark:text-white dark:hover:text-primary ${
                                 item.route.startsWith('/#') ? 'ud-menu-scroll' : ''
                               }`}
                             >
