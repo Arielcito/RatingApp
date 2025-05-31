@@ -49,6 +49,7 @@ const HeroArea = () => {
                 <span className="mb-5 block text-lg font-medium leading-tight text-black dark:text-white sm:text-[22px] xl:text-[22px]">
                   Bienvenidos a la RE evolución digital
                 </span>
+                <p className="mb-5 max-w-[475px] text-base leading-relaxed text-body">Sistema en prueba Testing por 90 dias</p>
                 <h1 className="mb-3 text-3xl font-bold leading-tight text-black dark:text-white sm:text-[40px] md:text-[50px] lg:text-[42px] xl:text-[50px]">
                   Disfruta{" "}
                   <span className="inline-block bg-gradient-to-r from-red-500 via-red-400 to-orange-500 bg-clip-text text-transparent">

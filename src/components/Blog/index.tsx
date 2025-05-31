@@ -3,66 +3,30 @@ import Image from "next/image";
 import BlogItem from "@/components/Blog/BlogItem";
 import { getPosts } from "@/sanity/sanity-utils";
 import Link from "next/link";
-import { Video, mainVideo, sideVideos } from "@/data/videos";
-
-const VideoPlayer = ({ video }: { video: Video }) => (
-  <div className="relative w-full pt-[56.25%]">
-    <iframe
-      is="x-frame-bypass"
-      src={video.url}
-      className="absolute left-0 top-0 h-full w-full"
-      title={video.title}
-    />
-  </div>
-);
+import { InteractiveTV } from "@/components/Blog/interactive-tv";
+import { allVideos } from "@/data/videos";
 
 const Blog = async () => {
   const posts = await getPosts();
   posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
-  console.log("posts",posts);
+  console.log("Logging posts data for blog section", posts);
+  
   return (
     <section
       className="flex flex-col items-center pb-[60px] pt-[110px]"
       id="blog"
     >
-      <div className="container">
-        <div
-          className="wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]"
-          data-wow-delay=".2s"
-        >
-          <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[44px] md:leading-tight">
-            Ultimas noticias
-          </h2>
-          <p className="text-base text-body">
-            Enterate de las ultimas noticias del ecosistema RatingApp
-          </p>
-        </div>
+      {/* Sección de TV Interactiva */}
+      <div className="container mb-16">
+        <InteractiveTV videos={allVideos} />
       </div>
-      <div className="container mb-10 flex flex-col items-start justify-between md:flex-row">
-        <div className="mb-8 mr-10 w-full pr-0 md:mb-0 md:w-2/3 md:pr-8">
-          <h3 className="mb-4 text-xl font-bold text-black dark:text-white">
-            Ultimas noticias
-          </h3>
-          <VideoPlayer video={mainVideo} />
-        </div>
-        <div className="w-full md:w-1/4">
-          <h3 className="mb-4 text-xl font-bold text-black dark:text-white">
-            Nuestras historias
-          </h3>
-          <div className="scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-100 dark:scrollbar-track-dark max-h-[500px] space-y-4 overflow-y-auto pr-2">
-            {sideVideos.map((video) => (
-              <div key={video.id} className="last:mb-2">
-                <VideoPlayer video={video} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
+      {/* Sección de Noticias del Blog */}
       <div className="container mb-10 flex flex-col items-start justify-between md:flex-row">
         <div className="mb-8 w-full pr-0 md:mb-0 md:w-2/3 md:pr-8">
           <h3 className="mb-4 text-xl font-bold text-black dark:text-white">
-            Ultimas noticias
+            Últimas noticias
           </h3>
           {posts?.length > 0 && <BlogItem blog={posts[0]} key={posts[0]._id} />}
         </div>
