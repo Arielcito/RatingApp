@@ -138,6 +138,18 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
     const filteredChannels = getFilteredChannels()
+    
+    // Check if there's a channelId parameter to select a specific channel
+    const channelId = searchParams.get('channelId')
+    if (channelId && filteredChannels.length > 0) {
+      const selectedChannel = filteredChannels.find(channel => channel.id === Number(channelId))
+      if (selectedChannel) {
+        setCurrentStation(selectedChannel)
+        return
+      }
+    }
+    
+    // Default to first channel if no specific channel requested
     if (filteredChannels.length > 0) {
       setCurrentStation(filteredChannels[0])
     }

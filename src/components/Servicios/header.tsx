@@ -18,6 +18,7 @@ import { Input } from "../ui/input";
 import type { Channel } from "@/types/channel";
 import api from '@/lib/axios';
 import { Badge } from "@/components/ui/badge";
+import { getResourceURL } from "@/lib/utils";
 
 interface SearchResult {
   id: number;
@@ -25,6 +26,27 @@ interface SearchResult {
   type: 'tv' | 'radio' | 'streaming' | 'diarios';
   logo?: string;
 }
+
+// Add function to determine channel type based on Channel properties
+const determineChannelType = (channel: Channel): 'tv' | 'radio' | 'streaming' | 'diarios' | null => {
+  // Check for diarios first
+  if (channel.onlineNews === true || channel.onlineNewsUrl) {
+    return 'diarios';
+  }
+  // Check for TV
+  if (channel.tvWebOnline === true || channel.tvWebURL) {
+    return 'tv';
+  }
+  // Check for radio
+  if (channel.radioWebOnline === true || channel.radioWebURL) {
+    return 'radio';
+  }
+  // Check for streaming
+  if (channel.streaming === true || channel.streamingUrl) {
+    return 'streaming';
+  }
+  return null;
+};
 
 export function Header() {
   const { subscriber, setSubscriber } = useSubscriber();
@@ -77,13 +99,27 @@ export function Header() {
       const response = await api.get('/ratingSignals/list');
       if (!response.data) throw new Error('Failed to fetch data');
       
-      // Filter the data based on search term
-      const filtered = response.data.filter((item: Channel) => 
-        item.name.toLowerCase().includes(term.toLowerCase())
-      );
+      // Filter and transform the data based on search term
+      const filtered = response.data
+        .filter((item: Channel) => 
+          item.name.toLowerCase().includes(term.toLowerCase())
+        )
+        .map((channel: Channel) => {
+          const type = determineChannelType(channel);
+          if (!type) return null;
+          
+          return {
+            id: channel.id,
+            name: channel.name,
+            type,
+            logo: channel.iconUrl
+          } as SearchResult;
+        })
+        .filter(Boolean); // Remove null values
 
       setSearchResults(filtered);
     } catch (error) {
+      console.error('Error searching channels:', error);
       toast({
         title: "Error",
         description: "No se pudieron cargar los resultados de búsqueda",
@@ -100,7 +136,13 @@ export function Header() {
   }, [debouncedSearchTerm, handleSearch]);
 
   const handleSearchItemClick = (result: SearchResult) => {
-    router.push(`/servicios/${result.type}/${result.id}`);
+    if (result.type === 'diarios') {
+      // For diarios, use the existing dynamic route
+      router.push(`/servicios/${result.type}/${result.id}`);
+    } else {
+      // For tv, radio, and streaming, use channelId parameter
+      router.push(`/servicios/${result.type}?channelId=${result.id}`);
+    }
     setSearchTerm("");
     setSearchResults([]);
   };
@@ -261,7 +303,7 @@ export function Header() {
                   >
                     {result.logo && (
                       <Image
-                        src={result.logo}
+                        src={getResourceURL(result.logo)}
                         alt={result.name}
                         width={20}
                         height={20}

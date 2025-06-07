@@ -51,6 +51,18 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
   useEffect(() => {
     const filteredChannels = getFilteredChannels()
     console.log('filteredChannels', filteredChannels)
+    
+    // Check if there's a channelId parameter to select a specific channel
+    const channelId = searchParams.get('channelId')
+    if (channelId && filteredChannels.length > 0) {
+      const channelIndex = filteredChannels.findIndex(channel => channel.id === Number(channelId))
+      if (channelIndex !== -1) {
+        setCurrentChannel(channelIndex)
+        return
+      }
+    }
+    
+    // Default to first channel if no specific channel requested
     if (filteredChannels.length > 0) {
       setCurrentChannel(0)
     }
