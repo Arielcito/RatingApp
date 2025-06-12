@@ -1,9 +1,35 @@
+import { campaignService } from '@/services/campaign-service'
+import type { CampaignVideo } from '@/types/campaign'
+
 export interface Video {
   id: string;
   title: string;
   url: string;
   thumbnail?: string; // Opcional para mostrar miniaturas
   description?: string;
+}
+
+// Función para convertir CampaignVideo a Video
+export const convertCampaignVideoToVideo = (campaignVideo: CampaignVideo): Video => {
+  return {
+    id: campaignVideo.id?.toString() || Math.random().toString(),
+    title: campaignVideo.title || 'Sin título',
+    url: campaignVideo.video_url || '',
+    description: campaignVideo.description || campaignVideo.award_description || ''
+  }
+}
+
+// Función para obtener videos desde la API
+export const getVideosFromAPI = async (): Promise<Video[]> => {
+  console.log("Logging fetch of videos from campaign API");
+  try {
+    const campaignVideos = await campaignService.listActiveVideos()
+    console.log("Logging conversion of campaign videos to Video format", campaignVideos);
+    return campaignVideos.map(convertCampaignVideoToVideo)
+  } catch (error) {
+    console.log("Logging error fetching campaign videos, falling back to static data", error);
+    return allVideos // Fallback a datos estáticos en caso de error
+  }
 }
 
 export const allVideos: Video[] = [

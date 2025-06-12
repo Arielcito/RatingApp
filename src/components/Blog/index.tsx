@@ -4,13 +4,17 @@ import BlogItem from "@/components/Blog/BlogItem";
 import { getPosts } from "@/sanity/sanity-utils";
 import Link from "next/link";
 import { InteractiveTV } from "@/components/Blog/interactive-tv";
-import { allVideos } from "@/data/videos";
+import { getVideosFromAPI } from "@/data/videos";
 
 const Blog = async () => {
   const posts = await getPosts();
   posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
   console.log("Logging posts data for blog section", posts);
+  
+  // Obtener videos desde la API
+  const videos = await getVideosFromAPI();
+  console.log("Logging videos data for interactive TV section", videos);
   
   return (
     <section
@@ -19,7 +23,7 @@ const Blog = async () => {
     >
       {/* Sección de TV Interactiva */}
       <div className="container mb-16">
-        <InteractiveTV videos={allVideos} />
+        <InteractiveTV videos={videos} />
       </div>
 
       {/* Sección de Noticias del Blog */}
