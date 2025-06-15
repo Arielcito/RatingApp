@@ -23,10 +23,6 @@ const footerNavData: FooterMenu[] = [
         route: "/#work-process",
       },
       {
-        label: "Contacto",
-        route: "/#contact",
-      },
-      {
         label: "Blog",
         route: "/blog",
       },
@@ -47,6 +43,24 @@ const Footer = () => {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  // Function to handle smooth scroll for anchor links
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // Only handle anchor links that start with /#
+    if (href.startsWith('/#')) {
+      e.preventDefault();
+      const targetId = href.substring(2); // Remove '/#' to get the ID
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        console.log(`Footer link clicked: Scrolling to section ${targetId}`);
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  };
 
   return (
     <>
@@ -96,9 +110,10 @@ const Footer = () => {
                     <nav>
                       <ul className="space-y-3">
                         {group.navItems?.map((item, index) => (
-                          <li key={index} className="menu-item  text-center">
+                          <li key={index} className="menu-item text-left">
                             <Link
                               href={item.route}
+                              onClick={(e) => handleSmoothScroll(e, item.route)}
                               className={`inline-block text-base font-medium text-body hover:text-primary dark:text-white dark:hover:text-primary ${
                                 item.route.startsWith('/#') ? 'ud-menu-scroll' : ''
                               }`}

@@ -378,6 +378,17 @@ export function Sidebar({ channels }: SidebarProps) {
               </div>
             </div>
           )}
+
+          <div className="w-full mt-6">
+                <p className="text font-bold mb-4 text-black dark:text-white">Descarga, Divertite y Gana</p>
+                <Image
+                  src="/images/qr-ratingapp.jpeg"
+                  alt="Código QR para descargar RatingApp"
+                  width={100}
+                  height={100}
+                  className="mr-auto mx-auto"
+                />
+              </div>
         </div>
       </ScrollArea>
     </aside>
