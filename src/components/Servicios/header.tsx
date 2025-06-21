@@ -19,6 +19,7 @@ import type { Channel } from "@/types/channel";
 import api from '@/lib/axios';
 import { Badge } from "@/components/ui/badge";
 import { getResourceURL } from "@/lib/utils";
+import { useCampaigns } from '@/hooks/use-campaigns';
 
 interface SearchResult {
   id: number;
@@ -29,22 +30,10 @@ interface SearchResult {
 
 // Add function to determine channel type based on Channel properties
 const determineChannelType = (channel: Channel): 'tv' | 'radio' | 'streaming' | 'diarios' | null => {
-  // Check for diarios first
-  if (channel.onlineNews === true || channel.onlineNewsUrl) {
-    return 'diarios';
-  }
-  // Check for TV
-  if (channel.tvWebOnline === true || channel.tvWebURL) {
-    return 'tv';
-  }
-  // Check for radio
-  if (channel.radioWebOnline === true || channel.radioWebURL) {
-    return 'radio';
-  }
-  // Check for streaming
-  if (channel.streaming === true || channel.streamingUrl) {
-    return 'streaming';
-  }
+  if (channel.tvWebURL || channel.isIPTV) return 'tv';
+  if (channel.radioWebURL) return 'radio';
+  if (channel.streamingUrl) return 'streaming';
+  if (channel.onlineNewsUrl) return 'diarios';
   return null;
 };
 
@@ -57,35 +46,19 @@ export function Header() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [activeRewardsCount, setActiveRewardsCount] = useState(0);
-  
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const { data: campaigns } = useCampaigns();
+  const activeRewardsCount = campaigns?.length || 0;
 
   // Add error boundary to prevent component from crashing
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
-      console.error('Error in Header component:', event.error);
+      console.error('Global error caught:', event.error);
       setIsError(true);
-      event.preventDefault();
     };
 
     window.addEventListener('error', handleError);
     return () => window.removeEventListener('error', handleError);
-  }, []);
-
-  useEffect(() => {
-    const fetchActiveRewards = async () => {
-      try {
-        const response = await api.get('/campaigns/listActive');
-        if (response.data) {
-          setActiveRewardsCount(response.data.length);
-        }
-      } catch (error) {
-        console.error('Error fetching active rewards:', error);
-      }
-    };
-
-    fetchActiveRewards();
   }, []);
 
   const handleSearch = useCallback(async (term: string) => {

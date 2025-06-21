@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import type { Campaign } from '@/types/campaign'
-import { getActiveCampaigns, getAdvertisingImageURL } from '@/lib/api/campaign'
+import { getAdvertisingImageURL } from '@/lib/api/campaign'
+import { useCampaigns } from '@/hooks/use-campaigns'
 
 interface CampaignWithId extends Campaign {
   uniqueId: string
@@ -12,30 +13,29 @@ interface CampaignWithId extends Campaign {
 export function AdvertisingBanner() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [campaigns, setCampaigns] = useState<CampaignWithId[]>([])
+  const { data: fetchedCampaigns, isLoading, error } = useCampaigns()
 
   useEffect(() => {
-    const loadCampaigns = async () => {
-      const fetchedCampaigns = await getActiveCampaigns()
-      if (fetchedCampaigns.length < 3) {
-        const repeatedCampaigns: CampaignWithId[] = []
-        let counter = 0
-        while (repeatedCampaigns.length < 3) {
-          repeatedCampaigns.push({
-            ...fetchedCampaigns[counter % fetchedCampaigns.length],
-            uniqueId: `${fetchedCampaigns[counter % fetchedCampaigns.length].id}-${counter}`
-          })
-          counter++
-        }
-        setCampaigns(repeatedCampaigns)
-      } else {
-        setCampaigns(fetchedCampaigns.map((campaign, index) => ({
-          ...campaign,
-          uniqueId: `${campaign.id}-${index}`
-        })))
+    if (!fetchedCampaigns) return
+    
+    if (fetchedCampaigns.length < 3) {
+      const repeatedCampaigns: CampaignWithId[] = []
+      let counter = 0
+      while (repeatedCampaigns.length < 3) {
+        repeatedCampaigns.push({
+          ...fetchedCampaigns[counter % fetchedCampaigns.length],
+          uniqueId: `${fetchedCampaigns[counter % fetchedCampaigns.length].id}-${counter}`
+        })
+        counter++
       }
+      setCampaigns(repeatedCampaigns)
+    } else {
+      setCampaigns(fetchedCampaigns.map((campaign, index) => ({
+        ...campaign,
+        uniqueId: `${campaign.id}-${index}`
+      })))
     }
-    loadCampaigns()
-  }, [])
+  }, [fetchedCampaigns])
 
   useEffect(() => {
     if (!campaigns?.length) return
@@ -47,7 +47,7 @@ export function AdvertisingBanner() {
     return () => clearInterval(interval)
   }, [campaigns?.length])
 
-  if (!campaigns?.length) return null
+  if (isLoading || !campaigns?.length) return null
 
   return (
     <div className="w-full bg-gray-900">

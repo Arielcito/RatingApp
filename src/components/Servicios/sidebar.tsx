@@ -3,8 +3,8 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useRouter, usePathname } from "next/navigation";
-import { Tv, Radio, Laptop, Newspaper, ChevronLeft, MapPin, Trophy } from "lucide-react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { Tv, Radio, Laptop, Newspaper, ChevronLeft, MapPin, Trophy, Clock } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { useLocations } from "@/hooks/use-locations";
 import type { Channel } from "@/types/channel";
@@ -18,50 +18,29 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import api from '@/lib/axios';
+import { useCampaigns } from '@/hooks/use-campaigns'
+import { getAdvertisingImageURL } from '@/lib/api/campaign'
+import { Badge } from "@/components/ui/badge";
 
 interface SidebarProps {
   channels: Channel[];
 }
 
-interface Campaign {
-  id: number;
-  title: string;
-  description: string;
-  from_date: string;
-  to_date: string;
-  award_description: string;
-  image_url: string;
-  created: string;
-  winner: string;
-  active: boolean;
-}
-
-function getAdvertisingImageURL(resourceName: string) {
-  return `http://ratingapp.net.ar:8000/advertising/${resourceName}`.trim();
-}
+import type { Campaign } from '@/types/campaign'
 
 const getCategories = (channels: Channel[]) => {
-  const uniqueCategories = [...new Set(channels.map(channel => channel.category))].filter(Boolean);
-  
-  return uniqueCategories.map(category => {
-    const iconMap: Record<string, any> = {
-      'tv': Tv,
-      'radio': Radio,
-      'streaming': Laptop,
-      'noticias': Newspaper,
-      'deportes': Tv,
-      'cultura': Tv,
-      'podcasts': Tv
-    };
+  const tvCount = channels.filter(c => c.tvWebOnline === true || c.tvWebURL !== null).length;
+  const radioCount = channels.filter(c => c.radioWebOnline === true || c.radioWebURL !== null).length;
+  const streamingCount = channels.filter(c => c.streaming === true || c.streamingUrl !== null).length;
+  const newsCount = channels.filter(c => c.onlineNews === true || c.onlineNewsUrl !== null).length;
 
-    return {
-      id: category.toLowerCase(),
-      name: category,
-      icon: iconMap[category.toLowerCase()] || Tv,
-      path: `/servicios/${category.toLowerCase()}`
-    };
-  });
+  return [
+    { id: 'destacado', name: 'Destacado', icon: Trophy, path: '/servicios/tv' },
+    { id: 'tv', name: `TV (${tvCount})`, icon: Tv, path: '/servicios/tv' },
+    { id: 'radio', name: `Radio (${radioCount})`, icon: Radio, path: '/servicios/radio' },
+    { id: 'streaming', name: `Streaming (${streamingCount})`, icon: Laptop, path: '/servicios/streaming' },
+    { id: 'diarios', name: `Diarios (${newsCount})`, icon: Newspaper, path: '/servicios/diarios' },
+  ];
 };
 
 function CountdownTimer({ endDate }: { endDate: string }) {
@@ -69,70 +48,68 @@ function CountdownTimer({ endDate }: { endDate: string }) {
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const end = new Date(endDate).getTime();
       const now = new Date().getTime();
+      const end = new Date(endDate).getTime();
       const difference = end - now;
 
-      if (difference <= 0) {
-        return 'Finalizado';
-      }
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-
-      if (days > 0) {
-        return `${days}d ${hours}h`;
-      } else if (hours > 0) {
-        return `${hours}h ${minutes}m`;
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        
+        if (days > 0) {
+          setTimeLeft(`${days}d ${hours}h`);
+        } else if (hours > 0) {
+          setTimeLeft(`${hours}h ${minutes}m`);
+        } else {
+          setTimeLeft(`${minutes}m`);
+        }
       } else {
-        return `${minutes}m`;
+        setTimeLeft('Finalizado');
       }
     };
 
-    setTimeLeft(calculateTimeLeft());
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 60000); // Update every minute
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 60000); // Update every minute
 
     return () => clearInterval(timer);
   }, [endDate]);
 
   return (
-    <div className="absolute top-2 right-2 bg-black/70 px-1.5 py-0.5 rounded text-[10px] text-white">
-      {timeLeft}
+    <div className="flex items-center gap-1 text-xs text-yellow-400">
+      <Clock className="h-3 w-3" />
+      <span>{timeLeft}</span>
     </div>
   );
 }
 
 export function Sidebar({ channels }: SidebarProps) {
-  const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { locations } = useLocations();
+  const { data: campaignsData } = useCampaigns();
+  
+  const [isOpen, setIsOpen] = useState(true);
+  const [selectedProvincia, setSelectedProvincia] = useState<string | null>(
+    searchParams.get('provincia')
+  );
+  const [selectedLocalidad, setSelectedLocalidad] = useState<string | null>(
+    searchParams.get('localidad')
+  );
   const [selectedCategory, setSelectedCategory] = useState('destacado');
-  const { locations, isLoading: locationsLoading } = useLocations();
-  const [selectedProvincia, setSelectedProvincia] = useState<string | null>(null);
-  const [selectedLocalidad, setSelectedLocalidad] = useState<string | null>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
   const categories = getCategories(channels);
 
   useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        const response = await api.get('/campaigns/listActive');
-        if (!response.data) throw new Error('Error al cargar las campañas');
-        setCampaigns(response.data.slice(0, 3)); // Only show first 3 campaigns
-      } catch (err) {
-        console.error('Error loading campaigns:', err);
-      }
-    };
-
-    fetchCampaigns();
-  }, []);
+    if (campaignsData) {
+      setCampaigns(campaignsData.slice(0, 3));
+    }
+  }, [campaignsData]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -224,8 +201,8 @@ export function Sidebar({ channels }: SidebarProps) {
 
   return (
     <aside className={cn(
-      "w-64 border-r border-gray-800 transition-all duration-200",
-      !isOpen && "w-16"
+      "w-80 border-r border-gray-800 transition-all duration-200",
+      !isOpen && "w-24"
     )}>
       <ScrollArea className="h-full">
         <div className="p-4">
@@ -350,13 +327,13 @@ export function Sidebar({ channels }: SidebarProps) {
                               fill
                               className="object-cover"
                             />
-                            <CountdownTimer endDate={campaign.to_date} />
+                            {campaign.to_date && <CountdownTimer endDate={campaign.to_date} />}
                           </div>
                           <h3 className="text-xs font-medium text-white mb-0.5 line-clamp-1">
                             {campaign.title}
                           </h3>
                           <p className="text-[10px] text-gray-400 line-clamp-2">
-                            {campaign.description}
+                            {campaign.description || 'Sin descripción'}
                           </p>
                         </CardContent>
                       </Card>

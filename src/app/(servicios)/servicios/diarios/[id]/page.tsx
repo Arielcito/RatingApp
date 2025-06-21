@@ -2,61 +2,51 @@
 
 import { useEffect, useState } from 'react'
 import { useSubscriber } from "@/app/context/SubscriberContext"
-import { getOnlineNewsChannels } from '@/lib/api/channels'
 import type { Channel } from '@/types/channel'
 import { AdvertisingBanner } from '@/components/advertising-banner'
 import { motion } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { Button } from "@/components/ui/button"
 import { ServiceSkeleton } from '@/components/Servicios/service-skeleton'
 import { NavigationControls } from '@/components/navigation-controls'
 import { ChannelList } from '@/components/channel-list'
+import { useChannels } from '@/hooks/use-channels'
 
 export default function DiarioViewerPage({ params }: { params: { id: string } }) {
   const { subscriber, isLoading: isSubscriberLoading } = useSubscriber()
+  const { data, isLoading, error } = useChannels();
   const [newspaper, setNewspaper] = useState<Channel | null>(null)
-  const [allNewspapers, setAllNewspapers] = useState<Channel[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [displayLimit, setDisplayLimit] = useState(20)
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const newsChannels = await getOnlineNewsChannels()
-        setAllNewspapers(newsChannels)
-        const selectedId = Number(params.id)
-        const selectedIndex = newsChannels.findIndex(channel => channel.id === selectedId)
-        setCurrentIndex(selectedIndex !== -1 ? selectedIndex : 0)
-        const selectedNewspaper = newsChannels.find(channel => channel.id === selectedId) || null
-        setNewspaper(selectedNewspaper)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido')
-        console.error('Error cargando diario:', err)
-      } finally {
-        setIsLoading(false)
-      }
+    if (data?.onlineNewsChannels) {
+      const selectedId = Number(params.id)
+      const selectedIndex = data.onlineNewsChannels.findIndex(channel => channel.id === selectedId)
+      setCurrentIndex(selectedIndex !== -1 ? selectedIndex : 0)
+      const selectedNewspaper = data.onlineNewsChannels.find(channel => channel.id === selectedId) || null
+      setNewspaper(selectedNewspaper)
     }
-
-    loadData()
-  }, [params.id])
+  }, [params.id, data?.onlineNewsChannels])
 
   const handleNextNewspaper = () => {
-    const nextIndex = (currentIndex + 1) % allNewspapers.length
+    if (!data?.onlineNewsChannels) return;
+    const nextIndex = (currentIndex + 1) % data.onlineNewsChannels.length
     setCurrentIndex(nextIndex)
-    setNewspaper(allNewspapers[nextIndex])
+    setNewspaper(data.onlineNewsChannels[nextIndex])
   }
 
   const handlePrevNewspaper = () => {
-    const prevIndex = (currentIndex - 1 + allNewspapers.length) % allNewspapers.length
+    if (!data?.onlineNewsChannels) return;
+    const prevIndex = (currentIndex - 1 + data.onlineNewsChannels.length) % data.onlineNewsChannels.length
     setCurrentIndex(prevIndex)
-    setNewspaper(allNewspapers[prevIndex])
+    setNewspaper(data.onlineNewsChannels[prevIndex])
   }
 
   const handleNewspaperSelect = (selectedNewspaper: Channel) => {
-    const index = allNewspapers.findIndex(n => n.id === selectedNewspaper.id)
+    if (!data?.onlineNewsChannels) return;
+    const index = data.onlineNewsChannels.findIndex(n => n.id === selectedNewspaper.id)
     setCurrentIndex(index)
     setNewspaper(selectedNewspaper)
     // Scroll to top
@@ -64,8 +54,8 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
   }
 
   // Set up keyboard shortcuts
-  useHotkeys('left', () => handlePrevNewspaper(), [allNewspapers])
-  useHotkeys('right', () => handleNextNewspaper(), [allNewspapers])
+  useHotkeys('left', () => handlePrevNewspaper(), [data?.onlineNewsChannels])
+  useHotkeys('right', () => handleNextNewspaper(), [data?.onlineNewsChannels])
 
   // Show skeleton while subscriber is loading or data is loading
   if (isSubscriberLoading || isLoading) {
@@ -77,7 +67,7 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
     return (
       <div className="flex flex-col items-center justify-center p-8 space-y-4">
         <div className="text-red-500 text-xl font-semibold">Error</div>
-        <div className="text-gray-400">{error}</div>
+        <div className="text-gray-400">{error.message}</div>
         <button 
           onClick={() => window.location.reload()}
           className="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600 transition-colors"
@@ -152,13 +142,13 @@ export default function DiarioViewerPage({ params }: { params: { id: string } })
         </div>
 
         <ChannelList
-          channels={allNewspapers.slice(0, displayLimit)}
+          channels={data?.onlineNewsChannels.slice(0, displayLimit) || []}
           currentChannel={newspaper}
           onChannelSelect={handleNewspaperSelect}
           isPlaying={false}
         />
 
-        {allNewspapers.length > displayLimit && (
+        {data?.onlineNewsChannels && data.onlineNewsChannels.length > displayLimit && (
           <div className="flex justify-center mt-4">
             <Button
               variant="default"

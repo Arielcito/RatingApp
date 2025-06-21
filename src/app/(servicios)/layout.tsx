@@ -1,63 +1,39 @@
 "use client";
 
+import React from 'react';
 import { Sidebar } from "@/components/Servicios/sidebar";
 import { Header } from "@/components/Servicios/header";
 import { useSubscriber } from "@/app/context/SubscriberContext";
 import { ThemeProvider } from "next-themes";
 import ToasterContext from "../context/ToastContext";
-import Script from "next/dist/client/script";
-import { useEffect, useState } from "react";
-import { getTvChannels, getRadioChannels, getStreamingChannels, getOnlineNewsChannels } from '@/lib/api/channels';
+import { useChannels } from '@/hooks/use-channels';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { Channel } from '@/types/channel';
+
+interface SidebarProps {
+  channels: Channel[];
+}
 
 export default function ServiciosRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 30 * 60 * 1000, // 30 minutes
+        retry: 2,
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
+  
   const { subscriber } = useSubscriber();
-  const [isLoading, setIsLoading] = useState(true);
-  const [channels, setChannels] = useState<Channel[]>([]);
 
-  useEffect(() => {
-    const loadChannels = async () => {
-      try {
-        const [tvChannels, radioChannels, streamingChannels, newsChannels] = await Promise.all([
-          getTvChannels(),
-          getRadioChannels(),
-          getStreamingChannels(),
-          getOnlineNewsChannels()
-        ]);
-        
-        const allChannels = [...tvChannels, ...radioChannels, ...streamingChannels, ...newsChannels];
-        setChannels(allChannels);
-      } catch (error) {
-        console.error('Error loading channels:', error);
-      }
-    };
-
-    loadChannels();
-  }, []);
-
-  // Add a small delay to ensure context is properly initialized
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Show a loading state instead of returning null
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background dark:bg-blacksection flex items-center justify-center">
-        <div className="animate-pulse">Cargando...</div>
-      </div>
-    );
-  }
-
-  // If no subscriber after loading, redirect to login
+  // If no subscriber, redirect to login
   if (!subscriber) {
     // Use window.location for a hard redirect instead of router.push
     if (typeof window !== 'undefined') {
@@ -70,23 +46,61 @@ export default function ServiciosRootLayout({
     <div className="">
       <ThemeProvider
         attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          forcedTheme="dark"
-        >
+        defaultTheme="dark"
+        enableSystem={false}
+        forcedTheme="dark"
+      >
+        <QueryClientProvider client={queryClient}>
           <ToasterContext />
           <div className="min-h-screen bg-background dark:bg-blacksection flex flex-col">
             <div className="sticky top-0 z-10 bg-background dark:bg-blacksection">
               <Header />
             </div>
             <div className="flex flex-1 h-[calc(100vh-4rem)]">
-              <Sidebar channels={channels} />
+              <ChannelsProvider>
+                <Sidebar channels={[]} />
+              </ChannelsProvider>
               <main className="flex-1 p-8">
                 {children}
               </main>
             </div>
-        </div>
+          </div>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </ThemeProvider>
     </div>
+  );
+}
+
+// Channels Provider Component
+function ChannelsProvider({ children }: { children: React.ReactNode }) {
+  const { data, isLoading, error } = useChannels();
+  const channels = data?.allChannels || [];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background dark:bg-blacksection flex items-center justify-center">
+        <div className="animate-pulse">Cargando...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background dark:bg-blacksection flex items-center justify-center">
+        <div className="text-red-500">Error al cargar los canales</div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {React.Children.map(children, child => {
+        if (React.isValidElement<SidebarProps>(child)) {
+          return React.cloneElement(child, { channels });
+        }
+        return child;
+      })}
+    </>
   );
 } 

@@ -15,6 +15,7 @@ import { Tooltip } from "@/components/ui/tooltip"
 import { Slider } from "@/components/ui/slider"
 import { NavigationControls } from '@/components/navigation-controls'
 import { ChannelList } from '@/components/channel-list'
+import { useRatingTracker } from '@/hooks/use-rating-tracker'
 
 interface StreamingPlatformProps {
   channels: Channel[];
@@ -30,6 +31,9 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState(50)
   const VOLUME_STEP = 5
+  
+  // Rating tracker for measuring streaming viewership
+  const { trackPlay, trackStop, trackChannelChange, cleanup } = useRatingTracker()
 
   const getFilteredChannels = () => {
     const provincia = searchParams.get('provincia')
@@ -57,6 +61,7 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
     if (channelId && filteredChannels.length > 0) {
       const channelIndex = filteredChannels.findIndex(channel => channel.id === Number(channelId))
       if (channelIndex !== -1) {
+        trackPlay(filteredChannels[channelIndex])
         setCurrentChannel(channelIndex)
         return
       }
@@ -64,6 +69,7 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
     
     // Default to first channel if no specific channel requested
     if (filteredChannels.length > 0) {
+      trackPlay(filteredChannels[0])
       setCurrentChannel(0)
     }
   }, [searchParams])
@@ -113,8 +119,18 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
     }, [currentChannel, channels, searchParams, isVideoReady, isPlaying, volume]);
 
   const handleChannelChange = (index: number) => {
+    const filteredChannels = getFilteredChannels()
+    const oldChannel = filteredChannels[currentChannel]
+    const newChannel = filteredChannels[index]
+    
     setIsPlaying(false);
     setCurrentChannel(index);
+    
+    // Track channel change for rating measurement
+    if (oldChannel && newChannel && oldChannel.id !== newChannel.id) {
+      trackChannelChange(oldChannel, newChannel)
+    }
+    
     const videoContainer = document.querySelector('.aspect-video');
     if (videoContainer) {
       videoContainer.scrollIntoView({ 
@@ -143,10 +159,21 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
     const video = videoRef.current
     if (!video) return
 
+    const filteredChannels = getFilteredChannels()
+    const currentChannelData = filteredChannels[currentChannel]
+
     if (isPlaying) {
       video.pause()
+      // Track stop action for rating measurement
+      if (currentChannelData) {
+        trackStop(currentChannelData)
+      }
     } else {
       video.play()
+      // Track play action for rating measurement
+      if (currentChannelData) {
+        trackPlay(currentChannelData)
+      }
     }
     setIsPlaying(!isPlaying)
   }
@@ -189,6 +216,13 @@ export function StreamingPlatform({ channels }: StreamingPlatformProps) {
     e.preventDefault()
     handleNextChannel()
   }, [handleNextChannel])
+
+  // Cleanup rating tracker when component unmounts
+  useEffect(() => {
+    return () => {
+      cleanup()
+    }
+  }, [cleanup])
 
   return (
     <div className="bg-black text-white">

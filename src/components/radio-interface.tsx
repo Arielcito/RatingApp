@@ -15,6 +15,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { Tooltip } from "@/components/ui/tooltip"
 import { NavigationControls } from '@/components/navigation-controls'
 import { ChannelList } from '@/components/channel-list'
+import { useRatingTracker } from '@/hooks/use-rating-tracker'
 
 interface RadioInterfaceProps {
   channels: Channel[]
@@ -33,6 +34,9 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const VOLUME_STEP = 5
+  
+  // Rating tracker for measuring radio listening
+  const { trackPlay, trackStop, trackChannelChange, cleanup } = useRatingTracker()
 
   useEffect(() => {
     if (audioRef.current) {
@@ -75,12 +79,26 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
   }, [isPlaying, currentStation])
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying)
+    const newIsPlaying = !isPlaying
+    setIsPlaying(newIsPlaying)
+    
+    // Track play/stop action for rating measurement
+    if (newIsPlaying) {
+      trackPlay(currentStation)
+    } else {
+      trackStop(currentStation)
+    }
   }
 
   const handleStationChange = async (station: Channel) => {
     setIsLoading(true)
     setError(null)
+    
+    // Track channel change for rating measurement
+    if (currentStation.id !== station.id) {
+      trackChannelChange(currentStation, station)
+    }
+    
     setIsPlaying(false)
     setCurrentStation(station)
     
@@ -216,6 +234,13 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
       document.removeEventListener('fullscreenchange', handleFullscreenChange)
     }
   }, [])
+
+  // Cleanup rating tracker when component unmounts
+  useEffect(() => {
+    return () => {
+      cleanup()
+    }
+  }, [cleanup])
 
   return (
     <div className="text-white">

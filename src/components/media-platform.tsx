@@ -2,11 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { ChevronRight, MoreVertical, PlayCircle, Pause, SkipForward, SkipBack, Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react'
+import { ChevronRight, PlayCircle, Pause, Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react'
 import type { Channel } from '@/types/channel';
-import type { Campaign } from '@/types/campaign';
 import Hls from 'hls.js'
-import { getResourceURL } from '@/lib/utils';
 import { AdvertisingBanner } from '@/components/advertising-banner';
 import { motion } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
@@ -14,6 +12,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { Slider } from "@/components/ui/slider"
 import { NavigationControls } from '@/components/navigation-controls'
 import { ChannelList } from '@/components/channel-list'
+import { useRatingTracker } from '@/hooks/use-rating-tracker'
 
 interface MediaPlatformProps {
   channels: Channel[];
@@ -30,6 +29,9 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   const [isVideoReady, setIsVideoReady] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const videoContainerRef = useRef<HTMLDivElement>(null)
+  
+  // Rating tracker for measuring viewership
+  const { trackPlay, trackStop, trackChannelChange, cleanup } = useRatingTracker()
 
   const getFilteredChannels = () => {
     const provincia = searchParams.get('provincia')
@@ -139,7 +141,18 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   }, [currentChannel, channels, searchParams]);
 
   const handleChannelChange = (index: number) => {
+    trackPlay(getFilteredChannels()[currentChannel])
+    const filteredChannels = getFilteredChannels()
+    const oldChannel = filteredChannels[currentChannel]
+    const newChannel = filteredChannels[index]
+    
     setCurrentChannel(index);
+    
+    // Track channel change for rating measurement
+    if (oldChannel && newChannel && oldChannel.id !== newChannel.id) {
+      trackChannelChange(oldChannel, newChannel)
+    }
+    
     const videoContainer = document.querySelector('.aspect-video');
     if (videoContainer) {
       videoContainer.scrollIntoView({ 
@@ -160,10 +173,21 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
     const video = videoRef.current
     if (!video) return
 
+    const filteredChannels = getFilteredChannels()
+    const currentChannelData = filteredChannels[currentChannel]
+
     if (isPlaying) {
       video.pause()
+      // Track stop action for rating measurement
+      if (currentChannelData) {
+        trackStop(currentChannelData)
+      }
     } else {
       video.play()
+      // Track play action for rating measurement
+      if (currentChannelData) {
+        trackPlay(currentChannelData)
+      }
     }
     setIsPlaying(!isPlaying)
   }
@@ -249,6 +273,13 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
       document.removeEventListener('fullscreenchange', handleFullscreenChange)
     }
   }, [])
+
+  // Cleanup rating tracker when component unmounts
+  useEffect(() => {
+    return () => {
+      cleanup()
+    }
+  }, [cleanup])
 
   return (
     <div className="bg-black text-white">

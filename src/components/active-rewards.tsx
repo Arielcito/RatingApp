@@ -8,8 +8,6 @@ import { Gift, Clock, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import api from '@/lib/axios'
-
-// Agregar estos imports para el modal
 import {
   Dialog,
   DialogContent,
@@ -17,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 
-interface Campaign {
+interface RewardCampaign {
   id: number
   title: string
   description: string
@@ -37,15 +35,20 @@ function getAdvertisingImageURL(resourceName: string) {
 function formatTimeLeft(endDate: string): string {
   const now = new Date()
   const end = new Date(endDate)
-  const timeLeft = end.getTime() - now.getTime()
-  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
   
-  return `${days}d ${hours}h restantes`
+  if (end <= now) return 'Finalizado'
+  
+  const diff = end.getTime() - now.getTime()
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  
+  if (days > 0) return `${days} días restantes`
+  if (hours > 0) return `${hours} horas restantes`
+  return 'Finaliza pronto'
 }
 
 interface RewardCardProps {
-  campaign: Campaign
+  campaign: RewardCampaign
   isMain?: boolean
   onClick: () => void
 }
@@ -123,7 +126,7 @@ function RewardCard({ campaign, isMain = false, onClick }: RewardCardProps) {
 }
 
 function CampaignModal({ campaign, isOpen, onClose }: { 
-  campaign: Campaign | null, 
+  campaign: RewardCampaign | null, 
   isOpen: boolean, 
   onClose: () => void 
 }) {
@@ -191,10 +194,10 @@ function CampaignModal({ campaign, isOpen, onClose }: {
 }
 
 export function ActiveRewardsComponent() {
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+  const [campaigns, setCampaigns] = useState<RewardCampaign[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null)
+  const [selectedCampaign, setSelectedCampaign] = useState<RewardCampaign | null>(null)
 
   useEffect(() => {
     const fetchCampaigns = async () => {
