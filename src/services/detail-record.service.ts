@@ -2,23 +2,9 @@ import { DetailRecordRequest, RatingRecord, GeolocationPosition } from '@/types/
 import api from '@/lib/axios'
 
 export class DetailRecordService {
-  private static getAuthToken(): string | null {
-    // Get token from localStorage or session storage
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    }
-    return null;
-  }
-
   static async sendDetailRecord(request: DetailRecordRequest): Promise<void> {
     console.log('Sending detail record for rating tracking', request);
-    
-    const token = this.getAuthToken();
-    if (!token) {
-      console.warn('No auth token found, cannot send rating data');
-      return;
-    }
-
+  
     try {
       const response = await api.post('/detailRecord/add', {
         request,
@@ -73,6 +59,10 @@ export class DetailRecordService {
     
     const location = await this.getCurrentLocation();
     
+    if (!recordId) {
+      throw new Error('Record ID is required');
+    }
+
     const request: DetailRecordRequest = {
       ratingSignalId: channelId,
       action: action === 'play' ? 1 : 0,

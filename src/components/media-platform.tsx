@@ -141,17 +141,22 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   }, [currentChannel, channels, searchParams]);
 
   const handleChannelChange = (index: number) => {
-    trackPlay(getFilteredChannels()[currentChannel])
+    console.log('handleChannelChange called with index:', index)
     const filteredChannels = getFilteredChannels()
+    console.log('Current channel:', currentChannel)
+    console.log('Old channel:', filteredChannels[currentChannel])
+    console.log('New channel:', filteredChannels[index])
+    
     const oldChannel = filteredChannels[currentChannel]
     const newChannel = filteredChannels[index]
     
-    setCurrentChannel(index);
-    
-    // Track channel change for rating measurement
-    if (oldChannel && newChannel && oldChannel.id !== newChannel.id) {
-      trackChannelChange(oldChannel, newChannel)
+    // Track play for new channel
+    if (newChannel) {
+      console.log('Tracking play for new channel:', newChannel.name)
+      trackPlay(newChannel)
     }
+    
+    setCurrentChannel(index);
     
     const videoContainer = document.querySelector('.aspect-video');
     if (videoContainer) {
@@ -163,10 +168,25 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   };
 
   const handleNextChannel = () => {
+    console.log('handleNextChannel called')
     const filteredChannels = getFilteredChannels()
-    setCurrentChannel((prev) => 
-      prev === filteredChannels.length - 1 ? 0 : prev + 1
-    )
+    const currentIndex = currentChannel
+    const nextIndex = currentChannel === filteredChannels.length - 1 ? 0 : currentChannel + 1
+    
+    console.log('Current channel index:', currentIndex)
+    console.log('Next channel index:', nextIndex)
+    console.log('Current channel:', filteredChannels[currentIndex])
+    console.log('Next channel:', filteredChannels[nextIndex])
+    
+    const newChannel = filteredChannels[nextIndex]
+    
+    // Track play for new channel
+    if (newChannel) {
+      console.log('Tracking play for new channel:', newChannel.name)
+      trackPlay(newChannel)
+    }
+    
+    setCurrentChannel(nextIndex)
   }
 
   const togglePlay = () => {
