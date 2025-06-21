@@ -4,11 +4,14 @@ import api from '@/lib/axios'
 export class DetailRecordService {
   static async sendDetailRecord(request: DetailRecordRequest): Promise<void> {
     console.log('Sending detail record for rating tracking', request);
-  
+    const { ratingSignalId, action, id, ...rest } = request;
     try {
       const response = await api.post('/detailRecord/add', {
-        request,
-      });
+        ratingSignalId,
+        action,
+        id,
+        ...rest,
+      }); 
 
       if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -58,10 +61,6 @@ export class DetailRecordService {
     console.log(`Tracking channel action: ${action} for channel ${channelId}`);
     
     const location = await this.getCurrentLocation();
-    
-    if (!recordId) {
-      throw new Error('Record ID is required');
-    }
 
     const request: DetailRecordRequest = {
       ratingSignalId: channelId,

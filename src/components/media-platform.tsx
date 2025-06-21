@@ -52,7 +52,6 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const filteredChannels = getFilteredChannels()
-    console.log('filteredChannels', filteredChannels)
     
     // Check if there's a channelId parameter to select a specific channel
     const channelId = searchParams.get('channelId')
@@ -72,18 +71,13 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
-      console.log('currentChannel', currentChannel)
     const video = videoRef.current;
-    console.log('videoRef', videoRef)
     if (!video) return;
-    console.log('video', video)
     const filteredChannels = getFilteredChannels()
     if (filteredChannels.length === 0) return
 
     const currentChannelData = filteredChannels[currentChannel]
-    console.log('currentChannelData', currentChannelData)
     if (currentChannelData.isIPTV || (currentChannelData.tvWebURL && currentChannelData.tvWebURL.includes('.m3u8'))) {
-      console.log('canPlayType', currentChannelData?.tvWebURL, currentChannelData?.streamingUrl, currentChannelData?.siteUrl)
       const hls = new Hls({
         debug: true,
         enableWorker: true,
@@ -96,7 +90,6 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
           hls.attachMedia(video);
           
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            console.log('Manifest parsed, attempting to play');
             video.play().catch(error => {
               console.error('Error al reproducir:', error);
             });
@@ -125,7 +118,6 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
           console.error('Error setting up HLS:', error);
         }
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        console.log('Using native HLS support');
         video.src = currentChannelData?.tvWebURL || currentChannelData?.streamingUrl || currentChannelData?.siteUrl || '';
         video.addEventListener('loadedmetadata', () => {
           video.play().catch(error => {
@@ -141,18 +133,11 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   }, [currentChannel, channels, searchParams]);
 
   const handleChannelChange = (index: number) => {
-    console.log('handleChannelChange called with index:', index)
     const filteredChannels = getFilteredChannels()
-    console.log('Current channel:', currentChannel)
-    console.log('Old channel:', filteredChannels[currentChannel])
-    console.log('New channel:', filteredChannels[index])
-    
-    const oldChannel = filteredChannels[currentChannel]
     const newChannel = filteredChannels[index]
     
     // Track play for new channel
     if (newChannel) {
-      console.log('Tracking play for new channel:', newChannel.name)
       trackPlay(newChannel)
     }
     
@@ -168,21 +153,13 @@ export function MediaPlatform({ channels }: MediaPlatformProps) {
   };
 
   const handleNextChannel = () => {
-    console.log('handleNextChannel called')
     const filteredChannels = getFilteredChannels()
-    const currentIndex = currentChannel
     const nextIndex = currentChannel === filteredChannels.length - 1 ? 0 : currentChannel + 1
-    
-    console.log('Current channel index:', currentIndex)
-    console.log('Next channel index:', nextIndex)
-    console.log('Current channel:', filteredChannels[currentIndex])
-    console.log('Next channel:', filteredChannels[nextIndex])
     
     const newChannel = filteredChannels[nextIndex]
     
     // Track play for new channel
     if (newChannel) {
-      console.log('Tracking play for new channel:', newChannel.name)
       trackPlay(newChannel)
     }
     
