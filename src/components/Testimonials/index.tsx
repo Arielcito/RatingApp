@@ -82,6 +82,7 @@ const Testimonials = () => {
                           src={item.authorImage}
                           alt="author"
                           className="h-full w-full object-cover object-center"
+                          unoptimized={true}
                         />
                       </div>
                       <div>

@@ -33,6 +33,7 @@ export function NavigationControls({
               className="object-cover rounded-lg"
               priority={false}
               quality={75}
+              unoptimized={true}
             />
           </div>
         )}

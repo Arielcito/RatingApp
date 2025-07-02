@@ -33,6 +33,7 @@ const AboutEnteprise = () => {
                 alt="About"
                 className="w-full h-full object-cover"
                 fill
+                unoptimized={true}
               />
             </motion.div>
             <motion.div

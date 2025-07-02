@@ -75,6 +75,7 @@ export function Header() {
       // Filter and transform the data based on search term
       const filtered = response.data
         .filter((item: Channel) => 
+          item.activeOnWeb === true && // Solo canales activos en web
           item.name.toLowerCase().includes(term.toLowerCase())
         )
         .map((channel: Channel) => {
@@ -166,6 +167,7 @@ export function Header() {
                 window.location.href = '/servicios/tv';
               }
             }}
+            unoptimized={true}
           />
           <div className="ml-auto">
             <Button 
@@ -196,6 +198,7 @@ export function Header() {
           height={200} 
           className="ml-4 cursor-pointer"
           onClick={() => router.push('/servicios/tv')}
+          unoptimized={true}
         />
         
         <div className="flex gap-4 mx-auto">
@@ -278,9 +281,10 @@ export function Header() {
                       <Image
                         src={getResourceURL(result.logo)}
                         alt={result.name}
-                        width={20}
+                        width={20}    
                         height={20}
                         className="rounded-sm object-contain"
+                        unoptimized={true}
                       />
                     )}
                     <span>{result.name}</span>

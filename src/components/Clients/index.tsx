@@ -75,6 +75,7 @@ const Clients = () => {
                       src={client.logo}
                       alt="Clientes"
                       className="mx-auto max-w-full opacity-[65%] transition-opacity duration-300 hover:opacity-100"
+                      unoptimized={true}
                     />
                   </Link>
                 </div>

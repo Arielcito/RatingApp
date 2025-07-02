@@ -46,6 +46,7 @@ export function ChannelList({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 priority={false}
                 quality={75}
+                unoptimized={true}
               />
             </div>
             <div className="flex-1 p-4">

@@ -31,9 +31,12 @@ export function useLocations() {
         if (!response.ok) throw new Error('Error al cargar ubicaciones')
         const channels: Channel[] = await response.json()
         
+        // Filtrar solo canales activos en web
+        const activeChannels = channels.filter(channel => channel.activeOnWeb === true)
+        
         // Extraer ubicaciones únicas
-        console.log('Procesando', channels.length, 'canales')
-        const uniqueLocations = channels.reduce((acc: Location[], channel) => {
+        console.log('Procesando', activeChannels.length, 'canales activos en web')
+        const uniqueLocations = activeChannels.reduce((acc: Location[], channel) => {
           const locationExists = acc.some(
             loc => 
               loc.pais === channel.pais && 

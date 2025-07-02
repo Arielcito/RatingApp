@@ -52,6 +52,7 @@ export default async function CampaignPage({ params }: { params: { id: string } 
             src={getAdvertisingImageURL(campaign.image_url)}
             alt={campaign.title}
             fill
+            unoptimized={true}
             className="object-cover"
           />
         </div>

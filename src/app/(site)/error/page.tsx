@@ -20,6 +20,7 @@ const ErrorPage = () => {
               className="mx-auto max-w-full"
               width={505}
               height={138}
+              unoptimized={true}
             />
           </div>
 

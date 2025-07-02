@@ -282,6 +282,7 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                       className="object-cover rounded-lg"
                       priority={false}
                       quality={75}
+                      unoptimized={true}
                     />
                   </motion.div>
                   <h2 className="text-2xl font-bold mb-1">{currentStation.name}</h2>

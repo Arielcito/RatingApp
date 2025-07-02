@@ -120,6 +120,7 @@ const About = () => {
                   alt="about"
                   width={500}
                   height={500}
+                  unoptimized={true}
                 />
               </div>
             </div>
@@ -148,6 +149,7 @@ const About = () => {
                 alt="About"
                 className="h-full w-full object-cover"
                 fill
+                unoptimized={true}
               />
             </motion.div>
             <motion.div
@@ -287,6 +289,7 @@ const About = () => {
                               alt={news.title}
                               fill
                               className="object-contain"
+                              unoptimized={true}
                             />
                             <div className="absolute inset-0 flex items-center justify-center">
                               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/80">
@@ -308,6 +311,7 @@ const About = () => {
                               alt={news.title}
                               fill
                               className="object-contain transition-transform duration-300 group-hover:scale-105"
+                              unoptimized={true}
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/20">
                               {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}

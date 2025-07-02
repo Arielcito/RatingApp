@@ -107,6 +107,7 @@ const SingleBlog = async ({ params }: Props) => {
                 alt={post.title}
                 width={970}
                 height={430}
+                unoptimized={true}
               />
             </div>
 
@@ -130,6 +131,7 @@ const SingleBlog = async ({ params }: Props) => {
                         width={40}
                         height={40}
                         className="h-full w-full rounded-full object-cover object-center"
+                        unoptimized={true}
                       />
                     </Link>
                   </div>

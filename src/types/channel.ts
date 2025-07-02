@@ -18,4 +18,6 @@ export interface Channel {
     radioWebURL: string;
     fmFrequency: string;
     category: string;
+    activeOnWeb?: boolean;
+    activeOnMobile?: boolean;
 }

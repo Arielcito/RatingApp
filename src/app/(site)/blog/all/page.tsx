@@ -39,6 +39,7 @@ const AllBlogsPage = async () => {
                   src={post.mainImage || "/images/blog/placeholder.jpg"}
                   alt={post.title}
                   fill
+                  unoptimized={true}
                   className="object-cover object-center transition duration-300 group-hover:scale-105"
                 />
               </Link>
