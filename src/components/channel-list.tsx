@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { MoreVertical } from 'lucide-react'
 import type { Channel } from '@/types/channel'
-import Image from 'next/image'
+import { RemoteImage } from '@/components/ui/remote-image'
 import { getResourceURL } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -38,15 +38,13 @@ export function ChannelList({
             whileTap={{ scale: 0.98 }}
           >
             <div className="relative w-full aspect-video">
-              <Image
+              <RemoteImage
                 src={channel.iconUrl ? getResourceURL(channel.iconUrl) : ''}
                 alt={channel.name}
                 fill
                 className="object-cover rounded-lg"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                priority={false}
-                quality={75}
-                
+                fallbackText={channel.name}
               />
             </div>
             <div className="flex-1 p-4">

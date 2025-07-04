@@ -9,6 +9,7 @@ import { AdvertisingBanner } from '@/components/advertising-banner';
 import { useRouter } from 'next/navigation';
 import { ServiceSkeleton } from '@/components/Servicios/service-skeleton';
 import { useOnlineNewsChannels } from '@/hooks/use-channels';
+import { RemoteImage } from '@/components/ui/remote-image';
 
 export default function DiariosPage() {
   const { subscriber, isLoading: isSubscriberLoading } = useSubscriber();
@@ -59,10 +60,13 @@ export default function DiariosPage() {
           >
             <div className="relative h-48 w-full">
               {newspaper.iconUrl ? (
-                <img
+                <RemoteImage
                   src={getResourceURL(newspaper.iconUrl)}
                   alt={newspaper.name}
+                  fill
                   className="object-contain p-4"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  fallbackText={newspaper.name}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-700">

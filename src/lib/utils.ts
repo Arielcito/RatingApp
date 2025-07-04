@@ -12,6 +12,6 @@ export function getResourceURL(resourceName?: string) {
     return resourceName;
   }
   
-  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-  return `${protocol}://ratingapp.net.ar:8000/res/${resourceName}`;
+  // Usar HTTP para el servidor de recursos ya que no tiene SSL configurado
+  return `http://ratingapp.net.ar:8000/res/${resourceName}`;
 }

@@ -23,24 +23,42 @@ export const SubscriberProvider = ({ children }: { children: React.ReactNode }) 
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    console.log('🔍 Verificando cookie de subscriber...');
+    console.log('🔍 Verificando sesión almacenada...');
     try {
+      // Verificar si hay token en localStorage
+      const token = localStorage.getItem('token');
+      console.log('🔍 Token en localStorage:', token ? 'Encontrado' : 'No encontrado');
+      
+      // Verificar cookie de subscriber
       const subscriberFromCookie = Cookies.get('subscriber');
-      if (subscriberFromCookie) {
+      console.log('🔍 Cookie de subscriber:', subscriberFromCookie ? 'Encontrada' : 'No encontrada');
+      
+      if (subscriberFromCookie && token) {
         try {
           const parsedSubscriber = JSON.parse(subscriberFromCookie);
+          console.log('✅ Restaurando sesión de subscriber:', parsedSubscriber.email);
           setSubscriber(parsedSubscriber);
         } catch (error) {
           console.error('❌ Error al parsear la cookie:', error);
+          // Limpiar datos corruptos
           Cookies.remove('subscriber');
+          localStorage.removeItem('token');
           setError(error instanceof Error ? error : new Error('Error parsing cookie'));
         }
+      } else if (!token && subscriberFromCookie) {
+        // Si hay cookie pero no token, limpiar cookie
+        console.log('🗑️ Limpiando cookie huérfana sin token');
+        Cookies.remove('subscriber');
+      } else if (token && !subscriberFromCookie) {
+        // Si hay token pero no cookie, limpiar token
+        console.log('🗑️ Limpiando token huérfano sin cookie');
+        localStorage.removeItem('token');
       } else {
-        console.log('ℹ️ No se encontró cookie de subscriber');
+        console.log('ℹ️ No se encontró sesión almacenada');
       }
     } catch (error) {
-      console.error('❌ Error al acceder a las cookies:', error);
-      setError(error instanceof Error ? error : new Error('Error accessing cookies'));
+      console.error('❌ Error al verificar sesión:', error);
+      setError(error instanceof Error ? error : new Error('Error accessing stored session'));
     } finally {
       // Add a small delay to ensure context is properly initialized
       const timer = setTimeout(() => {
@@ -57,18 +75,24 @@ export const SubscriberProvider = ({ children }: { children: React.ReactNode }) 
       
       if (newSubscriber) {
         try {
-          Cookies.set('subscriber', JSON.stringify(newSubscriber), {
+          // Configuración de cookies mejorada para desarrollo y producción
+          const cookieOptions = {
             expires: 7,
-            secure: true,
-            sameSite: 'strict'
-          });
+            secure: process.env.NODE_ENV === 'production', // Solo secure en producción
+            sameSite: 'strict' as const,
+            path: '/'
+          };
+          
+          Cookies.set('subscriber', JSON.stringify(newSubscriber), cookieOptions);
+          console.log('✅ Cookie de subscriber guardada exitosamente');
         } catch (error) {
           console.error('❌ Error al guardar la cookie:', error);
           setError(error instanceof Error ? error : new Error('Error saving cookie'));
         }
       } else {
         console.log('🗑️ Eliminando cookie de subscriber');
-        Cookies.remove('subscriber');
+        Cookies.remove('subscriber', { path: '/' });
+        localStorage.removeItem('token');
       }
     } catch (error) {
       console.error('❌ Error al actualizar el subscriber:', error);
@@ -78,8 +102,11 @@ export const SubscriberProvider = ({ children }: { children: React.ReactNode }) 
 
   const handleLogout = () => {
     try {
-      Cookies.remove('subscriber');
+      console.log('🔄 Cerrando sesión...');
+      Cookies.remove('subscriber', { path: '/' });
+      localStorage.removeItem('token');
       setSubscriber(null);
+      console.log('✅ Sesión cerrada exitosamente');
     } catch (error) {
       console.error('❌ Error al cerrar sesión:', error);
       setError(error instanceof Error ? error : new Error('Error during logout'));

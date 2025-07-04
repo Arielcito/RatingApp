@@ -30,7 +30,17 @@ const Signin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
     try {
+      console.log('🔄 Iniciando proceso de login...');
+      
+      // Validar email
+      if (!validateEmail(formData.email)) {
+        toast.error('Por favor ingresa un email válido');
+        setIsLoading(false);
+        return;
+      }
+
       const encryptedPassword = encryptPassword(formData.passwd);
       
       const loginData = {
@@ -39,6 +49,7 @@ const Signin = () => {
         deviceCode: generateDeviceCode()
       };
 
+      console.log('🔄 Enviando datos de login...');
       const response = await fetch(API_URLS.login, {
         method: 'POST',
         headers: {
@@ -47,22 +58,56 @@ const Signin = () => {
         body: JSON.stringify(loginData),
       });
 
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+
       const data = await response.json();
+      console.log('📥 Respuesta recibida:', { hasToken: !!data?.token, hasSubscriber: !!data?.subscriber });
 
       if (data?.token && data?.subscriber) {
-        // Guardar el token
+        console.log('✅ Login exitoso, guardando datos...');
+        
+        // Primero guardar el token en localStorage
         localStorage.setItem('token', data.token);
-        // Guardar los datos del subscriber
+        console.log('✅ Token guardado en localStorage');
+        
+        // Luego establecer el subscriber (esto también guardará la cookie)
         setSubscriber(data.subscriber);
-        toast.success('Inicio de sesión exitoso');
-        router.push('/servicios/tv');
+        console.log('✅ Subscriber establecido en contexto');
+        
+        // Verificar que se guardaron correctamente
+        const tokenCheck = localStorage.getItem('token');
+        const cookieCheck = Cookies.get('subscriber');
+        
+        if (tokenCheck && cookieCheck) {
+          console.log('✅ Verificación exitosa: datos guardados correctamente');
+          toast.success('Inicio de sesión exitoso');
+          
+          // Pequeño delay para asegurar que el contexto se actualice
+          setTimeout(() => {
+            router.push('/servicios/tv');
+          }, 100);
+        } else {
+          console.error('❌ Error: Los datos no se guardaron correctamente');
+          toast.error('Error al guardar la sesión');
+        }
       } else {
-        console.log('❌ Error: No se recibieron datos del servidor');
+        console.error('❌ Error: Respuesta inválida del servidor', data);
         toast.error('Credenciales inválidas');
       }
     } catch (error) {
       console.error('🔥 Error en el proceso de login:', error);
-      toast.error('Error al iniciar sesión');
+      
+      if (error instanceof Error) {
+        if (error.message.includes('fetch')) {
+          toast.error('Error de conexión. Verifica tu conexión a internet');
+        } else {
+          toast.error('Error al iniciar sesión. Inténtalo de nuevo');
+        }
+      } else {
+        toast.error('Error inesperado al iniciar sesión');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -89,6 +134,7 @@ const Signin = () => {
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full rounded-lg border border-stroke bg-dark px-5 py-3 text-white focus:border-primary"
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -103,6 +149,7 @@ const Signin = () => {
                 onChange={(e) => setFormData({ ...formData, passwd: e.target.value })}
                 className="w-full rounded-lg border border-stroke bg-dark px-5 py-3 text-white focus:border-primary"
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -114,6 +161,12 @@ const Signin = () => {
               {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </button>
           </form>
+
+          <div className="mt-4 text-center">
+            <Link href="/auth/forget-password" className="text-sm text-body hover:text-primary">
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
 
           <p className="mt-6 text-center text-sm text-body">
             ¿No tienes una cuenta?{' '}

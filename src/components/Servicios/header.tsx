@@ -20,6 +20,7 @@ import api from '@/lib/axios';
 import { Badge } from "@/components/ui/badge";
 import { getResourceURL } from "@/lib/utils";
 import { useCampaigns } from '@/hooks/use-campaigns';
+import { RemoteImage } from '@/components/ui/remote-image';
 
 interface SearchResult {
   id: number;
@@ -278,13 +279,13 @@ export function Header() {
                     onClick={() => handleSearchItemClick(result)}
                   >
                     {result.logo && (
-                      <Image
+                      <RemoteImage
                         src={getResourceURL(result.logo)}
                         alt={result.name}
                         width={20}    
                         height={20}
                         className="rounded-sm object-contain"
-                        
+                        fallbackText={result.name.charAt(0)}
                       />
                     )}
                     <span>{result.name}</span>

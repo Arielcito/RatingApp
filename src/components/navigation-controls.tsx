@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Channel } from '@/types/channel'
-import Image from 'next/image'
+import { RemoteImage } from '@/components/ui/remote-image'
 import { getResourceURL } from '@/lib/utils'
 
 interface NavigationControlsProps {
@@ -26,14 +26,13 @@ export function NavigationControls({
       <div className="flex items-center gap-4">
         {currentChannel?.iconUrl && (
           <div className="relative w-12 h-12">
-            <Image
+            <RemoteImage
               src={getResourceURL(currentChannel.iconUrl)}
               alt={currentChannel.name}
               fill
               className="object-cover rounded-lg"
-              priority={false}
-              quality={75}
-              
+              sizes="48px"
+              fallbackText={currentChannel.name.charAt(0)}
             />
           </div>
         )}

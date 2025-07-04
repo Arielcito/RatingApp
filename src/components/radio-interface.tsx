@@ -16,6 +16,7 @@ import { Tooltip } from "@/components/ui/tooltip"
 import { NavigationControls } from '@/components/navigation-controls'
 import { ChannelList } from '@/components/channel-list'
 import { useRatingTracker } from '@/hooks/use-rating-tracker'
+import { RemoteImage } from '@/components/ui/remote-image'
 
 interface RadioInterfaceProps {
   channels: Channel[]
@@ -274,15 +275,13 @@ export function RadioInterfaceComponent({ channels }: RadioInterfaceProps) {
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <Image
+                    <RemoteImage
                       src={currentStation.iconUrl ? getResourceURL(currentStation.iconUrl) : ''}
                       alt={currentStation.name}
                       width={80}
                       height={80}
                       className="object-cover rounded-lg"
-                      priority={false}
-                      quality={75}
-                      
+                      fallbackText={currentStation.name}
                     />
                   </motion.div>
                   <h2 className="text-2xl font-bold mb-1">{currentStation.name}</h2>

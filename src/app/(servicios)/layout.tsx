@@ -31,16 +31,37 @@ export default function ServiciosRootLayout({
     },
   })
   
-  const { subscriber } = useSubscriber();
+  const { subscriber, isLoading } = useSubscriber();
 
-  // If no subscriber, redirect to login
+  console.log('🔍 Estado del layout de servicios:', { subscriber: !!subscriber, isLoading });
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background dark:bg-blacksection flex items-center justify-center">
+        <div className="animate-pulse text-white">
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 bg-primary rounded-full animate-bounce"></div>
+            <div className="w-4 h-4 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-4 h-4 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          </div>
+          <p className="mt-4 text-center">Verificando sesión...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If no subscriber after loading, redirect to login
   if (!subscriber) {
+    console.log('❌ No hay subscriber después de cargar, redirigiendo a login');
     // Use window.location for a hard redirect instead of router.push
     if (typeof window !== 'undefined') {
       window.location.href = '/';
     }
     return null;
   }
+
+  console.log('✅ Subscriber encontrado, renderizando layout de servicios');
 
   return (
     <div className="">
