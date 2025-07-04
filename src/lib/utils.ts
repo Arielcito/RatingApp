@@ -12,5 +12,6 @@ export function getResourceURL(resourceName?: string) {
     return resourceName;
   }
   
-  return `http://ratingapp.net.ar:8000/res/${resourceName}`;
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  return `${protocol}://ratingapp.net.ar:8000/res/${resourceName}`;
 }
