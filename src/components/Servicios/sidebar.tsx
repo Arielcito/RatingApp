@@ -326,7 +326,7 @@ export function Sidebar({ channels }: SidebarProps) {
                               alt={campaign.title}
                               fill
                               className="object-cover"
-                              unoptimized={true}
+                              
                             />
                             {campaign.to_date && <CountdownTimer endDate={campaign.to_date} />}
                           </div>
@@ -365,7 +365,7 @@ export function Sidebar({ channels }: SidebarProps) {
                   width={100}
                   height={100}
                   className="mr-auto mx-auto"
-                  unoptimized={true}
+                  
                   />
               </div>
         </div>

@@ -29,7 +29,7 @@ const SampleImageComponent = ({ value, isInline }: any) => {
           // Avoid jumping around with aspect-ratio CSS property
           aspectRatio: width / height,
         }}
-        unoptimized={true}
+        
       />
     </div>
   );

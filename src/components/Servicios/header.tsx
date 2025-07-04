@@ -167,7 +167,7 @@ export function Header() {
                 window.location.href = '/servicios/tv';
               }
             }}
-            unoptimized={true}
+            
           />
           <div className="ml-auto">
             <Button 
@@ -198,7 +198,7 @@ export function Header() {
           height={200} 
           className="ml-4 cursor-pointer"
           onClick={() => router.push('/servicios/tv')}
-          unoptimized={true}
+          
         />
         
         <div className="flex gap-4 mx-auto">
@@ -284,7 +284,7 @@ export function Header() {
                         width={20}    
                         height={20}
                         className="rounded-sm object-contain"
-                        unoptimized={true}
+                        
                       />
                     )}
                     <span>{result.name}</span>

@@ -74,7 +74,7 @@ function RewardCard({ campaign, isMain = false, onClick }: RewardCardProps) {
           src={getAdvertisingImageURL(campaign.image_url)}
           alt={campaign.title}
           fill
-          unoptimized={true}
+          
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-3" />
@@ -162,7 +162,7 @@ function CampaignModal({ campaign, isOpen, onClose }: {
               alt={campaign.title}
               fill
               className="object-cover"
-              unoptimized={true}
+              
             />
           </div>
 

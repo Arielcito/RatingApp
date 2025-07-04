@@ -68,7 +68,7 @@ const EnterpriseSignin = () => {
     <section className="pb-[110px] pt-[150px] lg:pt-[150px]">
       <div className="container">
         <div className="mx-auto max-w-[500px] rounded-lg bg-blacksection p-6 shadow-card-dark flex flex-col items-center justify-center flex-grow">
-          <Image unoptimized={true} src="/images/logo/logo.png" alt="Logo" width={200} height={200} className="mb-8" priority/>
+          <Image  src="/images/logo/logo.png" alt="Logo" width={200} height={200} className="mb-8" priority/>
           <h2 className="mb-8 text-2xl font-bold text-white">
             Portal Empresarial - Iniciar Sesión
           </h2>

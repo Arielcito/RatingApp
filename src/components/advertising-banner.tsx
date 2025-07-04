@@ -63,7 +63,7 @@ export function AdvertisingBanner() {
                 fill
                 className="object-contain"
                 priority={offset === 0}
-                unoptimized={true}
+                
               />
             </div>
           )
