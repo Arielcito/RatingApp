@@ -3,6 +3,22 @@ import { useRouter } from 'next/navigation';
 import { useSubscriber } from '@/app/context/SubscriberContext';
 import Cookies from 'js-cookie';
 
+// Hook personalizado para requerir autenticación
+export const useRequireAuth = (redirectTo: string = '/') => {
+  const router = useRouter();
+  const { isLoading, subscriber } = useSubscriber();
+  const isAuthenticated = !!(subscriber && localStorage.getItem('token') && Cookies.get('subscriber'));
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      console.log('🔒 Acceso denegado, redirigiendo a:', redirectTo);
+      router.push(redirectTo);
+    }
+  }, [isLoading, isAuthenticated, redirectTo, router]);
+
+  return isAuthenticated;
+};
+
 export const useAuth = () => {
   const router = useRouter();
   const { subscriber, isLoading, setSubscriber, logout } = useSubscriber();
@@ -39,21 +55,12 @@ export const useAuth = () => {
     router.push('/');
   };
 
-  const requireAuth = (redirectTo: string = '/') => {
-    useEffect(() => {
-      if (!isLoading && !isAuthenticated) {
-        console.log('🔒 Acceso denegado, redirigiendo a:', redirectTo);
-        router.push(redirectTo);
-      }
-    }, [isLoading, isAuthenticated, redirectTo]);
-  };
-
   return {
     subscriber,
     isLoading,
     isAuthenticated,
     logout: handleLogout,
-    requireAuth,
+    requireAuth: useRequireAuth,
     setSubscriber
   };
 }; 
