@@ -13,5 +13,5 @@ export function getResourceURL(resourceName?: string) {
   }
   
   // Usar HTTP para el servidor de recursos ya que no tiene SSL configurado
-  return `http://ratingapp.net.ar:8000/res/${resourceName}`;
+  return `https://ratingapp.net.ar:8000/res/${resourceName}`;
 }
